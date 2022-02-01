@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.build.json",
+
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@fractally/components/*": ["packages/components/src/*"],
+      "@fractally/*": ["packages/*/src"]
+    },
+    "noEmit": true
+  }
+}

@@ -1,0 +1,9 @@
+query Recipes($skip: Int, $take: Int) {
+    recipes(skip: $skip, take: $take) {
+        id
+        title
+        description
+        creationDate
+        ingredients
+    }
+}
