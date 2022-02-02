@@ -2,36 +2,51 @@
 
 # Credit API Standard
 
-This document proposes the creation of a Standardized token Deposit and Withdraw library for smart contract use. 
+This document proposes the creation of a standard Token Deposit and Withdraw library for smart contract use. 
 
-Reduced RAM for secondary indices on all deposit / withdraw
-Easier to understand notification system 
-Easier user experience with names 
-Standardized token bridges 
-Token Registery that is independent from symbol registration
-Assigns short 32bit ids to tokens
-Minimal changes to existing system contracts
+# Features
 
+- Reduced RAM for secondary indices on all deposit / withdraw.
+- Simplified notification system. 
+- Easier user experience with long names (12+ length) 
+- Standardized token bridges.
+- Token Registry (32 bit ID -> token).
+- User Registry.
+- Minimal changes to existing system contracts.
 
-Name = 64 bit existing eosio account 
-AccountNum = 32 bit sequentially assigned account number
-Long_name = 32 BYTE user readable, unambiguous unique name
-TokenNum = 32 bit sequentially assigned token id
+# Dictionary
 
-eosio.userid  // all RAM paid for by eosio.name and producers
-      Table
-    Eosio::name => AccountNum(32 bit), long_name(32 byte), ipfs_profile
-            Secondary  AccountNum->name
-            Secondary  long_name->name
+- ```{eosio::name} name``` - Existing 64 bit EOS.IO account (e.g. eosio.token).
+
+- ```{uint32_t} account_num``` - 32 bit sequentially assigned account number.
+
+- ```{???} long_name``` - 32 **Byte** user readable, unambiguous unique name.
+
+- ```{uint32_t} token_num``` - 32 bit sequentially assigned Token ID.
+
+# Contracts
+
+## `eosio.userid`
+
+Maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
+A user may also specify an IPFS CID for additional account metadata. (e.g. ```avatar```, ```display_name```).
+
+All RAM expenses paid for by ```eosio.name``` and network.  
+
+### Table
+
+    eosio::name => Account_Num(32 bit), Long_Name(32 byte), ipfs_profile
+            Secondary  Account_Num->name
+            Secondary  Long_Name->name
 
        checkname( optional eosio::name, optional AccountNum, optional longname ) // find or assert
 
        register( eosio::name, longname, ipfs )
             if( name == longname ) require_auth(name)
             else require_auth( eosio.buyid )
-return AccountNum  —- hazard (pending results are not final, see final irreversible transaction to get id)
-       updateprofile( longname, ipfs )
-            requireauth( longname owner )
+            return AccountNum  —- hazard (pending results are not final, see final irreversible transaction to get id)
+                   updateprofile( longname, ipfs )
+                        requireauth( longname owner )
 
 eosio.tokenid  
     Table
@@ -46,9 +61,9 @@ eosio.tokenid
 
     check( contract, symbol, tokenid )
 
+## `eosio.system`
+```eosio.symbol::newaccount``` ACTION:
 
-eosio.system 
-    newaccount action:
 12-character name: anyone (current rule)
 eosio.*: only eosio (current rule)
 a.b: only b (current rule)
@@ -56,12 +71,15 @@ new short names (no periods): only eosio.name contract
 Action to refund existing name bids
 Should it attempt to register AccountNum?
         
-eosio.token
-No change… only manages EOS
+## `eosio.token`
+No changes only manages existing EOS token.
 
-Eosio.tokens  inherits BankAPI
-Manages user created tokens and enforces limites, etc..
-Only eosio.symbol can create new user tokens
+## `eosio.tokens`
+### Inherits Bank API
+
+Manages user created tokens and enforces inflation, recalling and authorization limits.
+Only ```eosio.symbol``` has permissions to create new tokens.
+
       Table
            user32|token32 => balance64               BALANCES
       
@@ -96,35 +114,64 @@ requireAuth( eosio.symbol )... TokenContract implmeents old standard
 On deposit, issue 
 On withdraw, burn 
 
-Eosio.symbol
-Sells tokens on a buy-it-now, rate limited basis 
-3 letter,   X EOS per window
-4 letter,   Y EOS per window
-5 letter,   Z EOS per window
-6+ letter… fixed fee
-Users can trade symbols before finally creating the token in the eosio.sybol::create action which then performs eosio.token::create. 
-     
+## `eosio.symbol`
+Sells token symbols on a buy-it-now system basing price of amount of sales in a specified time.
 
-eosio.buyuid // buy User ID
-     Purchase action:
+Buyers need only specify the ```symbol_code```, e.g. "EOS" or "CAT".
+
+A tokens precision, max_supply and other properties are not determined until redeemed.
+
+- 3 letters cost X EOS per window of time.
+- 4 letters cost Y EOS per window of time.
+- 5 letters cost Z EOS per window of time.
+- 6+ letters       Fixed fee
+
+For each symbol length for sale, the network decides the ```initial_price```, ```floor_price``` *(in EOS)*, ```decrease_threshold```, ```increase_threshold``` and ```window``` length of time. 
+
+### Example
+
+- ```symlen = 3```
+- ```decrease_threshold = 4```
+- ```increase_threshold = 6```
+- ```window = 24 hours```
+
+3 letter symbols are highly valuable, therefore a high ```initial_price``` may only lower by 10% if less than 4 sales are made in 24 hours, if over 6 sales are made, the price would raise by 10%.  
+
+Once purchased users can trade their symbols amongst users subject to a network configurable secondary sale fee before finally redeeming their symbol as a newly created token using the ```eosio.symbol::create``` action which then performs an inline action to ```eosio.token::create```. 
+
+## `eosio.buyid`
+
+Similar to ```eosio.symbol``` this contract is responsible for selling ```long_name```'s based on the sales and itme window method, however, names are differentiated not by length but **simple** and **premium** namnes. 
+
+Like ```eosio.symbol``` ```long_name```s may be traded and transferred amongst users before being redeemed for a permanent mapping.
+
+**Simple** 
+- Contains _ or a number.
+- Does not contain characters **a**, **e**, **i**, **o**, **u**.
+- Longer than 15 characters. 
+
+**Premium**
+
+Any name falling outside the scope of simple.
+
+## ACTION `purchase`
 Allows users to buy 32 byte long name, musn’t already or be able to exist in current system namespace. 
-No 12 character names
-No “a.b” accounts 
-`eosio::is_account(name)` returns false
+### params
+
+- `{name} owner` - buying account
+- `{???}  long_name` - Long name being purchased.
+- - Cannot be 12 characters.
+- - No "a.b" account.
+- - `eosio::is_account(name)` returns false
+- - Is valid characters: a-z 0-9 _
+
 PoW style pricing based on verbs in account name. 
 Users can still trade long names before they are actually created on eosio.name
 Long names exactly matching an owners account should go directly to eosio.name
-Valid char:  a-z 0-9 _ 
     
-Simple          fixed fee 
-        Contain _ or number  
-        Or Don’t contain any aeiou
-        Or Longer than 15
-    Premium = ! Simple     24 per day (1 per hour on average) 
-        Don’t have _ or Number 
-        have aeiou 
 
-Eosio.exchange inherit BankAPI
+## Eosio.exchange 
+### Inherits BankAPI
          Table // from BankAPI
                (usernum,tokennum),balance 
       
@@ -152,7 +199,7 @@ Eosio.exchange inherit BankAPI
 
 
 
-eosio.tokens
+    eosio.tokens
       .credit( some other token… ) {
            
       } 
@@ -160,31 +207,31 @@ eosio.tokens
 
 
 
-(Owner  (Contract  Symbol))  Balance
-
-
-
-{Contract,Symbol} == Token ID
-128 bit number 
-
-Uint128 TokenNum = contract;
-TokenNum <<= 64
-TokenNum |= symbol
-
-Uint64_t TokenNum[2];
-TokenNum[0] = contract
-TokenNum[1] = symbol
-
-Scope64: Token ID (128bit…)
-Key64: Owner
-Value: Balance
-
-hash64( TokenNum ) -> 64bit identifier with potential for collision 
-
-Token64 -> Token128  
-
-Struct  {
-    Uint64_t contract
-    Uint64_t symbol;
-    primary_key(){ sha256(contact+symbol); }
-}
+    (Owner  (Contract  Symbol))  Balance
+    
+    
+    
+    {Contract,Symbol} == Token ID
+    128 bit number 
+    
+    Uint128 TokenNum = contract;
+    TokenNum <<= 64
+    TokenNum |= symbol
+    
+    Uint64_t TokenNum[2];
+    TokenNum[0] = contract
+    TokenNum[1] = symbol
+    
+    Scope64: Token ID (128bit…)
+    Key64: Owner
+    Value: Balance
+    
+    hash64( TokenNum ) -> 64bit identifier with potential for collision 
+    
+    Token64 -> Token128  
+    
+    Struct  {
+        Uint64_t contract
+        Uint64_t symbol;
+        primary_key(){ sha256(contact+symbol); }
+    }
