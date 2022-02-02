@@ -64,15 +64,33 @@ eosio.tokenid
     check( contract, symbol, tokenid )
 
 ## `eosio.system`
-```eosio.symbol::newaccount``` 
+```eosio.system::enable(eosio::name feature)```
 
-- 12-character name: anyone (current rule)
-- eosio.*: only eosio (current rule)
-- a.b: only b (current rule)
-- new short names (no periods): only eosio.name contract
-- Action to refund existing name bids
+This new action enables system contract features. This release adds the `eosio.name` feature, which disables the namebid feature and delegates the authority to create new short names to the `eosio.name` contract. Once this feature is activated, bidding will stop and no auctions will close. Existing closed auctions may be claimed. Users may get refunds from existing open auctions or auctions which they have lost.
+
+```eosio.system::newaccount```
+
+This existing action will have the following rules for creating accounts:
+
+- `eosio.*`: only the `eosio` account may create these (current rule).
+- `*.x`: only the `x` account may create these (current rule).
+- 12-character name with no periods: anyone may create these (current rule).
+- Names with fewer than 12 characters and no periods:
+  - If an auction has closed: only the winner may create the name
+  - Else: only the `eosio.name` contract may create these.
+
+```eosio.system::bidname```
+
+This existing action will abort after the `eosio.name` feature is enabled.
+
+```eosio.system::bidrefund```
+
+Right now this action refunds bids in the `bidrefunds` table. After the `eosio.name` feature is enabled, it will also refund bids on open auctions (not closed auctions) in the `namebids` table.
+
+# todo...
+```
 - Should it attempt to register AccountNum?
-        
+
 ## `eosio.token`
 No changes only manages existing EOS token.
 
