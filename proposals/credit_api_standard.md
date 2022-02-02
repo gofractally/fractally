@@ -20,13 +20,15 @@ This document proposes the creation of a standard Token Deposit and Withdraw lib
 
 - ```{uint32_t} account_num``` - 32 bit sequentially assigned account number.
 
-- ```{???} long_name``` - 32 **Byte** user readable, unambiguous unique name.
+- ```{???} long_name``` - 32 **Byte** user readable, unambiguous unique name. Aka [Pretty name](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1).
 
 - ```{uint32_t} token_num``` - 32 bit sequentially assigned Token ID.
 
 # Contracts
 
 ## `eosio.userid`
+
+```long_name```'s are equivalent to [Pretty names](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1). 
 
 Maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
 A user may also specify an IPFS CID for additional account metadata. (e.g. ```avatar```, ```display_name```).
@@ -62,14 +64,14 @@ eosio.tokenid
     check( contract, symbol, tokenid )
 
 ## `eosio.system`
-```eosio.symbol::newaccount``` ACTION:
+```eosio.symbol::newaccount``` 
 
-12-character name: anyone (current rule)
-eosio.*: only eosio (current rule)
-a.b: only b (current rule)
-new short names (no periods): only eosio.name contract
-Action to refund existing name bids
-Should it attempt to register AccountNum?
+- 12-character name: anyone (current rule)
+- eosio.*: only eosio (current rule)
+- a.b: only b (current rule)
+- new short names (no periods): only eosio.name contract
+- Action to refund existing name bids
+- Should it attempt to register AccountNum?
         
 ## `eosio.token`
 No changes only manages existing EOS token.
@@ -77,7 +79,22 @@ No changes only manages existing EOS token.
 ## `eosio.tokens`
 ### Inherits Bank API
 
-Manages user created tokens and enforces inflation, recalling and authorization limits.
+The sequel to ```eosio.token``` this contract enforces inflation, recalling and authorization limits decided by each token issuer. 
+
+### Features
+#### `Inflation Limiting`
+
+Token issuers may specify a daily absolute inflation amount, daily inflation percentage and yearly inflation percentage. 
+The issuer may update inflation but inflation must always be lower.
+
+#### `Token Recalling`
+Some token issuers may reserve the rights to revoke user tokens, therefore the token ```recall``` setting is enabled by default on all tokens allowing token issuers to transfer a users balance on their behalf, the issuer may permanently disable token recalling. 
+
+#### `Inline transfer authorization`
+Further changes on how each token hosted on ```eosio.tokens``` can be made by dapp developers by declaring an ```authorizer``` smart contract, then with an action of ```authtrans``` each ```eosio.tokens::transfer``` will trigger an inline action towards this account where the contract may pass or throw the contract action. 
+
+Issuers may permanently disable the ability to specify an authorizer account. 
+
 Only ```eosio.symbol``` has permissions to create new tokens.
 
       Table
@@ -168,7 +185,6 @@ Allows users to buy 32 byte long name, musn’t already or be able to exist in c
 PoW style pricing based on verbs in account name. 
 Users can still trade long names before they are actually created on eosio.name
 Long names exactly matching an owners account should go directly to eosio.name
-    
 
 ## Eosio.exchange 
 ### Inherits BankAPI
@@ -204,12 +220,7 @@ Long names exactly matching an owners account should go directly to eosio.name
            
       } 
 
-
-
-
     (Owner  (Contract  Symbol))  Balance
-    
-    
     
     {Contract,Symbol} == Token ID
     128 bit number 
