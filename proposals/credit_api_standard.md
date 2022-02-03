@@ -16,7 +16,7 @@ This document proposes the creation of a standard Token Deposit and Withdraw lib
 
 # Dictionary
 
-- ```{eosio::name} name``` - Existing 64 bit EOS.IO account (e.g. eosio.token).
+- ```{eosio::name} name``` - Existing 64 bit EOS.IO account (`e.g. eosio.token`).
 
 - ```{uint32_t} account_num``` - 32 bit sequentially assigned account number.
 
@@ -28,10 +28,12 @@ This document proposes the creation of a standard Token Deposit and Withdraw lib
 
 ## `eosio.userid`
 
+An EOS account registry which maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
+
+A user may also specify an IPFS CID for additional account metadata. (e.g. ```avatar```, ```display_name```).
+
 ```long_name```'s are equivalent to [Pretty names](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1). 
 
-Maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
-A user may also specify an IPFS CID for additional account metadata. (e.g. ```avatar```, ```display_name```).
 
 All RAM expenses paid for by ```eosio.name``` and network.  
 
@@ -50,7 +52,7 @@ All RAM expenses paid for by ```eosio.name``` and network.
                    updateprofile( longname, ipfs )
                         requireauth( longname owner )
 
-eosio.tokenid  
+## eosio.tokenid  
     Table
          TokenNum => TokenContract | Symbol | IPFS
          secondary 128 = TokenContract | Symbol
@@ -136,7 +138,7 @@ Sells token symbols on a buy-it-now system basing price of amount of sales in a 
 
 Buyers need only specify the ```symbol_code```, e.g. "EOS" or "CAT".
 
-A tokens precision, max_supply and other properties are not determined until redeemed.
+A tokens ```precision```, ```max_supply``` and other properties are not determined until redeemed.
 
 - 3 letters cost X EOS per window of time.
 - 4 letters cost Y EOS per window of time.
@@ -246,3 +248,15 @@ Long names exactly matching an owners account should go directly to eosio.name
         Uint64_t symbol;
         primary_key(){ sha256(contact+symbol); }
     }
+
+
+## Concept
+
+1. account calls `borrow` action from `flash.sx` with a desired `quantity`.
+    - contract gets **initial** balance of asset.
+    - contract sends quantity `to` account.
+2. account recieves notifications via `on_notify` and/or `callback` of incoming transfer.
+    - account is free to use received quantity for any purposes.
+    - account returns loan back to contract.
+3. contract gets **final** balance of asset
+    - contract throws an error if **initial** balance is lower than **final** balance.
