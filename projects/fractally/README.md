@@ -1,17 +1,18 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of content**
 
-- [Setup](#setup)
-- [Running locally](#running-locally)
-- [Electron App](#electron-app)
-  - [Runing electron app on dev mode](#runing-electron-app-on-dev-mode)
-  - [Packaging the electron app for distribution](#packaging-the-electron-app-for-distribution)
-- [Misc. commands](#misc-commands)
-- [Repo structure](#repo-structure)
-  - [Apps](#apps)
-  - [Publishable packages](#publishable-packages)
-- [Fractally Architecture](#fractally-architecture)
+-   [Setup](#setup)
+-   [Running locally](#running-locally)
+-   [Electron App](#electron-app)
+    -   [Runing electron app on dev mode](#runing-electron-app-on-dev-mode)
+    -   [Packaging the electron app for distribution](#packaging-the-electron-app-for-distribution)
+-   [Misc. commands](#misc-commands)
+-   [Repo structure](#repo-structure)
+    -   [Apps](#apps)
+    -   [Publishable packages](#publishable-packages)
+-   [Fractally Architecture](#fractally-architecture)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -35,6 +36,9 @@ pnpm dev
 
 # then just go to the local website
 open http://localhost:3000
+
+# running graphql workspace
+open http://localhost:3010/graphql
 
 # running Storybook to elaborate, play and have better visualization of the UI components
 cd packages/components

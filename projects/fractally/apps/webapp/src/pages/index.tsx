@@ -1,7 +1,7 @@
 import React from "react";
-import Link from "next/link";
-
 import { Button } from "@fractally/components/ui/Button";
+
+import { Link } from "../app/utils";
 
 export default () => (
     <div>
