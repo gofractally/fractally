@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { useQuery, UseQueryOptions, useMutation, UseMutationOptions } from 'react-query';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -97,6 +97,18 @@ export type RecipesQueryVariables = Exact<{
 
 export type RecipesQuery = { __typename?: 'Query', recipes: Array<{ __typename?: 'Recipe', id: string, title: string, description?: string | null | undefined, creationDate: any, ingredients: Array<string> }> };
 
+export type AddRecipeMutationVariables = Exact<{
+  newRecipeData: NewRecipeInput;
+}>;
+
+
+export type AddRecipeMutation = { __typename?: 'Mutation', addRecipe: { __typename?: 'Recipe', id: string } };
+
+export type RecipeAddedSubscriptionVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RecipeAddedSubscription = { __typename?: 'Subscription', recipeAdded: { __typename?: 'Recipe', id: string, title: string, description?: string | null | undefined, creationDate: any, ingredients: Array<string> } };
+
 
 export const RecipesDocument = `
     query Recipes($skip: Int, $take: Int) {
@@ -126,3 +138,31 @@ useRecipesQuery.getKey = (variables?: RecipesQueryVariables) => variables === un
 ;
 
 useRecipesQuery.fetcher = (variables?: RecipesQueryVariables) => fetcher<RecipesQuery, RecipesQueryVariables>(RecipesDocument, variables);
+export const AddRecipeDocument = `
+    mutation AddRecipe($newRecipeData: NewRecipeInput!) {
+  addRecipe(newRecipeData: $newRecipeData) {
+    id
+  }
+}
+    `;
+export const useAddRecipeMutation = <
+      TError = unknown,
+      TContext = unknown
+    >(options?: UseMutationOptions<AddRecipeMutation, TError, AddRecipeMutationVariables, TContext>) =>
+    useMutation<AddRecipeMutation, TError, AddRecipeMutationVariables, TContext>(
+      ['AddRecipe'],
+      (variables?: AddRecipeMutationVariables) => fetcher<AddRecipeMutation, AddRecipeMutationVariables>(AddRecipeDocument, variables)(),
+      options
+    );
+useAddRecipeMutation.fetcher = (variables: AddRecipeMutationVariables) => fetcher<AddRecipeMutation, AddRecipeMutationVariables>(AddRecipeDocument, variables);
+export const RecipeAddedDocument = `
+    subscription RecipeAdded {
+  recipeAdded {
+    id
+    title
+    description
+    creationDate
+    ingredients
+  }
+}
+    `;

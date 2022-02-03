@@ -18,6 +18,10 @@ import { RecipesModule } from "./recipes/recipes.module";
             autoSchemaFile: "schema.gql",
             playground: false,
             plugins: [ApolloServerPluginLandingPageLocalDefault()],
+            installSubscriptionHandlers: true,
+            subscriptions: {
+                "graphql-ws": true,
+            },
         }),
     ],
     controllers: [AppController],
