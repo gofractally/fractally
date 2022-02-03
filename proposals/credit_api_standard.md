@@ -14,21 +14,21 @@ This document proposes the creation of a standard Token Deposit and Withdraw lib
 - User Registry.
 - Minimal changes to existing system contracts.
 
+
 # Dictionary
 
-- ```{eosio::name} name``` - Existing 64 bit EOS.IO account (`e.g. eosio.token`).
+| type              | name        | notes                                                                                                                                                |
+|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ```eosio::name``` | name        | Existing 64 bit EOS.IO account (`e.g. eosio.token`)                                                                                                  |
+| ```uint32_t```    | account_num | Sequentially assigned number registered in ```eosio.userid```                                                                                        |
+| ```string```      | long_name   | 32 **Byte** user readable, unambiguous unique name. Aka [Pretty name](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1). |
+| ```uint32_t```    | token_num   | Sequentially assigned number registered in ```eosio.tokenid```                                                                                       |
 
-- ```{uint32_t} account_num``` - 32 bit sequentially assigned account number.
-
-- ```{???} long_name``` - 32 **Byte** user readable, unambiguous unique name. Aka [Pretty name](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1).
-
-- ```{uint32_t} token_num``` - 32 bit sequentially assigned Token ID.
-
-# Contracts
+# Smart Contracts
 
 ## `eosio.userid`
 
-An EOS account registry which maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
+Acts as a EOS account registry which maps EOS account ```name```'s to ```account_num```, ```long_name``` and vice versa.
 
 A user may also specify an IPFS CID for additional account metadata. (e.g. ```avatar```, ```display_name```).
 
@@ -52,18 +52,31 @@ All RAM expenses paid for by ```eosio.name``` and network.
                    updateprofile( longname, ipfs )
                         requireauth( longname owner )
 
-## eosio.tokenid  
+## `eosio.tokenid`
+
+Acts a token registry mapping a token contract account + token symbol e.g. *(eosio.token + EOS)* to a unique 32 bit ```token_num```
+
+Any user can register a token onto the registry however only the token issuer may set additional metadata like a logo, display name, website, etc. 
+
+```c++
+
     Table
          TokenNum => TokenContract | Symbol | IPFS
          secondary 128 = TokenContract | Symbol
 
-    register( anyuser,  token_contract, symbol )
-        require_auth( anyuser ) anyuser pays for RAM
+    regtoken( eosio::name anyuser, eosio::name token_contract, symbol sym ) {
+        require_auth( anyuser );
+        tokens.emplace( anyuser, ... ) // anyuser pays for RAM
+    }
 
-    setprofile( tokenid, ipfs ) require_auth( tokenid::issuer )
-        // takes over RAM costs… yes
+    setprofile( uint32_t tokenid, string ipfs ) {
+         require_auth( tokenid::issuer );
+         tokens.modify( tokenid::issuer, ... ) // token issuer takes over RAM costs… 
+    }
+
 
     check( contract, symbol, tokenid )
+```
 
 ## `eosio.system`
 ```eosio.system::enable(eosio::name feature)```
@@ -93,6 +106,8 @@ Right now this action refunds bids in the `bidrefunds` table. After the `eosio.n
 ```
 - Should it attempt to register AccountNum?
 
+```
+
 ## `eosio.token`
 No changes only manages existing EOS token.
 
@@ -116,6 +131,9 @@ Further changes on how each token hosted on ```eosio.tokens``` can be made by da
 Issuers may permanently disable the ability to specify an authorizer account. 
 
 Only ```eosio.symbol``` has permissions to create new tokens.
+
+
+
 
       Table
            user32|token32 => balance64               BALANCES
@@ -151,30 +169,30 @@ requireAuth( eosio.symbol )... TokenContract implmeents old standard
 On deposit, issue 
 On withdraw, burn 
 
-## `eosio.symbol`
+
+## eosio.symbol
 Sells token symbols on a buy-it-now system basing price of amount of sales in a specified time.
 
 Buyers need only specify the ```symbol_code```, e.g. "EOS" or "CAT".
 
 A tokens ```precision```, ```max_supply``` and other properties are not determined until redeemed.
 
-- 3 letters cost X EOS per window of time.
-- 4 letters cost Y EOS per window of time.
-- 5 letters cost Z EOS per window of time.
-- 6+ letters       Fixed fee
+Arbitrary prices, windows and thresholds.
+
+| Letters | Price       | Window Time | Increase Threshold | Decrease Threshold | Floor      |
+|---------|-------------|-------------|--------------------|--------------------|------------|
+| 3       | 30.0000 EOS | 48 hours    | 6                  | 4                  | 4.0000 EOS |
+| 4       | 15.0000 EOS | 48 hours    | 6                  | 4                  | 3.000 EOS  |
+| 5       | 2.0000 EOS  | 12 hours    | 12                 | 8                  | 0.0000 EOS |
 
 For each symbol length for sale, the network decides the ```initial_price```, ```floor_price``` *(in EOS)*, ```decrease_threshold```, ```increase_threshold``` and ```window``` length of time. 
 
-### Example
+Once purchased users can trade their symbols amongst users subject to a network configurable secondary sale fee before finally redeeming their symbol as a newly created token using the ```eosio.symbol::create``` action which then performs an inline action to ```eosio.token::create```. 
 
-- ```symlen = 3```
-- ```decrease_threshold = 4```
-- ```increase_threshold = 6```
-- ```window = 24 hours```
+### Example
 
 3 letter symbols are highly valuable, therefore a high ```initial_price``` may only lower by 10% if less than 4 sales are made in 24 hours, if over 6 sales are made, the price would raise by 10%.  
 
-Once purchased users can trade their symbols amongst users subject to a network configurable secondary sale fee before finally redeeming their symbol as a newly created token using the ```eosio.symbol::create``` action which then performs an inline action to ```eosio.token::create```. 
 
 ## `eosio.buyid`
 
@@ -267,14 +285,3 @@ Long names exactly matching an owners account should go directly to eosio.name
         primary_key(){ sha256(contact+symbol); }
     }
 
-
-## Concept
-
-1. account calls `borrow` action from `flash.sx` with a desired `quantity`.
-    - contract gets **initial** balance of asset.
-    - contract sends quantity `to` account.
-2. account recieves notifications via `on_notify` and/or `callback` of incoming transfer.
-    - account is free to use received quantity for any purposes.
-    - account returns loan back to contract.
-3. contract gets **final** balance of asset
-    - contract throws an error if **initial** balance is lower than **final** balance.
