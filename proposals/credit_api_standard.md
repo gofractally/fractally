@@ -1,17 +1,17 @@
 # WIP
 
-# Credit API Standard
+# Shared Account Upgrade
 
-This document proposes the creation of a standard Token Deposit and Withdraw library for smart contract use. 
+This document proposes the addition of several contracts and existing contract updates to improve quality of life for developers and users, improve RAM efficiency and token safety. 
 
 # Features
 
-- Reduced RAM for secondary indices on all deposit / withdraw.
+- Addition of unique ```long_name```s per user. (12+ length [Pretty names](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1)) 
 - Simplified notification system. 
-- Easier user experience with long names (12+ length) 
+- Reduced RAM costs for contract handling deposits and withdrawals of tokens.
 - Standardized token bridges.
-- Token Registry (32 bit ID -> token).
-- User Registry.
+- Global Token Registry mapping ID numbers to all tokens (32 bit ID).
+- Global User Registry mapping ID numbers to all user accounts, including ```long_name```s.
 - Minimal changes to existing system contracts.
 
 
@@ -58,25 +58,33 @@ Acts a token registry mapping a token contract account + token symbol e.g. *(eos
 
 Any user can register a token onto the registry however only the token issuer may set additional metadata like a logo, display name, website, etc. 
 
+## TABLE `token`
 ```c++
 
     Table
          TokenNum => TokenContract | Symbol | IPFS
          secondary 128 = TokenContract | Symbol
-
-    regtoken( eosio::name anyuser, eosio::name token_contract, symbol sym ) {
-        require_auth( anyuser );
-        tokens.emplace( anyuser, ... ) // anyuser pays for RAM
-    }
-
-    setprofile( uint32_t tokenid, string ipfs ) {
-         require_auth( tokenid::issuer );
-         tokens.modify( tokenid::issuer, ... ) // token issuer takes over RAM costs… 
-    }
-
-
-    check( contract, symbol, tokenid )
 ```
+
+## ACTION `regtoken`
+Register an existing token 
+### params
+
+- `{eosio::name} registrar` - Account registering token, any account can do this and merely is used to pay for the RAM expense.
+- `{extended_symbol} token` - Contract + Token Symbol.
+
+Callable by anyone willing to pay for the RAM.
+
+## ACTION `setprofile`
+Allows token issuers to set an IPFS CID which includes bonus metadata like token logo, display name, website, etc. 
+### params
+
+- `{uint32_t} tokenid` - Token ID
+- `{string}  ipfs` - IPFS CID.
+
+Callable only by token issuer.
+
+
 
 ## `eosio.system`
 ```eosio.system::enable(eosio::name feature)```
@@ -200,12 +208,12 @@ Similar to ```eosio.symbol``` this contract is responsible for selling ```long_n
 
 Like ```eosio.symbol``` ```long_name```s may be traded and transferred amongst users before being redeemed for a permanent mapping.
 
-**Simple** 
+**Simple Names** 
 - Contains _ or a number.
 - Does not contain characters **a**, **e**, **i**, **o**, **u**.
 - Longer than 15 characters. 
 
-**Premium**
+**Premium Names**
 
 Any name falling outside the scope of simple.
 
