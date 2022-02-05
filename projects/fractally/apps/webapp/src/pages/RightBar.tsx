@@ -12,8 +12,9 @@ const SideBarIcon = ({ icon, label }) => (
     </button>
 );
 
-export const ChannelBar = () => (
-    <div className="w-80 h-screen m-0 bg-gray-200 dark:bg-gray-800 overflow-hidden text-gray-100">
+export const RightBar = () => (
+    <div className="w-80 h-screen m-0  bg-red-500 dark:bg-gray-800 overflow-hidden text-gray-100">
+        <div>
             <SideBarIcon
                 label={"Trending"}
                 icon={<AiFillFire size="20" />}
@@ -26,5 +27,6 @@ export const ChannelBar = () => (
                 label={"My Posts"}
                 icon={<FaPoo size="20" />}
             ></SideBarIcon>
+        </div>
     </div>
 );

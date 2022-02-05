@@ -1,16 +1,23 @@
 import React from "react";
-import { Sidebar } from './Sidebar'
-import { ChannelBar } from './ChannelBar'
+import { Sidebar } from "./Sidebar";
+import { ChannelBar } from "./ChannelBar";
+import { RightBar } from "./RightBar";
 import { MainContent } from "./MainContent";
+import { Header } from "./Header";
 
 export default () => (
-    <div className="flex">
+    <div className="flex justify-between">
         <Sidebar />
-        <ChannelBar />
-        <MainContent />
+        <div className="w-full ">
+            <Header />
+            <div className="flex">
+                <ChannelBar />
+                <MainContent />
+                <RightBar />
+            </div>
+        </div>
     </div>
 );
-
 
 // export default () => (
 //     <div>
