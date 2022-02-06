@@ -71,7 +71,7 @@ export const MainContent = () => {
                                       `https://ipfs.orelo.software/ipfs/${res.photo}`,
                                   ]
                                 : [
-                                      account == "" ? "No name" : account,
+                                      account == "" ? "No Eden profile found." : account,
                                       "https://www.pngkey.com/png/full/114-1149847_avatar-unknown-dp.png",
                                   ];
                         })
