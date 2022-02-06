@@ -70,7 +70,10 @@ export const MainContent = () => {
                                       res.name,
                                       `https://ipfs.orelo.software/ipfs/${res.photo}`,
                                   ]
-                                : ["", ""];
+                                : [
+                                      account == "" ? "No name" : account,
+                                      "https://www.pngkey.com/png/full/114-1149847_avatar-unknown-dp.png",
+                                  ];
                         })
                     )
                 )
@@ -166,20 +169,16 @@ export const MainContent = () => {
                     </div>
                 </button>
 
-                <div className="flex  p-4 justify-around">
-                    {avatar && (
-                        <div className="flex flex-col w-24 h-24">
-                            <img
-                                className="w-24 h-24 rounded-full"
-                                src={avatar}
-                                alt=""
-                            />
-                            <div className="text-center">{name}</div>
-                        </div>
-                    )}
-                    <div className="ml-10 flex flex-col justify-center text-lg font-medium">
-                        {fiatValue}
+                <div className="grid grid-cols-2 p-4 justify-around">
+                    <div className="flex justify-center flex-col">
+                        <img
+                            className="w-24 mx-auto h-24 rounded-full"
+                            src={avatar}
+                            alt=""
+                        />
+                        <div className="text-center">{name}</div>
                     </div>
+                    <div className="text-lg font-medium flex flex-col mx-auto justify-center">{fiatValue}</div>
                 </div>
             </div>
         </div>
