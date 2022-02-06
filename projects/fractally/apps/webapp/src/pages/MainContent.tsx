@@ -24,18 +24,8 @@ export const formatMoney = (amount: number) =>
         currency: "USD",
     }).format(amount);
 
-const waait = async (amount: number) =>
-    new Promise((resolve) =>
-        setTimeout(() => {
-            resolve("");
-        }, amount)
-    );
-
 export const MainContent = () => {
-    const [handleAccount, toAccount] = useEventCallback<
-        React.ChangeEvent<HTMLInputElement>,
-        string
-    >((event$, state$) => event$.pipe(map((event) => event.target.value)), "");
+    const [toAccount, setAccount] = useState("");
 
     const [quantityAmount, setQuantityAmount] = useState("");
     const [memo, setMemo] = useState("");
@@ -47,7 +37,7 @@ export const MainContent = () => {
     >(
         (event$, state$, input$) =>
             input$.pipe(
-                debounceTime(1000),
+                debounceTime(400),
                 distinctUntilChanged(),
                 withLatestFrom(state$),
                 map((a) => a[0][0]),
@@ -86,8 +76,8 @@ export const MainContent = () => {
         [toAccount]
     );
 
-    const [__, fiatValue] = useEventCallback<
-        React.ChangeEvent<HTMLInputElement>,
+    const [setFiatValue, fiatValue] = useEventCallback<
+        string,
         string,
         [string]
     >(
@@ -106,15 +96,27 @@ export const MainContent = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [buttonLabel, setButtonLabel] = useState("Send");
 
+    const resetForm = () => {
+        setQuantityAmount("");
+        setAccount("");
+        setMemo("");
+    };
+
     const send = async () => {
         setIsLoading(true);
         setButtonLabel("Processing...");
         try {
-            const res = await transfer('joh.n', toAccount, numToAsset(Number(quantityAmount)), memo);
+            const res = await transfer(
+                "joh.n",
+                toAccount,
+                numToAsset(Number(quantityAmount)),
+                memo
+            );
+            resetForm();
             console.log(res, "was the tx res");
         } catch (e) {
-            console.error(e)
-            alert(e.message)
+            console.error(e);
+            alert(e.message);
         } finally {
             setButtonLabel("Send");
             setIsLoading(false);
@@ -131,7 +133,7 @@ export const MainContent = () => {
                     <div>
                         <input
                             value={toAccount}
-                            onChange={handleAccount}
+                            onChange={(e) => setAccount(e.target.value)}
                             className="rounded-lg text-gray-300 bg-gray-700 px-4 py-2"
                         />
                     </div>
