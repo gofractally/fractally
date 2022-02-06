@@ -15,6 +15,8 @@ import {
 import { fromFetch } from "rxjs/fetch";
 import { InputFactory, useEventCallback } from "rxjs-hooks";
 import { usdPrice$ } from "../observables/eosUsdPrice";
+import { transfer } from "../rpc/rpc";
+import { numToAsset } from "../chain/utils";
 
 export const formatMoney = (amount: number) =>
     new Intl.NumberFormat("en-US", {
@@ -71,7 +73,9 @@ export const MainContent = () => {
                                       `https://ipfs.orelo.software/ipfs/${res.photo}`,
                                   ]
                                 : [
-                                      account == "" ? "No Eden profile found." : account,
+                                      account == ""
+                                          ? "No Eden profile found."
+                                          : account,
                                       "https://www.pngkey.com/png/full/114-1149847_avatar-unknown-dp.png",
                                   ];
                         })
@@ -105,9 +109,16 @@ export const MainContent = () => {
     const send = async () => {
         setIsLoading(true);
         setButtonLabel("Processing...");
-        await waait(1000);
-        setButtonLabel("Send");
-        setIsLoading(false);
+        try {
+            const res = await transfer('joh.n', toAccount, numToAsset(Number(quantityAmount)), memo);
+            console.log(res, "was the tx res");
+        } catch (e) {
+            console.error(e)
+            alert(e.message)
+        } finally {
+            setButtonLabel("Send");
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -135,7 +146,7 @@ export const MainContent = () => {
                             value={quantityAmount}
                             type="number"
                             onChange={(e) => setQuantityAmount(e.target.value)}
-                            className="rounded-lg text-gray-300 bg-gray-700 px-4 py-2"
+                            className="rounded-lg text-gray-300 bg-gray-700 border-none px-4 py-2"
                         />
                     </div>
                 </div>
@@ -169,8 +180,8 @@ export const MainContent = () => {
                     </div>
                 </button>
 
-                <div className="grid grid-cols-2 p-4 justify-around">
-                    <div className="flex justify-center flex-col">
+                <div className="grid grid-cols-2 p-4  justify-around">
+                    <div className="flex justify-center space-y-4 flex-col">
                         <img
                             className="w-24 mx-auto h-24 rounded-full"
                             src={avatar}
@@ -178,7 +189,9 @@ export const MainContent = () => {
                         />
                         <div className="text-center">{name}</div>
                     </div>
-                    <div className="text-lg font-medium flex flex-col mx-auto justify-center">{fiatValue}</div>
+                    <div className="text-lg font-medium flex flex-col mx-auto justify-center">
+                        {fiatValue}
+                    </div>
                 </div>
             </div>
         </div>
