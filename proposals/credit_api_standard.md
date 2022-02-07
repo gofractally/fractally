@@ -93,7 +93,7 @@ Allows token issuers to set an IPFS CID which includes bonus metadata like token
 - `{uint32_t} tokenid` - Token ID
 - `{string}  ipfs` - IPFS CID.
 
-Callable only by token issuer.
+Callable only token contract account, eosio.tokens will have it's own `setprofile` action which does an inline to `eosio.tokenid`
 
 
 
