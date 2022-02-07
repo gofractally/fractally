@@ -7,13 +7,21 @@ This document proposes the addition of several contracts and existing contract u
 # Features
 
 - Addition of unique ```long_name```s per user. (12+ length [Pretty names](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1)) 
-- Simplified notification system. 
+- Simplified notification system for token transfers. 
 - Reduced RAM costs for contract handling deposits and withdrawals of tokens.
-- Standardized token bridges.
+- Standardized token bridging.
 - Global Token Registry mapping ID numbers to all tokens (32 bit ID).
 - Global User Registry mapping ID numbers to all user accounts, including ```long_name```s.
 - Minimal changes to existing system contracts.
 
+# Contracts
+- [eosio.userid](#eosiouserid)
+- [eosio.tokenid](#eosiotokenid)
+- [eosio.system](#eosiosystem)
+- [eosio.token](#eosiotoken)
+- [eosio.tokens](#eosiotokens)
+- [eosio.symbol](#eosiosymbol)
+- [eosio.buyid](#eosiobuyid)
 
 # Dictionary
 
