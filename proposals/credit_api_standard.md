@@ -26,12 +26,14 @@ This document proposes the addition of several contracts and existing contract u
 
 # Dictionary
 
-| type              | name        | notes                                                                                                                                                |
-|-------------------|-------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ```eosio::name``` | name        | Existing 64 bit EOS.IO account (`e.g. eosio.token`)                                                                                                  |
-| ```uint32_t```    | account_num | Sequentially assigned number registered in ```eosio.userid```                                                                                        |
-| ```string```      | long_name   | 32 **Byte** user readable, unambiguous unique name. Aka [Pretty name](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1). |
-| ```uint32_t```    | token_num   | Sequentially assigned number registered in ```eosio.tokenid```                                                                                       |
+| type              | name          | notes                                                                                                                                                |
+|-------------------|---------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ```eosio::name``` | name          | Existing 64 bit EOS.IO account (`e.g. eosio.token`)                                                                                                  |
+| ```uint32_t```    | account_num   | Sequentially assigned number registered in ```eosio.userid```                                                                                        |
+| ```string```      | long_name     | 32 **Byte** user readable, unambiguous unique name. Aka [Pretty name](https://bytemaster.medium.com/eos-account-name-service-proposal-94f86df4b8b1). |
+| ```uint32_t```    | token_num     | Sequentially assigned number registered in ```eosio.tokenid```                                                                                       |
+|                   | native token  | A token hosted by eosio.tokens                                                                                                                       |
+|                   | foreign token | A token hosted by it's own independent token contract, typically forked and deployed of eosio.token                                                  |
 
 # Smart Contracts
 
