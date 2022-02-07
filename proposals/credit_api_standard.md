@@ -22,6 +22,7 @@ This document proposes the addition of several contracts and existing contract u
 - [eosio.tokens](#eosiotokens)
 - [eosio.symbol](#eosiosymbol)
 - [eosio.buyid](#eosiobuyid)
+- [eosio.tbridge](#eosiobridge)
 
 # Dictionary
 
@@ -128,7 +129,6 @@ Right now this action refunds bids in the `bidrefunds` table. After the `eosio.n
 No changes only manages existing EOS token.
 
 ## `eosio.tokens`
-### Inherits Bank API
 
 The sequel to ```eosio.token``` this contract enforces inflation, recalling and authorization limits decided by each token issuer. 
 
@@ -301,3 +301,9 @@ Long names exactly matching an owners account should go directly to eosio.name
         primary_key(){ sha256(contact+symbol); }
     }
 
+## `eosio.tbridge`
+Creates a bridge between Foreign and Native tokens. 
+
+Users provide the token symbol used from `eosio.symbol` and specify the ```extended_asset``` to bridge between.
+
+The contract will permanently remain issuer of the token, several more symbols may be provided to create further bridges to the same token.
