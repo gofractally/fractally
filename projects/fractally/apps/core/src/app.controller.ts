@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Body } from "@nestjs/common";
+
 import { AppService } from "./app.service";
-import { SignalWireService, RoomRequestInput } from "./signalwire.service";
+import { SignalWireService, RoomRequestInput } from "./signalwire";
 
 @Controller()
 export class AppController {
