@@ -14,7 +14,20 @@ type Recipe {
 """Date custom scalar type"""
 scalar Date
 
+"""member """
+type Member {
+  account: String!
+  balance: String!
+  name: String!
+  img: String!
+  bio: String!
+  social: String!
+  attributions: String!
+}
+
 type Query {
+  member(account: String!): Member!
+  members(afterCursor: String, beforeCursor: String, pageSize: Int!): [Member!]!
   recipe(id: String!): Recipe!
   recipes(skip: Int = 0, take: Int = 25): [Recipe!]!
 }

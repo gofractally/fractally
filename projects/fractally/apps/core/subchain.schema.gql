@@ -1,0 +1,309 @@
+type creator_action {
+    seq: String!
+    receiver: String!
+}
+type action {
+    seq: String!
+    firstReceiver: String!
+    receiver: String!
+    name: String!
+    creatorAction: creator_action
+    hexData: String!
+}
+type transaction {
+    id: String!
+    actions: [action!]!
+}
+type eosio_block {
+    num: Float!
+    id: String!
+    previous: String!
+    timestamp: String!
+    transactions: [transaction!]!
+}
+type block_with_id {
+    id: String!
+    num: Float!
+    previous: String!
+    eosioBlock: eosio_block!
+}
+type BlockEdge {
+    node: block_with_id!
+    cursor: String!
+}
+type PageInfo {
+    hasPreviousPage: Boolean!
+    hasNextPage: Boolean!
+    startCursor: String!
+    endCursor: String!
+}
+type BlockConnection {
+    edges: [BlockEdge!]!
+    pageInfo: PageInfo!
+}
+type BlockLog {
+    blocks(gt: Float ge: Float lt: Float le: Float first: Float last: Float before: String after: String): BlockConnection!
+    head: block_with_id
+    irreversible: block_with_id
+    blockByNum(num: Float!): block_with_id
+    blockByEosioNum(num: Float!): block_with_id
+}
+type BalanceHistory {
+    time: String!
+    balance: Balance!
+    delta: String!
+    newAmount: String!
+    otherBalance: Balance!
+    description: String!
+}
+type BalanceHistoryEdge {
+    node: BalanceHistory!
+    cursor: String!
+}
+type BalanceHistoryConnection {
+    edges: [BalanceHistoryEdge!]!
+    pageInfo: PageInfo!
+}
+type Balance {
+    account: Member!
+    amount: String
+    history(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): BalanceHistoryConnection!
+}
+type new_member_profile {
+    name: String!
+    img: String!
+    bio: String!
+    social: String!
+    attributions: String!
+}
+type Nft {
+    member: Member
+    owner: Member
+    templateId: Int!
+    assetId: String!
+    templateMint: Float!
+    createdAt: String!
+}
+type NftEdge {
+    node: Nft!
+    cursor: String!
+}
+type NftConnection {
+    edges: [NftEdge!]!
+    pageInfo: PageInfo!
+}
+type ElectionGroupEdge {
+    node: ElectionGroup!
+    cursor: String!
+}
+type ElectionGroupConnection {
+    edges: [ElectionGroupEdge!]!
+    pageInfo: PageInfo!
+}
+type ElectionRound {
+    election: Election!
+    round: Int!
+    numParticipants: Int!
+    numGroups: Int!
+    requiresVoting: Boolean!
+    groupsAvailable: Boolean!
+    votingStarted: Boolean!
+    votingFinished: Boolean!
+    resultsAvailable: Boolean!
+    votingBegin: String
+    votingEnd: String
+    groups(first: Float last: Float before: String after: String): ElectionGroupConnection!
+}
+type ElectionRoundEdge {
+    node: ElectionRound!
+    cursor: String!
+}
+type ElectionRoundConnection {
+    edges: [ElectionRoundEdge!]!
+    pageInfo: PageInfo!
+}
+type Election {
+    time: String!
+    seeding: Boolean!
+    resultsAvailable: Boolean!
+    seedingStartTime: String
+    seedingEndTime: String
+    seed: String
+    numRounds: Int
+    numParticipants: Int
+    rounds(gt: Int ge: Int lt: Int le: Int first: Float last: Float before: String after: String): ElectionRoundConnection!
+    finalGroup: ElectionGroup
+}
+type ElectionGroup {
+    election: Election!
+    round: ElectionRound!
+    winner: Member
+    votes: [Vote!]!
+}
+type Vote {
+    voter: Member
+    candidate: Member
+    video: String!
+    group: ElectionGroup!
+}
+type VoteEdge {
+    node: Vote!
+    cursor: String!
+}
+type VoteConnection {
+    edges: [VoteEdge!]!
+    pageInfo: PageInfo!
+}
+type MemberElection {
+    time: String!
+    votes(first: Float last: Float before: String after: String): VoteConnection!
+}
+type MemberElectionEdge {
+    node: MemberElection!
+    cursor: String!
+}
+type MemberElectionConnection {
+    edges: [MemberElectionEdge!]!
+    pageInfo: PageInfo!
+}
+type DistributionFund {
+    owner: Member
+    distributionTime: String!
+    rank: Int!
+    initialBalance: String!
+    currentBalance: String!
+}
+type DistributionFundEdge {
+    node: DistributionFund!
+    cursor: String!
+}
+type DistributionFundConnection {
+    edges: [DistributionFundEdge!]!
+    pageInfo: PageInfo!
+}
+type Member {
+    account: String!
+    balance: Balance!
+    inviter: Member
+    inductionWitnesses: [Member!]
+    profile: new_member_profile
+    inductionVideo: String
+    participating: Boolean!
+    createdAt: String!
+    encryptionKey: String
+    nfts(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): NftConnection!
+    collectedNfts(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): NftConnection!
+    elections(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): MemberElectionConnection!
+    distributionFunds(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): DistributionFundConnection!
+}
+type Status {
+    active: Boolean!
+    community: String!
+    initialMembers: [Member!]!
+    genesisVideo: String!
+    auctionDuration: Float!
+    memo: String!
+    nextElection: String!
+    electionThreshold: Int!
+    numElectionParticipants: Int!
+}
+type BalanceEdge {
+    node: Balance!
+    cursor: String!
+}
+type BalanceConnection {
+    edges: [BalanceEdge!]!
+    pageInfo: PageInfo!
+}
+type EncryptionKey {
+    account: Member!
+    encryptionKey: String
+}
+type EncryptionKeyEdge {
+    node: EncryptionKey!
+    cursor: String!
+}
+type EncryptionKeyConnection {
+    edges: [EncryptionKeyEdge!]!
+    pageInfo: PageInfo!
+}
+type MemberEdge {
+    node: Member!
+    cursor: String!
+}
+type MemberConnection {
+    edges: [MemberEdge!]!
+    pageInfo: PageInfo!
+}
+type Session {
+    member: Member
+    key: String!
+    expiration: String!
+    description: String!
+}
+type SessionEdge {
+    node: Session!
+    cursor: String!
+}
+type SessionConnection {
+    edges: [SessionEdge!]!
+    pageInfo: PageInfo!
+}
+type InductionEndorsingMemberStatus {
+    endorsed: Boolean!
+    member: Member
+}
+type Induction {
+    id: String!
+    inviteeAccount: String!
+    inviter: InductionEndorsingMemberStatus!
+    witnesses: [InductionEndorsingMemberStatus!]!
+    profile: new_member_profile!
+    video: String!
+    createdAt: String!
+}
+type InductionEdge {
+    node: Induction!
+    cursor: String!
+}
+type InductionConnection {
+    edges: [InductionEdge!]!
+    pageInfo: PageInfo!
+}
+type ElectionEdge {
+    node: Election!
+    cursor: String!
+}
+type ElectionConnection {
+    edges: [ElectionEdge!]!
+    pageInfo: PageInfo!
+}
+type Distribution {
+    time: String!
+    started: Boolean!
+    targetAmount: String
+    targetRankDistribution: [String!]
+}
+type DistributionEdge {
+    node: Distribution!
+    cursor: String!
+}
+type DistributionConnection {
+    edges: [DistributionEdge!]!
+    pageInfo: PageInfo!
+}
+type Query {
+    blockLog: BlockLog!
+    status: Status
+    masterPool: Balance!
+    distributionFund: Balance!
+    balances(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): BalanceConnection!
+    encryptionKeys(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): EncryptionKeyConnection!
+    members(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): MemberConnection!
+    membersByCreatedAt(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): MemberConnection!
+    sessions(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): SessionConnection!
+    inductions(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): InductionConnection!
+    inductionsByCreatedAt(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): InductionConnection!
+    elections(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): ElectionConnection!
+    distributions(gt: String ge: String lt: String le: String first: Float last: Float before: String after: String): DistributionConnection!
+}

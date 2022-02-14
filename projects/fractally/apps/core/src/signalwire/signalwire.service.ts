@@ -1,7 +1,9 @@
 import { Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import axios, { AxiosInstance } from "axios";
 import { delay } from "@fractally/common";
+
+import { AppConfig } from "../app.config";
+import { SignalWireConfig } from "./interfaces";
 
 const moderatorPermissions = [
     "room.list_available_layouts",
@@ -61,13 +63,15 @@ export interface RoomRequestInput {
 @Injectable()
 export class SignalWireService {
     private api: AxiosInstance;
+    private config: SignalWireConfig;
 
-    constructor(config: ConfigService) {
+    constructor(appConfig: AppConfig) {
+        this.config = appConfig.signalWireConfig;
         const auth = {
-            username: config.get("PROJECT_ID"),
-            password: config.get("API_KEY"),
+            username: this.config.projectId,
+            password: this.config.apiKey,
         };
-        const baseURL = config.get("SPACE");
+        const baseURL = this.config.space;
         this.api = axios.create({ auth, baseURL });
     }
 

@@ -1,0 +1,3 @@
+*.wasm
+state
+dfuse-transactions*.json
