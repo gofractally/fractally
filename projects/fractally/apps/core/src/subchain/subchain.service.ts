@@ -17,6 +17,13 @@ export class SubchainService {
 
     constructor(appConfig: AppConfig) {
         this.subchainConfig = appConfig.subchainConfig;
+        if (this.subchainConfig.receiver === SubchainReceivers.UNKNOWN) {
+            this.logger.warn(
+                "Skipping Subchain Service initialization since WASM is not present..."
+            );
+            return;
+        }
+
         this.shipConfig = appConfig.shipConfig;
         this.dfuseConfig = appConfig.dfuseConfig;
         this.init();

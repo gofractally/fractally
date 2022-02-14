@@ -8,7 +8,6 @@ import { AppConfig } from "./app.config";
 import { AppService } from "./app.service";
 import { SignalWireService } from "./signalwire";
 import { RecipesModule } from "./recipes/recipes.module";
-import { SubchainModule } from "./subchain";
 import { MembersModule } from "./members/members.module";
 
 @Module({
@@ -16,7 +15,6 @@ import { MembersModule } from "./members/members.module";
         ConfigModule.forRoot({
             envFilePath: [".env.local", ".env"],
         }),
-        SubchainModule,
         MembersModule,
         RecipesModule,
         GraphQLModule.forRoot({

@@ -42,9 +42,10 @@ export class AppConfig {
             atomicMarket: this.getConfig("SUBCHAIN_AA_MARKET_CONTRACT"),
             receiver:
                 SubchainReceivers[
-                    this.getConfig(
-                        "SUBCHAIN_RECEIVER"
-                    ) as keyof typeof SubchainReceivers
+                    (this.getConfig(
+                        "SUBCHAIN_RECEIVER",
+                        false
+                    ) as keyof typeof SubchainReceivers) || "UNKNOWN"
                 ],
         };
         this.logConfig("subchainConfig", this.subchainConfig);
