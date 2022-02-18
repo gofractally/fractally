@@ -23,6 +23,9 @@ jobs:
       - uses: pnpm/action-setup@v2.1.0
         with:
           version: 6.28.0
+          run_install: |
+            - cwd: projects/fractally
+              args: [--frozen-lockfile, --strict-peer-dependencies]
 
       - uses: dorny/paths-filter@v2
         id: filter
@@ -34,14 +37,13 @@ jobs:
 
       - name: 🛠 Build and Start WebApp
         if: steps.filter.outputs.src == 'true'
+        working-directory: ./projects/fractally
         run: |
-          cd projects/fractally
           export DFUSE_PREVENT_CONNECT=1
           export NODE_ENV=test
           env
-          pnpm install
           pnpm build
-          pnpm start &
+          # pnpm start &
 
       - name: 🧪 Run E2E
         if: steps.filter.outputs.src == 'true'
