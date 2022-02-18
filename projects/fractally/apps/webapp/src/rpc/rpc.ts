@@ -30,7 +30,14 @@ export const getWalletBalance = async (
     return res.length == 0 ? eosToken.zero : res[0].toString();
 };
 
-export const transfer = async (from: string, to: string, quantity: string, memo?: string) => {
+// TODO: remove any and fix Exported variable 'transfer' has or is using name
+// 'PushTransactionResponse' from external module "@greymass/eosio/lib/eosio-core" but cannot be named.
+export const transfer: any = async (
+    from: string,
+    to: string,
+    quantity: string,
+    memo?: string
+) => {
     const expireSeconds = 3600;
     const info = await link.client.v1.chain.get_info();
     const header = info.getTransactionHeader(expireSeconds);
@@ -48,7 +55,7 @@ export const transfer = async (from: string, to: string, quantity: string, memo?
             from,
             to,
             quantity,
-            memo: memo || '',
+            memo: memo || "",
         },
     };
 
@@ -65,9 +72,7 @@ export const transfer = async (from: string, to: string, quantity: string, memo?
         actions: [action],
     });
 
-    const privateKey = PrivateKey.fromString(
-        ""
-    );
+    const privateKey = PrivateKey.fromString("");
 
     const signature = privateKey.signDigest(
         transaction.signingDigest(info.chain_id)

@@ -14,9 +14,9 @@ import {
 } from "rxjs";
 import { fromFetch } from "rxjs/fetch";
 import { InputFactory, useEventCallback } from "rxjs-hooks";
-import { usdPrice$ } from "../observables/eosUsdPrice";
-import { transfer } from "../rpc/rpc";
-import { numToAsset } from "../chain/utils";
+import { usdPrice$ } from "../../observables/eosUsdPrice";
+import { transfer } from "../../rpc/rpc";
+import { numToAsset } from "../../chain/utils";
 
 export const formatMoney = (amount: number) =>
     new Intl.NumberFormat("en-US", {
