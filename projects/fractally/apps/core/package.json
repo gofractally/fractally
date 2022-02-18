@@ -1,5 +1,5 @@
 {
-    "name": "nestjs",
+    "name": "@fractally/core",
     "version": "0.0.1",
     "private": true,
     "scripts": {
@@ -7,6 +7,7 @@
         "build": "nest build",
         "start:prod": "node dist/apps/core/src/main",
         "start:dev": "nest start --watch",
+        "start": "pnpm start:prod",
         "dev": "pnpm start:dev"
     },
     "dependencies": {

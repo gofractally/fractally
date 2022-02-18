@@ -1,0 +1,51 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+      - "test/*"
+  pull_request:
+    types: [assigned, opened, synchronize, reopened, labeled]
+    paths:
+      - ".github/workflows/fractally.yml"
+      - "projects/fractally"
+
+jobs:
+  run-e2e:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ✅ Checkout code
+        uses: actions/checkout@v2
+
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 6.28.0
+          run_install: |
+            - cwd: projects/fractally
+              args: [--frozen-lockfile, --strict-peer-dependencies]
+
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            src:
+              - ".github/workflows/fractally.yml"
+              - "projects/fractally/**"
+
+      - name: 🛠 Build and Start WebApp
+        if: steps.filter.outputs.src == 'true'
+        working-directory: ./projects/fractally
+        run: |
+          export DFUSE_PREVENT_CONNECT=1
+          export NODE_ENV=test
+          env
+          pnpm build
+          pnpm start &
+
+      - name: 🧪 Run E2E
+        if: steps.filter.outputs.src == 'true'
+        run: |
+          curl http://localhost:3000/recipes

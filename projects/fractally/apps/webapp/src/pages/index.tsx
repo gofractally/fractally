@@ -1,9 +1,11 @@
 import React from "react";
-import { Sidebar } from "./Sidebar";
-import { ChannelBar } from "./ChannelBar";
-import { RightBar } from "./RightBar";
-import { MainContent } from "./MainContent";
-import { Header } from "./Header";
+import {
+    ChannelBar,
+    Sidebar,
+    RightBar,
+    MainContent,
+    Header,
+} from "../app/layout";
 
 export default () => (
     <div className="flex justify-between">
