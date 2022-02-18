@@ -43,7 +43,7 @@ jobs:
           export NODE_ENV=test
           env
           pnpm build
-          # pnpm start &
+          pnpm start &
 
       - name: 🧪 Run E2E
         if: steps.filter.outputs.src == 'true'
