@@ -35,6 +35,7 @@ jobs:
       - name: 🛠 Build and Start WebApp
         if: steps.filter.outputs.src == 'true'
         run: |
+          cd projects/fractally
           export DFUSE_PREVENT_CONNECT=1
           export NODE_ENV=test
           env
