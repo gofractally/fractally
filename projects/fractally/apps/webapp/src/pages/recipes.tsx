@@ -32,24 +32,35 @@ const RecipesPage: NextPage = () => {
     };
 
     return (
-        <div>
-            <Button onClick={addRandomRecipe} isLoading={isLoading}>
-                Test New Random Recipe
-            </Button>
-            <p className="text-red-500">
-                {isError && "Fail to add new recipe"}
-            </p>
-            <p className="text-green-500">
-                {addedRecipe && `Recipe ${addedRecipe.addRecipe.id} created.`}
-            </p>
-
-            <p>Loaded Recipes:</p>
-            <pre>{JSON.stringify(data?.recipes, undefined, 2)}</pre>
+        <div className="m-4 space-y-2">
             <p>
                 <Link href="/">
                     <a>Home</a>
                 </Link>
             </p>
+
+            <Button
+                onClick={addRandomRecipe}
+                isLoading={isLoading}
+                dataTestId="addRandomRecipe"
+            >
+                Test New Random Recipe
+            </Button>
+            <p className="text-red-500">
+                {isError && "Fail to add new recipe"}
+            </p>
+            <p className="text-green-500" data-testid="addedRecipeMessage">
+                {addedRecipe && `Recipe ${addedRecipe.addRecipe.id} created.`}
+            </p>
+
+            <h1 className="text-2xl font-bold">Loaded Recipes</h1>
+            {data?.recipes.map((recipe, index) => (
+                <div key={index} className="m-4">
+                    <h2 className="text-lg">Recipe {recipe.title}</h2>
+                    <p>{recipe.description}</p>
+                    <pre>{JSON.stringify(recipe.ingredients)}</pre>
+                </div>
+            ))}
         </div>
     );
 };

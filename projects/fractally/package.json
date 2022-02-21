@@ -12,7 +12,7 @@
         "build": "lerna run build --stream",
         "build-core": "lerna run build --stream --include-dependents --scope @fractally/core",
         "start": "lerna run start --stream",
-        "test": "lerna run test",
+        "test": "lerna run test --stream",
         "dev": "lerna run dev --stream",
         "pub": "lerna publish",
         "lint": "eslint --ext js,ts,tsx ."

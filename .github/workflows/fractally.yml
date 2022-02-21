@@ -47,5 +47,15 @@ jobs:
 
       - name: 🧪 Run E2E
         if: steps.filter.outputs.src == 'true'
+        working-directory: ./projects/fractally
         run: |
-          curl http://localhost:3000/recipes
+          pnpm test
+
+      - name: 🎥 Upload Cypress Results
+        if: always() && steps.filter.outputs.src == 'true'
+        uses: actions/upload-artifact@v2
+        with:
+          name: Cypress E2E Videos and Screenshots
+          path: |
+            ./projects/fractally/apps/webapp/cypress/screenshots
+            ./projects/fractally/apps/webapp/cypress/videos
