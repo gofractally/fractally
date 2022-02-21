@@ -7,7 +7,9 @@
         "start": "next start",
         "build": "next build",
         "generate:gql": "graphql-codegen --config gql-codegen.yml",
-        "export": "ELECTRON_EXPORT=1 next export"
+        "export": "ELECTRON_EXPORT=1 next export",
+        "test": "cypress run",
+        "test-dev": "cypress open"
     },
     "dependencies": {
         "@fractally/components": "*",
@@ -39,6 +41,7 @@
         "@types/react": "~17.0.0",
         "@types/react-dom": "~17.0.0",
         "autoprefixer": "^10.4.2",
+        "cypress": "^9.5.0",
         "next-transpile-modules": "^9.0.0",
         "postcss": "^8.4.5",
         "tailwindcss": "^3.0.18",
