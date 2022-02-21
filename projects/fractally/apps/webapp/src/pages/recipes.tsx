@@ -54,8 +54,8 @@ const RecipesPage: NextPage = () => {
             </p>
 
             <h1 className="text-2xl font-bold">Loaded Recipes</h1>
-            {data?.recipes.map((recipe, index) => (
-                <div key={index} className="m-4">
+            {data?.recipes.map((recipe) => (
+                <div key={recipe.id} className="m-4">
                     <h2 className="text-lg">Recipe {recipe.title}</h2>
                     <p>{recipe.description}</p>
                     <pre>{JSON.stringify(recipe.ingredients)}</pre>
