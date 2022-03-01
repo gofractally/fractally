@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 project(fractally
-    VERSION 0.1
+    VERSION 0.2
     DESCRIPTION "ƒractally: DOAn the independence rabbit hole"
     LANGUAGES CXX)
 
