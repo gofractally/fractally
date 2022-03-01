@@ -1,0 +1,102 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug eosio.name",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/clsdk/bin/cltester",
+            "args": [
+                "-v",
+                "-s",
+                "artifacts/eosio.name/eosio.name.wasm",
+                "artifacts/eosio.name-debug/eosio.name-debug.wasm",
+                "-s",
+                "clsdk/contracts/token.wasm",
+                "clsdk/contracts/token-debug.wasm",
+                "artifacts/eosio.name-debug/test-eosio.name.wasm"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            // Q: Why don't we use "sourceFileMap" here?
+            // A: It appears to work at first, but then things fall apart when
+            //    you set breakpoints in some of the mapped files.
+            //    "set substitute-path" (below) works better.
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Ignore timer signal",
+                    "text": "handle SIG34 noprint",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Map sources",
+                    "text": "set substitute-path clsdk-wasi-sdk: ${workspaceFolder}/build/wasi-sdk",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Map sources",
+                    "text": "set substitute-path clsdk: ${workspaceFolder}/build/clsdk",
+                    "ignoreFailures": false
+                }
+            ]
+        },
+        {
+            "name": "Debug eosio.nft",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/clsdk/bin/cltester",
+            "args": [
+                "-v",
+                "-s",
+                "artifacts/eosio.nft/eosio.nft.wasm",
+                "artifacts/eosio.nft-debug/eosio.nft-debug.wasm",
+                "-s",
+                "clsdk/contracts/token.wasm",
+                "clsdk/contracts/token-debug.wasm",
+                "artifacts/eosio.nft-debug/test-eosio.nft.wasm"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build",
+            "environment": [],
+            "externalConsole": false,
+            // Q: Why don't we use "sourceFileMap" here?
+            // A: It appears to work at first, but then things fall apart when
+            //    you set breakpoints in some of the mapped files.
+            //    "set substitute-path" (below) works better.
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Ignore timer signal",
+                    "text": "handle SIG34 noprint",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Map sources",
+                    "text": "set substitute-path clsdk-wasi-sdk: ${workspaceFolder}/build/wasi-sdk",
+                    "ignoreFailures": false
+                },
+                {
+                    "description": "Map sources",
+                    "text": "set substitute-path clsdk: ${workspaceFolder}/build/clsdk",
+                    "ignoreFailures": false
+                }
+            ]
+        }
+    ]
+}

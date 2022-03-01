@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      // Compilation
+      {
+        "label": "make",
+        "type": "shell",
+        "command": "cd build && cmake `clsdk-cmake-args` .. && make -j $(nproc)",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "options": {
+            "statusbar": {
+                "label" : "$(diff-insert) Build",
+                "tooltip": "CMake build"
+            }
+        }
+      },
+      {
+        "label": "test_name",
+        "type": "shell",
+        "command": "cd build && cltester artifacts/eosio.name-debug/test-eosio.name.wasm -s",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "options": {
+            "statusbar": {
+                "label" : "$(diff-insert) Test eosio.name",
+                "tooltip": "Invoke Cltester"
+            }
+        }
+      },
+      {
+        "label": "test_nft",
+        "type": "shell",
+        "command": "cd build && cltester artifacts/eosio.nft-debug/test-eosio.nft.wasm -s",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "options": {
+            "statusbar": {
+                "label" : "$(diff-insert) Test eosio.nft",
+                "tooltip": "Invoke Cltester"
+            }
+        }
+      },
+      {
+        "label": "test_token",
+        "type": "shell",
+        "command": "cd build && cmake `clsdk-cmake-args` .. && make -j $(nproc) && cltester artifacts/eosio.tokens-debug/test-eosio.tokens.wasm -s",
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "options": {
+            "statusbar": {
+                "label" : "$(diff-insert) Test eosio.token",
+                "tooltip": "Invoke Cltester"
+            }
+        }
+      }
+    ]
+  }
+  

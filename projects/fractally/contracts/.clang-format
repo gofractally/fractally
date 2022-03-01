@@ -1,0 +1,10 @@
+---
+BasedOnStyle: Chromium
+ColumnLimit: '0'
+IndentWidth: '4'
+NamespaceIndentation: All
+ReflowComments: false
+BreakBeforeBraces: Stroustrup
+BreakConstructorInitializers: 'BeforeComma'
+BreakBeforeBinaryOperators: All
+BreakBeforeTernaryOperators: true

@@ -1,0 +1,13 @@
+---
+Checks:
+    -*,  
+    -misc-unused-parameters,
+    -readability-convert-member-functions-to-static,
+    -objc*,
+    -llvm*,
+    -fuschia*,
+    -darwin*,
+    -google*,
+    -clang-analyzer-osx*,
+    -clang-analyzer-optin.osx*,
+    -abseil*
