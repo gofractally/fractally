@@ -3,14 +3,14 @@
 #include <string>
 #include <vector>
 
-#include "member.hpp"
 #include "shared.hpp"
 
 struct team {
+    placeholder team_id;
     std::string team_name;
     std::string bio;
     std::string website;
     placeholder social_links;
-    member team_lead;
+    member_id team_lead;
     std::vector<member> members;
 };

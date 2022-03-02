@@ -8,7 +8,7 @@ struct token_balance {
     eosio::asset token_balance;
 };
 
-struct Wallet {
+struct wallet {
     std::vector<token_balance> tokens_with_balances;
     std::vector<eosio::symbol> tokens_without_balances;
 };

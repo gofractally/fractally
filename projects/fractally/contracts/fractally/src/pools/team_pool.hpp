@@ -3,14 +3,14 @@
 
 #include <eosio/asset.hpp>
 
-struct Team_balance {
+struct team_balance {
     placeholder team_acct;
     eosio::asset balance;
-}
+};
 
-struct Team_pool {
+struct team_pool {
    private:
-    std::vector<Team_balance> team_balances;
+    std::vector<team_balance> team_balances;
 
    public:
     eosio::asset getBalance();

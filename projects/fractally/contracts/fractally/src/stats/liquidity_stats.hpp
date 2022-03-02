@@ -1,11 +1,11 @@
 #include <vector>
 
-struct Liquidity_stats_for_week {
-  private:
+struct liquidity_stats_for_week {
+   private:
     eosio::asset deposits;
 };
 
-struct Team_stats {
-    Liquidity_stats_for_week avg_deposits;
-    std::vector<Liquidity_stats_for_week> liquidity_stats_history;
+struct liquidity_stats {
+    liquidity_stats_for_week avg_deposits;
+    std::vector<liquidity_stats_for_week> liquidity_stats_history;
 };

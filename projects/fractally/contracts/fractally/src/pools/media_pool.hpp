@@ -3,11 +3,11 @@
 
 #include <eosio/asset.hpp>
 
-struct Media_pool {
-  private:
+struct media_pool {
+   private:
     eosio::asset balance;
 
-  public: 
+   public:
     eosio::asset getBalance();
     void depositRespect(eosio::asset amt);
 };

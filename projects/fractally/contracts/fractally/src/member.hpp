@@ -14,6 +14,7 @@ struct memberVotePower {
 };
 
 struct member {
+    member_id id;
     std::string profile_pic_url;
     std::string name;
     placeholder account;
@@ -21,12 +22,12 @@ struct member {
     placeholder social_links;
     memberVotePower votePower;
     // Team team;
-    Wallet wallet;
-    placeholder inviter;
+    wallet wallet;
+    member_id inviter;
     // how will a contract get a list of fractals? will that be the fractally contract that serves as a registry of fractals?
     // would we cache this? or assert membership each time app is opened to ensure membership is up-to-date?
     std::vector<fractal> member_of_fractals;
 
-    uint64_t primary_key() const { return account; }
+    uint64_t primary_key() const { return id; }
 };
-EOSIO_REFLECT(member, profile_pic_url, name, account, bio, social_links, votePower, wallet, inviter, member_of_fractals);
+EOSIO_REFLECT(member, id, profile_pic_url, name, account, bio, social_links, votePower, wallet, inviter, member_of_fractals);
