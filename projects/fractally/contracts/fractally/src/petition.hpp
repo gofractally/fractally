@@ -5,6 +5,11 @@
 #include "post.hpp"
 
 struct petition : post {
-    member proposer;
+    petition()
+        : post() { ispetition = true; };
+    id proposer;
     eosio::time_point proposed_time;
+
+    uint64_t primary_key() const { return proposer; }
 };
+EOSIO_REFLECT(petition, proposer, proposed_time);
