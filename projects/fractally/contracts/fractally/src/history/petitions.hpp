@@ -1,18 +1,18 @@
 #include "../petition.hpp"
 
-enum petition_vote_outcome_types = { approved, rejected };
+enum petition_vote_outcome_types = {approved, rejected};
 
-struct Petition_vote {
-    Member voter;
+struct petition_vote {
+    member voter;
     petition_vote_outcome_types vote;
 };
 
-enum petition_status = { approved, rejected, executed };
+enum petition_status = {approved, rejected, executed};
 
-struct Petition_decision {
-    Petition petition;
+struct petition_decision {
+    petition petition;
     petition_status petition_status;
-    time_point execution_time;
+    eosio::time_point execution_time;
     placeholder trxid;
-    std::vector<Petition_vote> votes;
+    std::vector<petition_vote> votes;
 }

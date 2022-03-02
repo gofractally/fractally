@@ -1,7 +1,8 @@
-#include <string>
-#include <vector>
+#pragma once
 
-struct Fractal {
+#include <string>
+
+struct fractal {
     std::string name;
     std::string mission;
     std::string language;

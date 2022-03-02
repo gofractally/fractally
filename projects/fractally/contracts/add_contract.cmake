@@ -19,7 +19,7 @@ macro(add_contract contractName)
         target_include_directories(${contractName}${suffix} PRIVATE ${INCLUDE_DIRS})
         target_link_libraries(${contractName}${suffix} 
             eosio-contract-simple-malloc${suffix}
-            ${PROJ}-interface-lib${suffix}
+            # ${PROJ}-interface-lib${suffix}
         )
     endfunction()
 
@@ -37,7 +37,7 @@ macro(add_contract contractName)
     #   * Run the wasm to generate the abi
     add_executable(${contractName}-abigen ${CONTRACT_FILES})
     # Abigen needs some misc include directories since the target builds the contract cpp
-    target_include_directories(${contractName}-abigen PRIVATE ${INCLUDE_DIRS} "../core/state/")
+    target_include_directories(${contractName}-abigen PRIVATE ${INCLUDE_DIRS})
     target_link_libraries(${contractName}-abigen eosio-contract-abigen)
     
     add_custom_command(TARGET ${contractName}-abigen POST_BUILD
@@ -52,8 +52,6 @@ macro(add_contract contractName)
         add_executable(test-${contractName} ${TEST_FILES} )
         target_link_libraries(test-${contractName}
             cltestlib-debug
-            core-debug
-            ${PROJ}-interface-lib-debug
         )        
         target_include_directories(test-${contractName}
             PRIVATE

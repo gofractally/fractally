@@ -9,12 +9,12 @@ struct Team_balance {
 }
 
 struct Team_pool {
-  private:
+   private:
     std::vector<Team_balance> team_balances;
 
-  public: 
+   public:
     eosio::asset getBalance();
     // likely just a xfer
     void depositRespect(placeholder team_acct, eosio::asset amt);
-    std::vector<Member> getCouncil(); // team_stats(0).order(earnings).take(12).team_lead
+    std::vector<member> getCouncil();  // team_stats(0).order(earnings).take(12).team_lead
 };
