@@ -12,15 +12,9 @@
 #include "team.hpp"
 #include "wallet.hpp"
 
-#include "history/petitions.hpp"
-#include "pools/media_pool.hpp"
-#include "pools/sponsor_pool.hpp"
-#include "pools/team_pool.hpp"
-#include "stats/liquidity_stats.hpp"
-#include "stats/media_stats.hpp"
-#include "stats/member_stats.hpp"
-#include "stats/sponsor_stats.hpp"
-#include "stats/team_stats.hpp"
+#include "liquidity.hpp"
+#include "pools.hpp"
+#include "sponsors.hpp"
 
 using namespace eosio;
 using std::string;
@@ -50,7 +44,7 @@ void fractally_contract::sayhi()
     liquidity_stats_for_week lsw;
     liquidity_stats ls;
     post_vote_ledger pvl;
-    member_stats_for_week msw;
+    member_stats_one_week msw;
     member_stats ms;
     sponsor_stats_for_week ssw;
     sponsor_stats sstats;

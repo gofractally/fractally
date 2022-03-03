@@ -8,6 +8,25 @@
 // #include "team.hpp"
 #include "wallet.hpp"
 
+struct member_stats_one_week {
+   private:
+    uint8_t rank = 0;  // from this we can derive earnings, consensus aligned on, attendance?, eligibility to vote on post
+    eosio::time_point arrival_time;
+
+   public:
+    eosio::asset getEarnings() const;
+    bool in_consensus() const { return getRank() > 0; };
+    bool attended() const { return getRank() > 0; };
+    uint64_t getRank() const { return rank; };
+};
+
+struct member_stats {
+    member_stats_one_week avg_rank;
+    // history where 0 = most recent meeting; 1 = 2 meetings back, etc.
+    std::vector<member_stats_one_week> member_stats_history;
+
+    uint64_t primary_key() const { return member_stats_history[0].getRank(); }
+};
 struct member_vote_power {
     int32_t votePower;
     int32_t voteWeight;
