@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
+
 @layer components {
     .sidebar-icon {
-        @apply  relative flex items-center justify-center h-12 w-12 mb-2 mt-2 mx-auto bg-gray-800 text-green-500 hover:bg-green-800 hover:text-white rounded-3xl hover:rounded-xl
+        @apply relative flex items-center justify-center h-12 w-12 mb-2 mt-2 mx-auto bg-gray-800 text-green-500 hover:bg-green-800 hover:text-white rounded-3xl hover:rounded-xl
         transition-all duration-300 ease-linear;
     }
 
@@ -13,11 +15,11 @@
         text-white bg-gray-900 
         text-xs font-bold 
         transition-all duration-100 scale-0 origin-left;
-      }
-    
-      .sidebar-hr {
+    }
+
+    .sidebar-hr {
         @apply bg-gray-200 dark:bg-gray-800 
         border border-gray-200 dark:border-gray-800 rounded-full
         mx-2;
-      }
+    }
 }

@@ -1,0 +1,77 @@
+import { Meta } from "@storybook/addon-docs";
+import { BsArrowUp, BsCurrencyDollar, BsPlusLg } from "react-icons/bs";
+import { FaExchangeAlt, FaCog } from "react-icons/fa";
+
+import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
+
+<Meta title="Example/Wallet" />
+
+# Wallet Example
+
+<div className="bg-gray-100 w-full h-full p-4 space-y-4">
+    <div className="space-y-0.5">
+        <Card roundType="top">
+            <div className="flex items-center space-x-4">
+                <div>
+                    <Glyph size="xl" chars="ℝ" isOutline isStatic />
+                </div>
+                <div>
+                    <Text size="xs">Total balance ℝespect</Text>
+                    <Text size="3xl" type="strong" bold>
+                        18 920,55
+                    </Text>
+                </div>
+                <div className="flex flex-1 px-8 space-x-8">
+                    <ActionButton
+                        label="Send"
+                        Icon={BsArrowUp}
+                        onClick={() => alert("send")}
+                    />
+                    <ActionButton
+                        label="Sell"
+                        Icon={BsCurrencyDollar}
+                        disabled
+                        onClick={() => alert("sell")}
+                    />
+                    <ActionButton
+                        label="Buy"
+                        Icon={BsPlusLg}
+                        onClick={() => alert("buy")}
+                    />
+                    <ActionButton
+                        label="Convert"
+                        Icon={FaExchangeAlt}
+                        onClick={() => alert("convert")}
+                    />
+                </div>
+            </div>
+        </Card>
+        <Card roundType="bottom" noPadding>
+            <Tabs
+                selectedIndex={0}
+                options={[
+                    { label: "My Points", onClick: () => alert("My Points") },
+                    { label: "All Points", onClick: () => alert("All Points") },
+                    {
+                        label: "History",
+                        onClick: () => alert("History"),
+                    },
+                ]}
+            />
+        </Card>
+    </div>
+    <Card>
+        <div className="flex w-full justify-between">
+            <Text size="xl" bold>
+                <Text size="xl" type="strong" span>
+                    My Points:
+                </Text>{" "}
+                32
+            </Text>
+            <a href="#" className="text-2xl text-gray-400">
+                <FaCog />
+            </a>
+        </div>
+        <div>+++ Search Bar goes here +++</div>
+    </Card>
+</div>
