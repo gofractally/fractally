@@ -38,13 +38,7 @@ module.exports = withTM({
     // experimental: {
     //   externalDir: true,
     // },
-    webpack: (config, { isServer }) => {
-        // Fix packages that depend on fs/module imports (updated for webpack 5)
-        if (!isServer) {
-            config.resolve.fallback.fs = false;
-            config.resolve.fallback.module = false;
-        }
-
+    webpack: (config) => {
         if (isNext12(config)) {
             return updateNextGreaterThan12Config(config);
         }
