@@ -3,33 +3,17 @@ const defaultTheme = require("tailwindcss/defaultTheme");
 const formReset = require("@tailwindcss/forms");
 
 module.exports = {
-    purge: ["./src/**/*.{js,ts,jsx,tsx}"],
+    purge: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
             colors: {
-                gray: colors.trueGray,
+                gray: colors.neutral,
             },
         },
         fontFamily: {
             ...defaultTheme.fontFamily,
-            sans: [
-                "Inter",
-                "ui-sans-serif",
-                "system-ui",
-                "-apple-system",
-                "BlinkMacSystemFont",
-                "Segoe UI",
-                "Roboto",
-                "Helvetica Neue",
-                "Arial",
-                "Noto Sans",
-                "sans-serif",
-                "Apple Color Emoji",
-                "Segoe UI Emoji",
-                "Segoe UI Symbol",
-                "Noto Color Emoji",
-            ],
+            sans: ["Open Sans", "sans-serif"],
         },
         screens: {
             xs: "475px",
