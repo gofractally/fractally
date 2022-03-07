@@ -9,7 +9,7 @@ on:
     types: [assigned, opened, synchronize, reopened, labeled]
     paths:
       - ".github/workflows/fractally.yml"
-      - "projects/fractally"
+      - "projects/fractally/**"
 
 jobs:
   run-e2e:
