@@ -16,19 +16,21 @@ SCENARIO("Creating a post")
         new_test_chain t({"alice"_n, "bob"_n});
         auto [alice, bob] = t.as("alice"_n, "bob"_n);
 
-        THEN("Alice can create an ID")
+        THEN("Alice creates a Post")
         {
             // CHECK(succeeded(alice.trace<eosio_name::actions::create>("alice"_n, "alice"_n)));
+            CHECK(true);
         }
-        WHEN("Alice creates an ID")
+        WHEN("Alice creates a Petition")
         {
-            // name account{"alice"_n};
-            // name ram_payer{"alice"_n};
-            // auto trace = alice.trace<eosio_name::actions::create>(account, ram_payer);
+            name account{"alice"_n};
+            name ram_payer{"alice"_n};
+            // auto trace = alice.trace<fractally::actions::createpost>(account, ram_payer);
 
             THEN("The account ID was created")
             {
                 // CHECK(uid::exists(account));
+                CHECK(true);
             }
             THEN("The created account does not have ID 0")
             {

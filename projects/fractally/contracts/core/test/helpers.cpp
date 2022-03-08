@@ -43,11 +43,11 @@ new_test_chain::new_test_chain(const vector<name>& users)
 {
     // Install legacy token contract
     _chain.create_code_account(token_contract_account);
-    _chain.set_code("eosio.token"_n, CLSDK_CONTRACTS_DIR "fractally.wasm");
+    _chain.set_code("eosio.token"_n, CLSDK_CONTRACTS_DIR "token.wasm");
 
     // Install new fractally contract
     _chain.create_code_account(fractally::default_contract_account);
-    _chain.set_code(fractally::default_contract_account, "artifacts/eosio.tokens/eosio.tokens.wasm");
+    _chain.set_code(fractally::default_contract_account, "artifacts/fractally/fractally.wasm");
 
     // Create user accounts
     setup_create_user_accounts();
