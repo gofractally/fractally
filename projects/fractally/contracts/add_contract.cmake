@@ -41,7 +41,7 @@ macro(add_contract contractName)
     target_link_libraries(${contractName}-abigen eosio-contract-abigen)
     
     add_custom_command(TARGET ${contractName}-abigen POST_BUILD
-        COMMAND cltester ../../${ARTIFACTS_DIR}/${contractName}-debug/${contractName}-abigen.wasm > ../../${ARTIFACTS_DIR}/${contractName}/${contractName}.abi
+        COMMAND cltester ../${ARTIFACTS_DIR}/${contractName}-debug/${contractName}-abigen.wasm > ../${ARTIFACTS_DIR}/${contractName}/${contractName}.abi
     )
 
 
@@ -52,6 +52,7 @@ macro(add_contract contractName)
         add_executable(test-${contractName} ${TEST_FILES} )
         target_link_libraries(test-${contractName}
             cltestlib-debug
+            core-test
         )        
         target_include_directories(test-${contractName}
             PRIVATE
@@ -64,7 +65,7 @@ macro(add_contract contractName)
         enable_testing()
         add_test(
             NAME ${contractName}_TEST
-            COMMAND cltester ../../${ARTIFACTS_DIR}/${contractName}-debug/test-${contractName}.wasm -s
+            COMMAND cltester ../${ARTIFACTS_DIR}/${contractName}-debug/test-${contractName}.wasm -s
         )
     endif()
 

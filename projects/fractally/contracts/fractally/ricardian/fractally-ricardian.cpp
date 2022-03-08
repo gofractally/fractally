@@ -1,4 +1,4 @@
-#include "fractally.hpp"
+#include "../include/fractally.hpp"
 
 const char* fractally::action1_ricardian = R"(
 )";

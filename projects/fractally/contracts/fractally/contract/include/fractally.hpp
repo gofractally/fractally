@@ -18,13 +18,9 @@ namespace fractally {
     using eosio::print;
     using std::string;
 
+    // Ricardian contracts live in ricardian/fractally-ricardian.cpp
     extern const char* action1_ricardian;
     extern const char* ricardian_clause;
-
-    // Ricardian contracts live in ricardian/fractally-ricardian.cpp
-    // extern const char* sayhi_ricardian;
-    // extern const char* sayhialice_ricardian;
-    // extern const char* ricardian_clause;
 
     // The account this contract is normally deployed to
     inline constexpr auto default_contract_account = "fractally"_n;
@@ -52,7 +48,7 @@ namespace fractally {
     //   will leave the ricardian contracts blank.
 
     // clang-format off
-    // NOTE 1: Intellisense work until first build.
+    // NOTE 1: Intellisense won't work until first build.
     EOSIO_ACTIONS(fractally_contract,
                   default_contract_account,
                   //   action(sayhi, ricardian_contract(sayhi_ricardian)),
@@ -60,7 +56,5 @@ namespace fractally {
                   action(sayhi, ricardian_contract(action1_ricardian)),
                   action(sayhialice, someone, ricardian_contract(action1_ricardian)))
     // clang-format on
-
-    // See https://github.com/eoscommunity/demo-clsdk/ for another example, including how to listen for a token transfer
 
 }  // namespace fractally

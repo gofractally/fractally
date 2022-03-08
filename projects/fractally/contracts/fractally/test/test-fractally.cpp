@@ -1,7 +1,7 @@
 #include <eosio/tester.hpp>
 
 // #include "core/state/interface/include/user_intf.hpp"
-// #include "core/test/include/helpers.hpp"
+#include "core/test/include/helpers.hpp"
 #include "fractally.hpp"
 
 #define CATCH_CONFIG_MAIN
@@ -9,12 +9,12 @@
 
 using namespace eosio;
 
-SCENARIO("Creating a name")
+SCENARIO("Creating a post")
 {
     GIVEN("A chain with account alice")
     {
-        // new_test_chain t({"alice"_n, "bob"_n});
-        // auto [alice, bob] = t.as("alice"_n, "bob"_n);
+        new_test_chain t({"alice"_n, "bob"_n});
+        auto [alice, bob] = t.as("alice"_n, "bob"_n);
 
         THEN("Alice can create an ID")
         {

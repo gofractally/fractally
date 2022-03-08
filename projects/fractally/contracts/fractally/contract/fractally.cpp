@@ -4,9 +4,9 @@
 #include <eosio/name.hpp>
 #include <string>
 
-#include "fractal.hpp"
 #include "fractally.hpp"
 #include "global_config.hpp"
+#include "include/fractal.hpp"
 #include "member.hpp"
 #include "petition.hpp"
 #include "post.hpp"
