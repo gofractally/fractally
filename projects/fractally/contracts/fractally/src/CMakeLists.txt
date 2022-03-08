@@ -1,6 +1,6 @@
 set(CONTRACT_NAME "fractally")
-set(CONTRACT_FILES "fractally.cpp")
-#set(TEST_FILES "test/test-eosio.name.cpp" "ricardian/eosio.name-ricardian.cpp")
+set(CONTRACT_FILES "fractally.cpp" "ricardian/fractally-ricardian.cpp")
+set(TEST_FILES "test/test-fractally.cpp" "ricardian/fractally-ricardian.cpp")
 
 # Adds contracts
 add_contract(fractally)

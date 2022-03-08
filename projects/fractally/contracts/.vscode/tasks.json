@@ -18,50 +18,20 @@
         }
       },
       {
-        "label": "test_name",
+        "label": "test_fractally",
         "type": "shell",
-        "command": "cd build && cltester artifacts/eosio.name-debug/test-eosio.name.wasm -s",
+        "command": "cd build && cltester artifacts/fractally-debug/test-fractally.wasm -s",
         "group": {
           "kind": "build",
           "isDefault": true
         },
         "options": {
             "statusbar": {
-                "label" : "$(diff-insert) Test eosio.name",
+                "label" : "$(diff-insert) Test fractally",
                 "tooltip": "Invoke Cltester"
             }
         }
       },
-      {
-        "label": "test_nft",
-        "type": "shell",
-        "command": "cd build && cltester artifacts/eosio.nft-debug/test-eosio.nft.wasm -s",
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "options": {
-            "statusbar": {
-                "label" : "$(diff-insert) Test eosio.nft",
-                "tooltip": "Invoke Cltester"
-            }
-        }
-      },
-      {
-        "label": "test_token",
-        "type": "shell",
-        "command": "cd build && cmake `clsdk-cmake-args` .. && make -j $(nproc) && cltester artifacts/eosio.tokens-debug/test-eosio.tokens.wasm -s",
-        "group": {
-          "kind": "build",
-          "isDefault": true
-        },
-        "options": {
-            "statusbar": {
-                "label" : "$(diff-insert) Test eosio.token",
-                "tooltip": "Invoke Cltester"
-            }
-        }
-      }
     ]
   }
   

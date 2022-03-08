@@ -9,7 +9,7 @@
 
 // #include "Schema1.hpp"
 
-namespace contract_name {
+namespace fractally {
     // using contract_name::Schema1;
     using eosio::check;
     using eosio::contract;
@@ -18,13 +18,16 @@ namespace contract_name {
     using eosio::print;
     using std::string;
 
+    extern const char* action1_ricardian;
+    extern const char* ricardian_clause;
+
     // Ricardian contracts live in ricardian/fractally-ricardian.cpp
     // extern const char* sayhi_ricardian;
     // extern const char* sayhialice_ricardian;
     // extern const char* ricardian_clause;
 
     // The account this contract is normally deployed to
-    inline constexpr auto default_contract_account = "contractacc"_n;
+    inline constexpr auto default_contract_account = "fractally"_n;
 
     class fractally_contract : public contract {
        public:
@@ -47,13 +50,17 @@ namespace contract_name {
     //   generator will make up names (e.g. arg0, arg1, arg2, ...).
     // * Optional: provides ricardian contracts to the ABI generator. Without this, the ABI generator
     //   will leave the ricardian contracts blank.
+
+    // clang-format off
+    // NOTE 1: Intellisense work until first build.
     EOSIO_ACTIONS(fractally_contract,
                   default_contract_account,
                   //   action(sayhi, ricardian_contract(sayhi_ricardian)),
                   //   action(sayhialice, someone, ricardian_contract(sayhialice_ricardian)))
-                  action(sayhi),
-                  action(sayhialice, someone))
+                  action(sayhi, ricardian_contract(action1_ricardian)),
+                  action(sayhialice, someone, ricardian_contract(action1_ricardian)))
+    // clang-format on
 
     // See https://github.com/eoscommunity/demo-clsdk/ for another example, including how to listen for a token transfer
 
-}  // namespace contract_name
+}  // namespace fractally

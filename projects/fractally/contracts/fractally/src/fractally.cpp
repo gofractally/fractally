@@ -1,3 +1,5 @@
+// #include <iostream>
+
 #include <eosio/eosio.hpp>
 #include <eosio/name.hpp>
 #include <string>
@@ -16,15 +18,29 @@
 #include "pools.hpp"
 #include "sponsors.hpp"
 
-using namespace eosio;
 using std::string;
-using namespace contract_name;
+using namespace eosio;
+using namespace fractally;
 
 fractally_contract::fractally_contract(name receiver, name code, datastream<const char*> ds)
     : contract(receiver, code, ds)
 {
     /* NOP */
 }
+
+template <int N>
+struct fibs_by_index {
+    constexpr fibs_by_index()
+        : arr()
+    {
+        arr[0] = 1;
+        arr[1] = 2;
+        for (auto i = 2; i < N; ++i) {
+            arr[i] = arr[i - 2] + arr[i - 1];
+        }
+    }
+    uint32_t arr[N];
+};
 
 void fractally_contract::sayhi()
 {
@@ -51,6 +67,10 @@ void fractally_contract::sayhi()
     team_stats_for_week tsw;
     team_stats ts;
 
+    constexpr int maxPerGroup = 6;
+    constexpr int maxNumRounds = 5;
+    constexpr auto rank_id_to_rank = fibs_by_index<maxPerGroup * maxNumRounds>();
+
     print("Hi");
 }
 
@@ -61,8 +81,9 @@ void fractally_contract::sayhialice(const name& someone)
 }
 
 // Final part of the dispatcher
-EOSIO_ACTION_DISPATCHER(contract_name::actions)
+// NOTE 2: ::actions is build by EOSIO_ACTIONS (in .hpp file)
+EOSIO_ACTION_DISPATCHER(fractally::actions)
 
 // Things to populate the ABI with
 // EOSIO_ABIGEN(actions(contract_name::actions), table("schema1"_n, contract_name::Schema1), ricardian_clause("Class 1 clause", contract_name::ricardian_clause))
-EOSIO_ABIGEN(actions(contract_name::actions))
+EOSIO_ABIGEN(actions(fractally::actions))
