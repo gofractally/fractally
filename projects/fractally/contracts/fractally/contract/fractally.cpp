@@ -4,12 +4,13 @@
 #include <eosio/name.hpp>
 #include <string>
 
+#include "core/state/table/petition.hpp"
+#include "core/state/table/post.hpp"
+
 #include "fractally.hpp"
 #include "global_config.hpp"
 #include "include/fractal.hpp"
 #include "member.hpp"
-#include "petition.hpp"
-#include "post.hpp"
 #include "shared.hpp"
 #include "team.hpp"
 #include "wallet.hpp"
@@ -42,8 +43,10 @@ struct fibs_by_index {
     uint32_t arr[N];
 };
 
-void fractally_contract::sayhi()
+void ensure_everything_can_be_compiled()
 {
+    using namespace fractally::table;
+
     member m;
     team t;
     post p;
@@ -66,7 +69,12 @@ void fractally_contract::sayhi()
     sponsor_stats sstats;
     team_stats_for_week tsw;
     team_stats ts;
+    return;
+}
 
+void fractally_contract::createpost(const std::string title_cid, const std::string body_cid)
+{
+    ensure_everything_can_be_compiled();
     constexpr int maxPerGroup = 6;
     constexpr int maxNumRounds = 5;
     constexpr auto rank_id_to_rank = fibs_by_index<maxPerGroup * maxNumRounds>();

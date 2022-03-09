@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <eosio/asset.hpp>
+
 #include "fractal.hpp"
 #include "shared.hpp"
 // #include "team.hpp"

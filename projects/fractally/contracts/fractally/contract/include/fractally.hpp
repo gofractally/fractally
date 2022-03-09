@@ -31,7 +31,7 @@ namespace fractally {
 
         fractally_contract(name receiver, name code, datastream<const char*> ds);
 
-        void sayhi();
+        void createpost(const std::string title_cid, const std::string body_cid);
 
         void sayhialice(const name& someone);
 
@@ -53,7 +53,7 @@ namespace fractally {
                   default_contract_account,
                   //   action(sayhi, ricardian_contract(sayhi_ricardian)),
                   //   action(sayhialice, someone, ricardian_contract(sayhialice_ricardian)))
-                  action(sayhi, ricardian_contract(action1_ricardian)),
+                  action(createpost, title_cid, body_cid, ricardian_contract(action1_ricardian)),
                   action(sayhialice, someone, ricardian_contract(action1_ricardian)))
     // clang-format on
 

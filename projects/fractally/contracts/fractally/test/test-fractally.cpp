@@ -19,7 +19,8 @@ SCENARIO("Creating a post")
         THEN("Alice creates a Post")
         {
             // CHECK(succeeded(alice.trace<eosio_name::actions::create>("alice"_n, "alice"_n)));
-            CHECK(true);
+            CHECK(checks::succeeded(alice.trace<fractally::actions::createpost>("post title", "post body")));
+            // CHECK(true);
         }
         WHEN("Alice creates a Petition")
         {
