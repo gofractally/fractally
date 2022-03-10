@@ -6,3 +6,4 @@ results
 *.tmp
 
 .env.local
+.idea
