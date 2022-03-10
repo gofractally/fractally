@@ -14,10 +14,12 @@ Primary.args = {
     avatarUrl: "https://randomuser.me/api/portraits/women/44.jpg",
     name: "Rey",
     size: "md",
+    shape: "hex",
 };
 
 export const NoAvatarURL = Template.bind({});
 NoAvatarURL.args = {
     name: "Unknown",
     size: "md",
+    shape: "hex",
 };
