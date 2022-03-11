@@ -1,16 +1,15 @@
 import React from "react";
-import { FaUserCircle } from "react-icons/fa";
 
 type AvatarSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 const SIZES: {
     [key in AvatarSize]: string;
 } = {
-    xs: "w-5 h-5",
-    sm: "w-8 h-8",
-    md: "w-10 h-10",
-    lg: "w-12 h-12",
-    xl: "w-14 h-14",
+    xs: "h-5",
+    sm: "h-8",
+    md: "h-10",
+    lg: "h-12",
+    xl: "h-14",
 };
 
 export interface AvatarProps {
@@ -22,15 +21,13 @@ export interface AvatarProps {
 }
 
 /**
- * ℹ️ This component uses a hexagonal SVG with rounded corners to mask the avatar image. (See Avatar.tsx for the SVG implementation).
- * This SVG is invisible (takes up no space) and should be loaded once on the page so it can be referenced by as many instances of Avatar
- * require it. In Storybook, this is done in `.storybook/preview-body.html`.
+ * ℹ️ This component uses a hexagonal SVG with rounded corners to mask the avatar image. This SVG is invisible (takes up no
+ * space) and should be loaded once on the page so it can be referenced by as many instances of Avatar require it. In
+ * Storybook, this is done in `.storybook/preview-body.html`.
  *
- * 🚧 **TODO**: Additionally, the `FaUserCircle` icon we're using has a border. We add a div to cover the border, but it's imperfect and
- * unnecessary. We should just create and use a custom SVG for this and get rid of the extra div.
- *
- * 🚧 **TODO**: Thomas has a better version of the hexagon SVG waiting for us to implement (this one is tilted barely).
- */
+ * ℹ️ This SO answer (and particularly the comment on using `getBox()`) is helpful if we have to tweak or replace the SVG:
+ * https://stackoverflow.com/a/40100463
+ * */
 export const Avatar = ({
     name,
     avatarUrl,
@@ -41,11 +38,12 @@ export const Avatar = ({
     const sizeClass = SIZES[size];
     const roundClass = shape === "round" ? "rounded-full" : "";
     const hexStyle = shape === "hex" ? { clipPath: "url(#hex-mask)" } : {};
+    const aspectRatio = shape === "hex" ? "50 / 44" : "1";
     return (
         <>
             <div
                 className={`${sizeClass} ${className} overflow-hidden`}
-                style={hexStyle}
+                style={{ ...hexStyle, aspectRatio }}
             >
                 <div className={`${sizeClass} ${roundClass} overflow-hidden`}>
                     {avatarUrl ? (
@@ -56,12 +54,30 @@ export const Avatar = ({
                             className="w-full h-full object-cover"
                         />
                     ) : (
-                        <div className="relative bg-gray-300">
-                            <FaUserCircle
-                                aria-label={name ? `${name}'s avatar` : null}
-                                className={`${sizeClass} text-gray-300 bg-white rounded-full`}
-                            />
-                            <div className="w-full h-full absolute top-0 rounded-full border-2 border-gray-300" />
+                        <div className={`${sizeClass} fill-gray-200`}>
+                            {shape === "hex" ? (
+                                <svg
+                                    viewBox="0 0 50 44"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect width="50" height="44" />
+                                    <path
+                                        d="M38.7017 32.5011L35.9529 37.2154C35.309 38.3197 34.1191 39 32.8314 39H17.1691C15.8814 39 14.6915 38.3197 14.0476 37.2154L11.2925 32.4902C13.0517 28.4569 17.0159 25.6412 21.6581 25.6412H28.2769C32.9232 25.6412 36.9262 28.462 38.7017 32.5011ZM33.3885 13.9722C33.3885 18.6796 29.5876 22.4587 25.0003 22.4587C20.3474 22.4587 16.6121 18.6796 16.6121 13.9722C16.6121 9.33117 20.3474 5.48572 25.0003 5.48572C29.5876 5.48572 33.3885 9.33117 33.3885 13.9722Z"
+                                        fill="white"
+                                    />
+                                </svg>
+                            ) : (
+                                <svg
+                                    viewBox="0 0 50 50"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect width="50" height="50" />
+                                    <path
+                                        d="M38.6992 35.5052L35.9504 40.2197C35.3065 41.324 34.1166 42.0042 32.8289 42.0042L17.1666 42.0042C15.8789 42.0042 14.689 41.324 14.0451 40.2197L11.29 35.4946C13.0492 31.4612 17.0135 28.6454 21.6557 28.6454H28.2745C32.9208 28.6454 36.9237 31.4662 38.6992 35.5052ZM33.3861 16.9765C33.3861 21.6839 29.5852 25.463 24.9979 25.463C20.345 25.463 16.6097 21.6839 16.6097 16.9765C16.6097 12.3354 20.345 8.48999 24.9979 8.48999C29.5852 8.48999 33.3861 12.3354 33.3861 16.9765Z"
+                                        fill="white"
+                                    />
+                                </svg>
+                            )}
                         </div>
                     )}
                 </div>
@@ -69,19 +85,5 @@ export const Avatar = ({
         </>
     );
 };
-
-const HexMaskSVG = () => (
-    <svg width="0" height="0">
-        <defs>
-            <clipPath
-                id="hex-mask"
-                clipPathUnits="objectBoundingBox"
-                transform="scale(0.019999989318853, 0.022522370814944)"
-            >
-                <path d="M0.549499 24.2509C-0.183167 22.9819 -0.183166 21.4184 0.5495 20.1494L10.9987 2.05076C11.7314 0.781744 13.0854 0 14.5508 0H35.4492C36.9146 0 38.2686 0.781745 39.0013 2.05076L49.4505 20.1494C50.1832 21.4184 50.1832 22.9819 49.4505 24.2509L39.0013 42.3495C38.2686 43.6185 36.9146 44.4003 35.4492 44.4003H14.5508C13.0854 44.4003 11.7314 43.6185 10.9987 42.3495L0.549499 24.2509Z"></path>
-            </clipPath>
-        </defs>
-    </svg>
-);
 
 export default Avatar;
