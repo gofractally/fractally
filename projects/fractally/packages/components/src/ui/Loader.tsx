@@ -1,10 +1,20 @@
 import React from "react";
 import { FaSpinner } from "react-icons/fa";
 
-export const Loader = ({ size = 56 }: { size?: number }) => (
-    <div className="w-full h-full flex justify-center items-center">
-        <FaSpinner size={size} className="animate-spin mr-2 text-gray-700" />
-    </div>
-);
+interface LoaderProps {
+    size?: number;
+    className?: string;
+}
+
+export const Loader = ({ size = 56, className }: LoaderProps) => {
+    const additionalClasses = className || "";
+    const wrapperClass = `w-full h-full flex justify-center items-center ${additionalClasses}`;
+
+    return (
+        <div className={wrapperClass}>
+            <FaSpinner size={size} className="animate-spin" />
+        </div>
+    );
+};
 
 export default Loader;
