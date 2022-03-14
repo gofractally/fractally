@@ -1,0 +1,494 @@
+# TODO: Mutations
+# Q: Pure media contributors (not attending meetings) can't earn rewards, right?
+#   So they need a chain account but won't need any fractal membership or KYC, right?
+
+#####################
+# Abstract types
+#####################
+interface Node {
+  id: ID!
+}
+interface PagedList {
+  totalCount: Int!
+  nodes
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+
+#####################
+# enums
+#####################
+enum TransferType {
+  SEND
+  RECEIVE
+}
+enum postsFilter {
+  FOLLOWING
+  RESPECTED
+  RISING
+  VOTABLE
+  MYPOSTS
+  PETITIONS
+}
+enum memberStatus {
+  PENDING
+  ACTIVE # good standing
+  RESIGNED # ???
+  EVICTED
+  DEBTOR
+  CLEARED # post eviction/judgement; Council has wiped the slate
+}
+enum councilMembershipHistoryEventType {
+  ADDED
+  REMOVED
+}
+enum PetitionStatus {
+  PROPOSED
+  APPROVED
+  REJECTED
+  EXECUTED
+}
+enum mediaContentType {
+  POST
+  PETITION
+  COMMENT
+}
+#####################
+# Base/Simple Types
+#####################
+# Q: Should all balances be AmountAsAsset? Or can we assume anything fractall-scoped will just hold a Float and assume the community's token?
+type AmountAsAsset {
+  tokenName: String!
+  balance: Float!
+}
+
+#####################
+# Wallet Types
+#####################
+type Transfer implements AmountAsAsset {
+  type: TransferType!
+  otherParty: User!
+  time: String!
+  memo: String
+}
+
+type Swap {
+  from: AmountAsAsset!
+  to: AmountAsAsset!
+  time: String!
+}
+
+union WalletEvent = Transfer | Swap;
+
+type WalletEventList implements PagedList {
+  nodes: [WalletEvent]!
+  totalCount: Int!
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+
+# getWallet
+type Query {
+  balances: [AmountAsAsset]!
+  pendingTransactions: WalletEventList
+  WalletEventHistory: WalletEventList
+}
+
+#####################
+# Fractal Membership Types
+#####################
+# getFractals
+type Query {
+  fractals: fractalList
+}
+type Query { # getFractalProfile
+  getFractalProfile (fractalId: ID!) {
+    members: MemberList
+    fundedMarketMakers: FractalList
+    tokenSupply: AmountAsAsset
+    tokensStaked: AmountAsAsset
+    topPosts: PostList
+    council: [Member]
+    councilMembershipHistory: [councilMembershipHistoryEvent]
+  }
+}
+type Query { # getUnifiedMemberList and getFractalMemberList 
+  getUnifiedMemberList (filter: String): MemberList # optional filter = following, followers 
+  getFractalMemberList (filter: String): MemberList # optional filter = following, followers 
+  searchUnifiedMemberList (search: String!): MemberList # search by member name, bio, or team name
+  searchFractalMemberList (search: String!): MemberList # search by member name, bio, or team name
+}
+
+# fractalMembershipRecord connects an account to a member
+type fractalMembershipRecord {
+  fractalName: Fractal
+  member: Member
+}
+type Fractal implements Node {
+  name: String
+  # Q: What Fractal Profile fields should we have? And can only the Founder, then the Council update them?
+  # mission: String
+  # website: String
+  members: MemberList
+  teams: TeamList
+  tokenName: String
+  # TODO: add pool totals here? stats that give summary of the community? Or is that only in the FractalProfile query?
+}
+
+type MembershipEvent {
+  status: memberStatus
+  timestamp: String
+  memo: String # for evictions/judgements, clearing, resignation
+}
+
+type councilMembershipHistoryEvent {
+  what: councilMembershipHistoryEventType
+  who: Member
+  date: String
+}
+
+#####################
+# Account / Member Profile Types
+#####################
+# Q: Inviters can get recruitment rewards from Sponsorship, right?
+#  So Inviters can get recruitment rewards from non-KYC sponsors, right?
+# Q: Should non-members have fractal-independent profile info *as well*?
+# Q: Should fractal membership history be exposed at the chain account level?
+# Q: Media: anyone can pay to post, but does that mean any AccountHolder can post in any fractal? Or must we associate an account with a fractal for them to post? ie. is the author of a post always just an Account and never a Member type?
+
+### QUERIES ###
+type Query { # getLoggedInUser (first thing UI will call if user info cached)
+  getLoggedInUser {
+    user: AccountHolder
+    wallet: {
+      balances: [AmountAsAsset] # can total these for total in UI
+    }
+  }
+}
+type Query { # getUnifiedMemberProfile
+  getUnifiedMemberProfile (memberID: ID) { # option to grab other member's profile
+    profile: Member
+    posts: PostList # This is a personal feed, ie. posts from all member/followed fractals
+    memberFractals: [Fractal]
+    following: [Fractal]
+  }
+}
+type Query { # getFractalMemberProfile
+  getFractalMemberProfile (memberID: ID) { # option to grab other member's profile
+    profile: Member
+    posts: PostList # This is a fractal-scoped feed, ie. posts only from this fractal
+    otherMemberFractals: [Fractal]
+    following: [Fractal]
+    team: Team
+  }
+}
+
+type AccountHolder { # for non-reward earnings, eg. sponsors as well as ƒractal Members
+  account: Int
+  # Q: Inviter (for recruitment purposes) will be per-fractal
+  Inviter: AccountHolder # Q: Must be Member? Or could a non-member invite another non-member? No recruitment rewards in that case?
+  following: [Fractal]!
+  membership: [fractalMembershipRecord]! # isMember = membership.length > 0
+  recoveryFractal: Fractal
+}
+
+# getMemberDetails 
+type Query ($memberId: ID) {
+  member (memberID: $memberId): Member
+}
+
+type MemberList implements PagedList {
+  totalCount: Int!
+  nodes: [Member]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+}
+
+type MemberProfile {
+  name: String # allow different names in different fractals
+  # AccountHolder is currently cyclic until we resolve how we want to handle Accounts vs Membership
+  account: AccountHolder # Q: allow different accounts in different fractals? Make this tie back to the chain account easy from the frontend?
+  profilePicUrl: String
+  bio: String
+  socialLinks: String
+}
+# Member is unaware of (which) fractal; a fractalMembershipRecord connects the Member with a particular fractal
+type Member {
+  profile: MemberProfile
+  voteWeight: Float # Rank-based vote weight
+  votePower: Float # percentage remaining
+  team: Team
+  inviter: Member # Inviter must be from same fractal
+  status: memberStatus
+  onCouncil: Boolean
+  onVetoCouncil: Boolean
+  membershipHistory: [MembershipEvent]
+  stats { # current and average member stats
+    rank: Int # Current
+    avgRank: Float
+    meetingArrivalTime: String # Last week's arrival time for claims someone was late
+      # perhaps this should be eliminated because we have the entropy commit to mark their attendance (required to participate, right?)
+    recentAttendance: [Boolean]
+    recentConsensusHistory: [Boolean]
+    balance: Float
+    amountStaked: Float
+  }
+}
+
+#####################
+# Post Types
+#####################
+type Query { # getPostDetails
+  getProfileDetail (id: ID!): Post
+}
+type Query { # getAuthoredPosts 
+  getAuthoredPosts (authorId: ID, fractal: String): PostList # Option to request authors other than loggedInUser and from a specific fractal
+}
+
+type PostList implements PagedList {
+  totalCount: Int!
+  nodes: [Post]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+}
+# getPosts 
+type Query (filter: String, fractal: String, searchText: String) implements PagedList) {
+    posts(filter: postsFilter, fractal: String, searchText: String): PostList
+}
+
+type MediaContentBasics {
+  creationTime: String
+  mediaContentType: mediaContentType
+  author: AccountHolder
+  title: String
+  sourceFractal: Fractal
+}
+type PostPreview {
+  basics: MediaContentBasics
+  contentSummary: String
+  PreviewImgUrl: String
+}
+type CommentList implements PagedList {
+  totalCount: Int!
+  nodes: [Comment]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+type Comment implements Node {
+  parentNode: ID
+  commenter: Member # must be member?
+  basics: MediaContentBasics 
+}
+type Post implements Node {
+  basics: MediaContentBasics
+  body: String
+  mediaUrls: [String]
+  amtEarned: Float
+  postWeight { # presents indicates vote-ability
+    memberLikes: Int
+    memberDislikes: Int
+    likes: Int
+    dislikes: Int
+  }
+  # petition-related fields
+  proposer: Member
+  proposed_time: String
+  isImportant: Boolean
+  comments: CommentList
+}
+
+#####################
+# Petition Types
+#####################
+type Query { # getPetitionDecision 
+  post: Post
+  petitionStatus: PetitionStatus
+  executionTime: String
+  trxid: String
+  votes {
+    approve: [Member] # Council members
+    reject: [Member] # Council members
+  }
+}
+
+type PetitionList implements PagedList {
+  totalCount: Int!
+  nodes: [Petition]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+
+#####################
+# Team Types
+#####################
+type rewardHistoryItem implements Node {
+  meetingDate: String
+  teamRank: Int
+  rewards: Float
+}
+type rewardHistoryList implements PagedList {
+  totalCount: Int!
+  nodes: [rewardHistoryItem]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+type Query { # getTeam
+  getTeam (teamId: ID): Team
+  getTeamProfile (teamId: ID) {
+    basics: Team
+    posts (filter: String): PostList # filter = mostRespected, mostRecent
+    petitionsActedOn: PetitionList
+    rewardHistory: rewardHistoryList
+  }
+}
+
+type TeamList implements PagedList {
+  totalCount: Int!
+  nodes: [Team]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+
+type Team implements Node {
+  name: String
+  profilePicUrl: String
+  bio: String
+  websiteUrl: String
+  socialLinks: String
+  teamLead: Member
+  members [Member]
+  onCouncil: Boolean
+  stats: {
+    rank: Int
+    rewardsPast20Weeks: Float
+    avg20WeekRewards: Float
+    numWeeksOnCouncil: Int
+  }
+}
+
+#####################
+# Pool Types
+#####################
+type Query { # getPoolStats 
+  getPoolStats: {
+    liquidityPool {
+      balance: AmountAsAsset
+    }
+    mediaPool {
+      balance: AmountAsAsset
+    }
+    sponsorPool {
+      balance: AmountAsAsset
+      returnRate: Float
+      avgDeposits: Float
+    }
+    teamPool {
+      balance: AmountAsAsset
+    }
+  }
+}
+
+#####################
+# Weekly Meeting Types
+#####################
+type memberMeetingHistoricalStats {
+  lastMeetingDate: String
+  lastMeetingRank: Int
+  last20WeekStats {
+    meetingsAttended: Int
+    meetingsReachedConsensus: Int
+    respectEarned: {
+      total: Float
+      weeklyAvg: Float
+    }
+  }
+}
+type Query { # getParticipants
+  getMeetingDetails: {
+    startTime: String
+    members: [Member]
+    memberMeetingStats: [memberMeetingHistoricalStats]
+}
+
+#####################
+# Misc Types
+#####################
+
+type Query { # getNotifications; this might need expansion depending on how we represent the richer notifications (and how rich we want them)
+  important: [String] # petitions activity, app updates, etc.; Rich format to allow for links
+  notifications: [String] # likes, replies, etc.
+}
+
+# Global / System-level queries
+type fractalList implements PagedList {
+  totalCount: Int!
+  nodes: [Fractal]
+  PageInfo {
+    startCursor: String
+    hasNextPage: Boolean!
+    endCursor: String
+    hasPreviousPage: Boolean!
+  }
+}
+
+# Mutations
+#--Wallet
+#- Send
+#- Swap
+#- ClaimFunds
+#- CancelTransfer
+#--Council
+#- voteOnAPetition
+#--Veto Council
+#- vetoPetition
+#--Posts
+#- createPost
+#- EditPost?
+#- Like/DislikePost
+#- commentOnPost
+#- commentOnComment?
+#--Petitions
+#- proposePetition (option to mark petition "important", requiring the 21 day review)
+#--Recruitment
+#- inviteToAccount
+#- approveAccount
+#- InviteToJoinFractal
+#- approveJoinFractal
+#--Membership
+#- evictMember
+#- resignMember
+#- clearMember
+#--Fractal
+#- createFractal
+#- founderInviteToFractal
+#- founderUpdateFractalProfile

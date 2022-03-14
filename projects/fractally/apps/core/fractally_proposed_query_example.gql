@@ -1,0 +1,79 @@
+{
+  member {
+    name
+    account
+    profilePicUrl
+    bio
+    socialLinks
+    voteWeight
+    votePower # percentage remaining
+    team
+    inviter # inviter's account?
+    fractalMembership # []
+    stats { # current and average member stats
+      rank # Current
+      avgRank
+      meetingArrivalTime # Last week's arrival for claims someone was late
+        # perhaps this should be eliminated because we have the entropy commit to mark their attendance (required to participate, right?)
+      recentAttendance # bit field history to calculate auto-eviction: 12 weeks absent, or 6 for bigger community
+      recentConsensusHistory # bit field history to calculate auto-eviction: <5 of 10
+    }
+  }
+  post(fractal, postId) {
+    creationTime
+    postType
+    author
+    title
+    body
+    sourceFractal
+    mediaUrls
+    postVotes
+    amtEarned
+    postWeight {
+      memberLikes
+      memberDislikes
+      likes
+      dislikes
+    }
+    # petition-related fields
+    proposer
+    proposed_time
+    isImportant
+  }
+  # filter = { Following, Respected, Rising, Votable, MyPosts, Petitions }
+  posts(filter: String, fractal: String, searchText: String)
+  petitionDecision {
+    Post
+    petitionStatus
+    executionTime
+    trxid
+    votes {
+      approve # [] of Council members
+      reject # [] of Council members
+    }
+  }
+  team {
+    name
+    bio
+    website
+    socialLinks
+    teamLead
+    members # [] of members
+  }
+
+  # Pools
+  liquidityPool {
+    balance
+  }
+  mediaPool {
+    balance
+  }
+  sponsorPool {
+    balance
+    returnRate
+    avgDeposits
+  }
+  teamPool {
+    balance
+  }
+}

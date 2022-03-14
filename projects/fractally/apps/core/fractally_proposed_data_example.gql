@@ -1,0 +1,131 @@
+{
+  member: {
+    name: "Mike Manfredi"
+    account: 0
+    profilePicUrl: https://ipfs.io/ipfs/Qjth20985th02983ht
+    bio: "I love lamp."
+    socialLinks: "{}"
+    voteWeight: 14.24
+    votePower: 76.0 # percentage remaining
+    team: "The PowerNAPs"
+    inviter: 5 # inviter's account?
+    fractalMembership: [ # []
+      foodie,
+      prime,
+      psychology
+    ],
+    status: "active",
+    membershipHistory: [
+      {
+        "pending",
+        "2022-03-03T13:00:40Z",
+      },
+      {
+        "active",
+        "2022-03-04T13:00:40Z",
+      },
+      {
+        "resigned",
+        "2022-03-08T13:00:40Z",
+      },
+      {
+        "pending",
+        "2022-03-03T13:00:40Z",
+      },
+      {
+        "active",
+        "2022-03-04T13:00:40Z",
+      },
+    stats: { # current and average member stats
+      rank: 21 # Current
+      avgRank: 4.7814
+      meetingArrivalTime: "2022-03-03T13:00:40Z" # Last week's arrival for claims someone was late
+        # perhaps this should be eliminated because we have the entropy commit to mark their attendance (required to participate, right?)
+      recentAttendance: 13 # bit field history to calculate auto-eviction: 12 weeks absent, or 6 for bigger community
+      recentConsensusHistory: 13 # bit field history to calculate auto-eviction: <5 of 10
+    },
+  },
+  post: {
+    fractal: <Fractal>,
+    postId: 2,
+    creationTime: "2022-03-03T13:00:40Z",
+    postType: postType.petition,
+    author: "Brandon Fancher",
+    title: "https://ipfs.io/ipfs/Qjt920987th02a83gw",
+    body: "https://ipfs.io/ipfs/Qjth20985th02983ht",
+    mediaUrls: [
+      "https://ipfs.io/ipfs/Qjt920987th02a83gw",
+      "https://ipfs.io/ipfs/Qjt920987th02a83gw",
+    ],
+    amtEarned: 485.24,
+    postWeight {
+      memberLikes: 45,
+      memberDislikes: 4,
+      likes: 192,
+      dislikes: 12,
+    },
+    # petition-related fields
+    proposer: "Todd Fleming",
+    proposed_time: "2022-03-03T13:00:40Z",
+    isImportant: false,
+  },
+  posts: [
+    <Post>
+  ],
+  petitionDecision: {
+    <Post>,
+    petitionStatus: PetitionStatus.EXECUTED,
+    executionTime: "2022-03-03T13:00:40Z",
+    trxid: "a84a08fb80b8cadc8d08cd08c8a0c8a0d8c0d",
+    votes {
+      approve: [
+        <Member>,
+        <Member>,
+        <Member>,
+        <Member>,
+        <Member>,
+        <Member>,
+      ]
+      reject: [
+        <Member>,
+        <Member>,
+      ]
+    }
+  },
+  team: {
+    name: "The Power NAPs",
+    bio: "Giving hmanity a good NAP",
+    website: "https://powernaps.com",
+    socialLinks: "{}",
+    teamLead: <Member>,
+    members: [
+      <Member>,
+      ...
+      <Member>
+    ] # [] of members
+  },
+
+  pendingMembership [
+    <Member>,
+    <Member>,
+    <Member>,
+    <Member>,
+    <Member>,
+  ],
+
+  # Pools
+  liquidityPool: {
+    balance: 9790234.2943,
+  },
+  mediaPool: {
+    balance: 475937.9482,
+  },
+  sponsorPool: {
+    balance: 45739773.4893,
+    returnRate: 0.0535,
+    avgDeposits: 536.9453,
+  },
+  teamPool: {
+    balance: 1004294.2431,
+  },
+}
