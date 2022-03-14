@@ -6,7 +6,7 @@ export const Loader = ({
     splash = false,
 }: {
     size?: number;
-    splash: boolean;
+    splash?: boolean;
 }) => {
     if (splash) {
         return (
