@@ -49,7 +49,7 @@ export const Search: React.FC<HTMLProps<HTMLInputElement> & SearchProps> = ({
         );
     }
     if (isLoading) {
-        statusIcons.push(<Loader size={16} className="text-indigo-500" />);
+        statusIcons.push(<Loader size={16} />);
     }
 
     return (
