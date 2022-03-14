@@ -1,6 +1,6 @@
 import React from "react";
 import { IconType } from "react-icons";
-import { FaSpinner } from "react-icons/fa";
+import LoadingIcon from "./icons/LoadingIcon";
 
 export type GlyphSize = "sm" | "md" | "lg" | "xl";
 const SIZES: {
@@ -49,9 +49,7 @@ export const Glyph = ({
             className={`inline-flex items-center justify-center rounded-full mb-1 ${bgClass} ${colorClass} ${hoverClass} ${sizeClass.bg}`}
         >
             {isLoading ? (
-                <FaSpinner
-                    className={`inline-block animate-spin ${sizeClass.icon}`}
-                />
+                <LoadingIcon className="mr-2 ml-2" />
             ) : chars ? (
                 <span className={sizeClass.chars}>{chars}</span>
             ) : (

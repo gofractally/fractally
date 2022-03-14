@@ -1,18 +1,23 @@
 import React from "react";
-import { FaSpinner } from "react-icons/fa";
+import LoadingIcon from "./icons/LoadingIcon";
 
-interface LoaderProps {
+export const Loader = ({
+    size = 32,
+    splash = false,
+}: {
     size?: number;
-    className?: string;
-}
-
-export const Loader = ({ size = 56, className }: LoaderProps) => {
-    const additionalClasses = className || "";
-    const wrapperClass = `w-full h-full flex justify-center items-center ${additionalClasses}`;
-
+    splash?: boolean;
+}) => {
+    if (splash) {
+        return (
+            <div aria-modal="true" className="SplashLoader">
+                <LoadingIcon size={size} />
+            </div>
+        );
+    }
     return (
-        <div className={wrapperClass}>
-            <FaSpinner size={size} className="animate-spin" />
+        <div className="Loader">
+            <LoadingIcon size={size} />
         </div>
     );
 };
