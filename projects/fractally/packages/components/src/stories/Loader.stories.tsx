@@ -12,8 +12,8 @@ export const Default = Template.bind({});
 
 const SplashTemplate: ComponentStory<typeof Loader> = (args) => {
     return (
-        <div className="flex flex-col">
-            <h3>Example Page</h3>
+        <div>
+            <h1>Example Page</h1>
             <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut

@@ -10,18 +10,13 @@ export const Loader = ({
 }) => {
     if (splash) {
         return (
-            <div
-                aria-modal="true"
-                className="bg-slate-500/50 backdrop-blur-sm overflow-y-auto overflow-x-hidden fixed h-full right-0 left-0 z-1 justify-center items-center h-modal flex"
-            >
-                <div className="relative">
-                    <LoadingIcon size={size} />
-                </div>
+            <div aria-modal="true" className="SplashLoader">
+                <LoadingIcon size={size} />
             </div>
         );
     }
     return (
-        <div className="loader w-full h-full flex justify-center items-center">
+        <div className="Loader">
             <LoadingIcon size={size} />
         </div>
     );

@@ -1,6 +1,12 @@
 import React from "react";
 
-const LoadingIcon = ({ className, size }: { className?:string, size?: number }) => {
+const LoadingIcon = ({
+    className = "",
+    size,
+}: {
+    className?: string;
+    size?: number;
+}) => {
     return (
         <svg
             className={`animate-spin ${className}`}
