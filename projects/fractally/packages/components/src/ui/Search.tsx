@@ -27,12 +27,30 @@ export const Search: React.FC<HTMLProps<HTMLInputElement> & SearchProps> = ({
 
     const invertedClass = inverted ? "bg-gray-100" : "";
     const borderClass = noBorder ? "" : "border border-gray-200";
-    const wrapperClass = `flex items-center h-8 rounded-full ${invertedClass} ${borderClass}`;
+    const wrapperClass = `Search flex items-center h-8 rounded-full ${invertedClass} ${borderClass}`;
 
     const handleClearClick = () => {
         onChange("");
         inputRef.current.focus();
     };
+
+    const statusIcons = [];
+
+    if (props.value) {
+        statusIcons.push(
+            <button
+                type="button"
+                className="flex items-center justify-center"
+                title="Clear"
+                onClick={handleClearClick}
+            >
+                <BsXCircleFill className="h-5 w-5 text-gray-400" />
+            </button>
+        );
+    }
+    if (isLoading) {
+        statusIcons.push(<Loader size={16} className="text-indigo-500" />);
+    }
 
     return (
         <label className={wrapperClass}>
@@ -45,23 +63,9 @@ export const Search: React.FC<HTMLProps<HTMLInputElement> & SearchProps> = ({
                 onChange={(e) => onChange(e.target.value)}
                 {...props}
             />
-            {(isLoading || props.value) && (
-                <div className="flex items-center justify-center p-0.5 mr-1.5">
-                    {isLoading ? (
-                        <Loader size={16} className="text-indigo-500" />
-                    ) : (
-                        props.value && (
-                            <button
-                                className="flex items-center justify-center"
-                                title="Clear"
-                                onClick={handleClearClick}
-                            >
-                                <BsXCircleFill className="h-5 w-5 text-gray-400" />
-                            </button>
-                        )
-                    )}
-                </div>
-            )}
+            <div className="Status flex items-center justify-center p-0.5 mr-1.5">
+                {statusIcons}
+            </div>
         </label>
     );
 };
