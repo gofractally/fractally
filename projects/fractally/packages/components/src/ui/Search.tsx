@@ -32,7 +32,7 @@ export const Search = ({
     const borderClass = noBorder ? "" : "border border-gray-200";
     const wrapperClass = `Search flex items-center h-8 rounded-full ${invertedClass} ${borderClass}`;
     const inputClass =
-        "flex-1 mr-2.5 bg-transparent border-0 outline-none focus:border-0 focus:outline-none text-sm focus:ring-0 font-semibold text-gray-900";
+        "flex-1 p-0 mr-2.5 bg-transparent border-0 outline-none focus:border-0 focus:outline-none text-sm focus:ring-0 font-semibold text-gray-900";
 
     const handleClearClick = () => {
         onChange("");
