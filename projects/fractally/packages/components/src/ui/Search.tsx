@@ -40,11 +40,8 @@ export const Search = ({
     };
 
     const handleChange = (e) => {
-        console.info(e.target.value);
         onChange(e.target.value);
     };
-
-    console.info("value", value);
 
     const statusIcons = [];
 
