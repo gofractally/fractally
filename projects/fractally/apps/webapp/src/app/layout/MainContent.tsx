@@ -17,6 +17,9 @@ import { InputFactory, useEventCallback } from "rxjs-hooks";
 import { usdPrice$ } from "../../observables/eosUsdPrice";
 import { transfer } from "../../rpc/rpc";
 import { numToAsset } from "../../chain/utils";
+import { Button } from "@fractally/components/ui";
+import { useGlobalStore } from "../../store";
+import { actionShowDummyModal } from "../../store/actions";
 
 export const formatMoney = (amount: number) =>
     new Intl.NumberFormat("en-US", {
@@ -26,6 +29,8 @@ export const formatMoney = (amount: number) =>
 
 export const MainContent = () => {
     const [toAccount, setAccount] = useState("");
+
+    const { state, dispatch } = useGlobalStore();
 
     const [quantityAmount, setQuantityAmount] = useState("");
     const [memo, setMemo] = useState("");
@@ -123,6 +128,14 @@ export const MainContent = () => {
         }
     };
 
+    const handleDummyModalClick = async () => {
+        const showDummyModal = new Promise((resolve) => {
+            dispatch(actionShowDummyModal(true, resolve));
+        });
+        const result = await showDummyModal;
+        console.info("result was successful:", result);
+    };
+
     return (
         <div className="h-screen p-4 w-full space-y-6 bg-gray-700 text-white ">
             <div className="space-y-6 w-full max-w-2xl">
@@ -195,6 +208,10 @@ export const MainContent = () => {
                         {fiatValue}
                     </div>
                 </div>
+
+                <Button onClick={handleDummyModalClick}>
+                    Show Dummy Modal
+                </Button>
             </div>
         </div>
     );

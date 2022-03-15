@@ -103,6 +103,7 @@ importers:
       '@types/node': ~16.11.0
       '@types/react': ~17.0.0
       '@types/react-dom': ~17.0.0
+      '@types/react-modal': ^3.13.1
       anchor-link: ^3.3.5
       anchor-link-browser-transport: ^3.2.5
       autoprefixer: ^10.4.2
@@ -116,6 +117,7 @@ importers:
       react: ~17.0.0
       react-dom: ~17.0.0
       react-icons: ^4.3.1
+      react-modal: ^3.14.4
       react-query: ^3.34.12
       react-spinners: ^0.11.0
       rxjs: ^7.0.0
@@ -137,6 +139,7 @@ importers:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       react-icons: 4.3.1_react@17.0.2
+      react-modal: 3.14.4_react-dom@17.0.2+react@17.0.2
       react-query: 3.34.12_react-dom@17.0.2+react@17.0.2
       react-spinners: 0.11.0_b3482aaf5744fc7c2aeb7941b0e0a78f
       rxjs: 7.5.2
@@ -151,6 +154,7 @@ importers:
       '@types/node': 16.11.21
       '@types/react': 17.0.38
       '@types/react-dom': 17.0.11
+      '@types/react-modal': 3.13.1
       autoprefixer: 10.4.2_postcss@8.4.5
       cypress: 9.5.0
       next-transpile-modules: 9.0.0
@@ -176,6 +180,7 @@ importers:
       '@storybook/react': ^6.4.15
       '@tailwindcss/forms': ^0.4.0
       '@types/react': ~17.0.0
+      '@types/react-modal': ^3.13.1
       autoprefixer: ^10.4.2
       babel-loader: ^8.2.3
       babel-plugin-macros: ^3.1.0
@@ -183,12 +188,14 @@ importers:
       react: ~17.0.0
       react-dom: ~17.0.0
       react-icons: ^4.3.1
+      react-modal: ^3.14.4
       rimraf: ~3.0.2
       styled-components: ^5.3.3
       tailwindcss: ^3.0.18
       twin.macro: ^2.8.2
     dependencies:
       react-icons: 4.3.1_react@17.0.2
+      react-modal: 3.14.4_react-dom@17.0.2+react@17.0.2
       styled-components: 5.3.3_react-dom@17.0.2+react@17.0.2
     devDependencies:
       '@babel/core': 7.16.12
@@ -199,6 +206,7 @@ importers:
       '@storybook/react': 6.4.15_a32301d14c29c100292f785e12405c66
       '@tailwindcss/forms': 0.4.0_tailwindcss@3.0.18
       '@types/react': 17.0.38
+      '@types/react-modal': 3.13.1
       autoprefixer: 10.4.2_postcss@8.4.5
       babel-loader: 8.2.3_@babel+core@7.16.12
       babel-plugin-macros: 3.1.0
@@ -5928,6 +5936,12 @@ packages:
       '@types/react': 17.0.38
     dev: true
 
+  /@types/react-modal/3.13.1:
+    resolution: {integrity: sha512-iY/gPvTDIy6Z+37l+ibmrY+GTV4KQTHcCyR5FIytm182RQS69G5ps4PH2FxtC7bAQ2QRHXMevsBgck7IQruHNg==}
+    dependencies:
+      '@types/react': 17.0.38
+    dev: true
+
   /@types/react-syntax-highlighter/11.0.5:
     resolution: {integrity: sha512-VIOi9i2Oj5XsmWWoB72p3KlZoEbdRAcechJa8Ztebw7bDl2YmR+odxIqhtJGp1q2EozHs02US+gzxJ9nuf56qg==}
     dependencies:
@@ -9952,6 +9966,10 @@ packages:
     dependencies:
       pify: 2.3.0
     dev: true
+
+  /exenv/1.2.2:
+    resolution: {integrity: sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=}
+    dev: false
 
   /expand-brackets/2.1.4:
     resolution: {integrity: sha1-t3c14xXOMPa27/D4OwQVGiJEliI=}
@@ -14870,7 +14888,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /property-information/5.6.0:
     resolution: {integrity: sha512-YUHSPk+A30YPv+0Qf8i9Mbfe/C0hdPXk1s1jPVToV8pk8BQtpw10ct89Eo7OWkutrwqvT0eicAxlOg3dOAu8JA==}
@@ -15189,6 +15206,25 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: true
+
+  /react-lifecycles-compat/3.0.4:
+    resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
+    dev: false
+
+  /react-modal/3.14.4_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-8surmulejafYCH9wfUmFyj4UfbSJwjcgbS9gf3oOItu4Hwd6ivJyVBETI0yHRhpJKCLZMUtnhzk76wXTsNL6Qg==}
+    engines: {node: '>=8'}
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16 || ^17
+      react-dom: ^0.14.0 || ^15.0.0 || ^16 || ^17
+    dependencies:
+      exenv: 1.2.2
+      prop-types: 15.8.1
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+      react-lifecycles-compat: 3.0.4
+      warning: 4.0.3
+    dev: false
 
   /react-popper-tooltip/3.1.1_react-dom@17.0.2+react@17.0.2:
     resolution: {integrity: sha512-EnERAnnKRptQBJyaee5GJScWNUKQPDD2ywvzZyUjst/wj5U64C8/CnSYLNEmP2hG0IJ3ZhtDxE8oDN+KOyavXQ==}
@@ -18101,7 +18137,6 @@ packages:
     resolution: {integrity: sha512-rpJyN222KWIvHJ/F53XSZv0Zl/accqHR8et1kpaMTD/fLCRxtV8iX8czMzY7sVZupTI3zcUTg8eycS2kNF9l6w==}
     dependencies:
       loose-envify: 1.4.0
-    dev: true
 
   /watchpack-chokidar2/2.0.1:
     resolution: {integrity: sha512-nCFfBIPKr5Sh61s4LPpy1Wtfi0HE8isJ3d2Yb5/Ppw2P2B/3eVSEBjKfN0fmHJSK14+31KwMKmcrzs2GM4P0Ww==}
