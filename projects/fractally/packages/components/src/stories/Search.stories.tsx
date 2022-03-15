@@ -9,9 +9,6 @@ export default {
 
 const Template: ComponentStory<typeof Search> = (args) => {
     const [value, setValue] = useState<string>(`${args.value || ""}`);
-
-    console.info("newval", value);
-
     return (
         <div className="w-80">
             <Search
