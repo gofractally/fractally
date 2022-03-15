@@ -10,12 +10,17 @@ export default {
 const Template: ComponentStory<typeof Search> = (args) => {
     const [value, setValue] = useState<string>(`${args.value || ""}`);
 
+    console.info("newval", value);
+
     return (
         <div className="w-80">
             <Search
-                onChange={(newValue) => setValue(newValue)}
-                value={value}
                 {...args}
+                onChange={(newValue) => {
+                    console.info("onchanging", newValue);
+                    setValue(newValue);
+                }}
+                value={value}
             />
         </div>
     );
@@ -23,4 +28,14 @@ const Template: ComponentStory<typeof Search> = (args) => {
 
 export const Default = Template.bind({});
 
-export const WithValue = Template.bind({ value: "Fractals" });
+export const Loading = Template.bind({});
+Loading.args = {
+    isLoading: true,
+    value: "Something",
+};
+
+export const InvertedWithoutBorder = Template.bind({});
+InvertedWithoutBorder.args = {
+    inverted: true,
+    noBorder: true,
+};
