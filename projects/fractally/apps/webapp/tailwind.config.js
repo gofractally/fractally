@@ -17,7 +17,7 @@ module.exports = {
         },
         fontFamily: {
             ...defaultTheme.fontFamily,
-            sans: ["Open Sans", "sans-serif"],
+            sans: ["Raleway", "sans-serif"],
         },
         screens: {
             xs: "475px",
