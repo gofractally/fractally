@@ -7,9 +7,10 @@ export default {
 } as ComponentMeta<typeof SendDialog>;
 
 const Template: ComponentStory<typeof SendDialog> = (args) => {
-    // const [isModalOpen, setModalOpen] = useState(false);
     return (
-        <SendDialog />
+        <div className="max-w-lg">
+            <SendDialog />
+        </div>
     );
 };
 
