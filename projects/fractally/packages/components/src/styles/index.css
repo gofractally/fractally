@@ -1,8 +1,6 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import "./loader.css";
-@import "./search.css";
 
 * {
   font-family: Raleway, sans-serif !important;
