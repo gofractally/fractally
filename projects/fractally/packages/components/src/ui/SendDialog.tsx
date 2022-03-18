@@ -9,20 +9,23 @@ import "../styles/send-dialog.css";
 
 interface SDFieldProps {
     children: React.ReactNode[];
-    avatarUrl?: string;
+    avatar?: {
+        url?: string;
+        name?: string;
+    };
     onClick?: () => void;
 }
 
-const SDField = ({ children, avatarUrl, onClick }: SDFieldProps) => {
+const SDField = ({ children, avatar, onClick }: SDFieldProps) => {
     return (
         <div
             className={`SDField flex gap-1 border px-2 py-1 mb-4 ${ onClick && "cursor-pointer" }`}
             onClick={onClick}
         >
-            {avatarUrl && (
+            {avatar && (
                 <div className="flex-none m-1">
                     <Avatar
-                        avatarUrl={avatarUrl}
+                        avatarUrl={avatar.url}
                         name="Rey"
                         size="lg"
                         shape="hex"
@@ -50,13 +53,15 @@ export interface SendDialogProps {
 const SendDialog = ({ className }: SendDialogProps) => {
     const [isFromModalOpen, setFromModalOpen] = useState(false);
     const [isToModalOpen, setToModalOpen] = useState(false);
+    const avatarFrom = {};
+    const avatarTo = {url: "https://randomuser.me/api/portraits/women/44.jpg"};
     return (
         <div className="bg-gray-100 w-full h-full p-4 space-y-4">
             <Card>
                 <div className="my-0 mx-2">
                     <h3 className="mb-6 mx-auto font-bold text-center">Send</h3>
                     <SDField
-                        avatarUrl="https://randomuser.me/api/portraits/women/44.jpg"
+                        avatar={avatarFrom}
                         onClick={() => setFromModalOpen(true)}
                     >
                         <label className="text-slate-400">From</label>
@@ -64,11 +69,16 @@ const SendDialog = ({ className }: SendDialogProps) => {
                         <div>Total: 2,800 / {"\u20BF"}0.1034011</div>
                     </SDField>
                     <SDField>
-                        <label className="text-slate-400">Amount</label>
-                        <div>0.0</div>
+                        <label htmlFor="input_amount" className="text-slate-400">Amount</label>
+                        <input
+                            className="AmountInput block border-none p-0"
+                            type="number"
+                            id="input_amount"
+                            placeholder="0"
+                        />
                     </SDField>
                     <SDField
-                        avatarUrl="https://randomuser.me/api/portraits/men/44.jpg"
+                        avatar={avatarTo}
                         onClick={() => setToModalOpen(true)}
                     >
                         <label className="text-slate-400">To</label>

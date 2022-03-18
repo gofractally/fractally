@@ -8,4 +8,12 @@
   .contentLen-3 {
     line-height: 1.1rem;
   }
+
+  .AmountInput:focus {
+    box-shadow: none;
+  }
+
+  ::placeholder {
+    color: #ccc;
+  }
 }
