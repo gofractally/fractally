@@ -53,6 +53,7 @@ export interface SendDialogProps {
 const SendDialog = ({ className }: SendDialogProps) => {
     const [isFromModalOpen, setFromModalOpen] = useState(false);
     const [isToModalOpen, setToModalOpen] = useState(false);
+    const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
     const avatarFrom = {};
     const avatarTo = {url: "https://randomuser.me/api/portraits/women/44.jpg"};
     return (
@@ -88,7 +89,7 @@ const SendDialog = ({ className }: SendDialogProps) => {
                         <Button type="neutral" fullWidth size="lg">
                             Cancel
                         </Button>
-                        <Button type="primary" fullWidth size="lg">
+                        <Button type="primary" fullWidth size="lg" onClick={() => setConfirmModalOpen(true)}>
                             Submit
                         </Button>
                     </div>
@@ -121,6 +122,24 @@ const SendDialog = ({ className }: SendDialogProps) => {
                 isOpen={isToModalOpen}
                 onRequestClose={() => setToModalOpen(false)}
                 title="Select recipient"
+            >
+                <div className="space-y-3">
+                    <div>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
+                        consectetur debitis omnis blanditiis cum at laborum doloremque,
+                        nam rem nesciunt error nemo voluptatibus quos quisquam non
+                        recusandae asperiores, sed quas.
+                    </div>
+                    <div>Press [ESC] or click in the Overlay to close it</div>
+                </div>
+            </Modal>
+            <Modal
+                shouldCloseOnEsc
+                shouldCloseOnOverlayClick
+                ariaHideApp={false}
+                isOpen={isConfirmModalOpen}
+                onRequestClose={() => setConfirmModalOpen(false)}
+                title="Confirm send"
             >
                 <div className="space-y-3">
                     <div>
