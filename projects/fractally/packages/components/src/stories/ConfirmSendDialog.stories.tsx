@@ -9,9 +9,14 @@ export default {
 const Template: ComponentStory<typeof ConfirmSendDialog> = (args) => {
     return (
         <div className="max-w-lg">
-            <ConfirmSendDialog />
+            <ConfirmSendDialog onBackClick={args.onBackClick} />
         </div>
     );
 };
 
 export const Default = Template.bind({});
+Default.args = {
+    onBackClick: () => {
+        console.log("Back button click");
+    },
+};
