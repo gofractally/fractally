@@ -13,6 +13,9 @@
         "react": "~17.0.0"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.1.0",
+        "@fortawesome/free-solid-svg-icons": "^6.1.0",
+        "@fortawesome/react-fontawesome": "^0.1.18",
         "react-icons": "^4.3.1",
         "react-modal": "^3.14.4"
     },

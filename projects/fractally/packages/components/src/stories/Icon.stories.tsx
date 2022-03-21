@@ -7,10 +7,14 @@ export default {
     component: Icon,
 } as ComponentMeta<typeof Icon>;
 
-const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />;
+const Template: ComponentStory<typeof Icon> = (args) => (
+    <div className="w-80">
+        <Icon {...args} />
+    </div>
+);
 
 export const Default = Template.bind({});
 Default.args = {
-    type: "dragon",
+    type: "coffee",
     size: "sm",
 };
