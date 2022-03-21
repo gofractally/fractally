@@ -16,10 +16,10 @@ interface SDFieldProps {
     onClick?: () => void;
 }
 
-const SDField = ({ children, avatar, onClick }: SDFieldProps) => {
+const SendDialogField = ({ children, avatar, onClick }: SDFieldProps) => {
     return (
         <div
-            className={`SDField flex gap-1 border px-2 py-1 mb-4 ${onClick && "cursor-pointer"}`}
+            className={`SendDialogField flex gap-1 border px-2 py-1 mb-4 ${onClick && "cursor-pointer"}`}
             onClick={onClick}
         >
             {avatar && (
@@ -59,15 +59,15 @@ const SendDialog = () => {
             <Card>
                 <div className="my-0 mx-2">
                     <h3 className="mb-6 mx-auto font-bold text-center">Send</h3>
-                    <SDField
+                    <SendDialogField
                         avatar={avatarFrom}
                         onClick={() => setFromModalOpen(true)}
                     >
                         <label className="text-slate-400">From</label>
                         <div className="font-bold">PRIME</div>
                         <div>Total: 2,800 / {"\u20BF"}0.1034011</div>
-                    </SDField>
-                    <SDField>
+                    </SendDialogField>
+                    <SendDialogField>
                         <label
                             htmlFor="input_amount"
                             className="text-slate-400"
@@ -80,14 +80,14 @@ const SendDialog = () => {
                             id="input_amount"
                             placeholder="0"
                         />
-                    </SDField>
-                    <SDField
+                    </SendDialogField>
+                    <SendDialogField
                         avatar={avatarTo}
                         onClick={() => setToModalOpen(true)}
                     >
                         <label className="text-slate-400">To</label>
                         <div>Hal McGovern</div>
-                    </SDField>
+                    </SendDialogField>
                     <div className="flex gap-2 mt-8">
                         <Button type="neutral" fullWidth size="lg">
                             Cancel

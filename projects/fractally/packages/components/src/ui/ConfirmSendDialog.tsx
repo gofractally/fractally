@@ -11,7 +11,7 @@ interface SDFieldProps {
     };
 }
 
-const CSDField = ({ children, avatar }: SDFieldProps) => {
+const ConfirmSendDialogField = ({ children, avatar }: SDFieldProps) => {
     return (
         <div className="flex gap-1 px-2 py-1 mb-4 bg-slate-50">
             {avatar && (
@@ -49,7 +49,7 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                     <h3 className="mb-6 mx-auto font-bold text-center">
                         Confirm send
                     </h3>
-                    <CSDField avatar={avatarFrom}>
+                    <ConfirmSendDialogField avatar={avatarFrom}>
                         <label className="text-slate-400">Send</label>
                         <div className="font-bold">
                             230.5 PRIME / {"\u20BF"} 230.5
@@ -57,14 +57,14 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                         <br />
                         <label className="text-slate-400">Trx fee</label>
                         <div>.001 PRIME / 0.000011</div>
-                    </CSDField>
-                    <CSDField avatar={avatarTo}>
+                    </ConfirmSendDialogField>
+                    <ConfirmSendDialogField avatar={avatarTo}>
                         <label className="text-slate-400">To</label>
                         <div>Hal McGovern</div>
                         <br />
                         <label className="text-slate-400">Memo</label>
                         <div>For your perfectly roasted coffee.</div>
-                    </CSDField>
+                    </ConfirmSendDialogField>
                     <div className="flex gap-2 mt-8">
                         <Button
                             type="neutral"
