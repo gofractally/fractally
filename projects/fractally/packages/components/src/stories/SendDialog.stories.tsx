@@ -15,6 +15,3 @@ const Template: ComponentStory<typeof SendDialog> = (args) => {
 };
 
 export const Default = Template.bind({});
-Default.args = {
-    className: "SendDialog",
-};

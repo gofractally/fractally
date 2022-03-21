@@ -6,7 +6,6 @@ import { Modal } from "../ui/Modal";
 
 import "../styles/send-dialog.css";
 
-
 interface SDFieldProps {
     children: React.ReactNode[];
     avatar?: {
@@ -19,7 +18,7 @@ interface SDFieldProps {
 const SDField = ({ children, avatar, onClick }: SDFieldProps) => {
     return (
         <div
-            className={`SDField flex gap-1 border px-2 py-1 mb-4 ${ onClick && "cursor-pointer" }`}
+            className={`SDField flex gap-1 border px-2 py-1 mb-4 ${onClick && "cursor-pointer"}`}
             onClick={onClick}
         >
             {avatar && (
@@ -50,12 +49,14 @@ export interface SendDialogProps {
     className?: string;
 }
 
-const SendDialog = ({ className }: SendDialogProps) => {
+const SendDialog = () => {
     const [isFromModalOpen, setFromModalOpen] = useState(false);
     const [isToModalOpen, setToModalOpen] = useState(false);
     const [isConfirmModalOpen, setConfirmModalOpen] = useState(false);
     const avatarFrom = {};
-    const avatarTo = {url: "https://randomuser.me/api/portraits/women/44.jpg"};
+    const avatarTo = {
+        url: "https://randomuser.me/api/portraits/women/44.jpg",
+    };
     return (
         <div className="bg-gray-100 w-full h-full p-4 space-y-4">
             <Card>
@@ -70,7 +71,12 @@ const SendDialog = ({ className }: SendDialogProps) => {
                         <div>Total: 2,800 / {"\u20BF"}0.1034011</div>
                     </SDField>
                     <SDField>
-                        <label htmlFor="input_amount" className="text-slate-400">Amount</label>
+                        <label
+                            htmlFor="input_amount"
+                            className="text-slate-400"
+                        >
+                            Amount
+                        </label>
                         <input
                             className="AmountInput block border-none p-0"
                             type="number"
@@ -89,7 +95,12 @@ const SendDialog = ({ className }: SendDialogProps) => {
                         <Button type="neutral" fullWidth size="lg">
                             Cancel
                         </Button>
-                        <Button type="primary" fullWidth size="lg" onClick={() => setConfirmModalOpen(true)}>
+                        <Button
+                            type="primary"
+                            fullWidth
+                            size="lg"
+                            onClick={() => setConfirmModalOpen(true)}
+                        >
                             Submit
                         </Button>
                     </div>
