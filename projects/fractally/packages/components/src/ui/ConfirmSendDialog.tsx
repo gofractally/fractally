@@ -33,7 +33,11 @@ const CSDField = ({ children, avatar }: SDFieldProps) => {
     );
 };
 
-const ConfirmSendDialog = () => {
+export interface SendDialogProps {
+    onBackClick: () => void;
+}
+
+const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
     const avatarFrom = {};
     const avatarTo = {
         url: "https://randomuser.me/api/portraits/women/44.jpg",
@@ -62,7 +66,12 @@ const ConfirmSendDialog = () => {
                         <div>For your perfectly roasted coffee.</div>
                     </CSDField>
                     <div className="flex gap-2 mt-8">
-                        <Button type="neutral" fullWidth size="lg">
+                        <Button
+                            type="neutral"
+                            fullWidth
+                            size="lg"
+                            onClick={() => onBackClick()}
+                        >
                             Back
                         </Button>
                         <Button type="primary" fullWidth size="lg">

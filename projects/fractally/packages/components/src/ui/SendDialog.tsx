@@ -3,6 +3,7 @@ import { Card } from "../ui/Card";
 import { Avatar } from "../ui/Avatar";
 import Button from "../ui/Button";
 import { Modal } from "../ui/Modal";
+import ConfirmSendDialog from "../ui/ConfirmSendDialog";
 
 import "../styles/send-dialog.css";
 
@@ -44,10 +45,6 @@ const SDField = ({ children, avatar, onClick }: SDFieldProps) => {
         </div>
     );
 };
-
-export interface SendDialogProps {
-    className?: string;
-}
 
 const SendDialog = () => {
     const [isFromModalOpen, setFromModalOpen] = useState(false);
@@ -150,17 +147,11 @@ const SendDialog = () => {
                 ariaHideApp={false}
                 isOpen={isConfirmModalOpen}
                 onRequestClose={() => setConfirmModalOpen(false)}
-                title="Confirm send"
+                title=""
             >
-                <div className="space-y-3">
-                    <div>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab
-                        consectetur debitis omnis blanditiis cum at laborum doloremque,
-                        nam rem nesciunt error nemo voluptatibus quos quisquam non
-                        recusandae asperiores, sed quas.
-                    </div>
-                    <div>Press [ESC] or click in the Overlay to close it</div>
-                </div>
+                <ConfirmSendDialog
+                    onBackClick={() => setConfirmModalOpen(false)}
+                />
             </Modal>
         </div>
     );
