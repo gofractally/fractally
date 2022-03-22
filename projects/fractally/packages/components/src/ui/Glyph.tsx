@@ -21,6 +21,7 @@ export interface GlyphProps {
     disabled?: boolean;
     isLoading?: boolean;
     dataTestId?: string;
+    hex?: boolean;
 }
 
 export const Glyph = ({
@@ -31,6 +32,7 @@ export const Glyph = ({
     isOutline,
     disabled,
     isLoading,
+    hex,
 }: GlyphProps) => {
     const sizeClass = SIZES[size];
     const colorClass = disabled
@@ -43,10 +45,14 @@ export const Glyph = ({
         isStatic || disabled || isLoading
             ? "cursor-default"
             : "hover:bg-indigo-600 hover:text-white";
+    const roundClass = hex ? "" : "rounded-full";
+    const hexStyle = hex ? { clipPath: "url(#hex-mask)" } : {};
+    const aspectRatio = hex ? "50 / 44" : "1";
 
     return (
         <span
-            className={`inline-flex items-center justify-center rounded-full mb-1 ${bgClass} ${colorClass} ${hoverClass} ${sizeClass.bg}`}
+            className={`inline-flex items-center justify-center mb-1 overflow-hidden ${bgClass} ${colorClass} ${hoverClass} ${sizeClass.bg} ${roundClass}`}
+            style={{ ...hexStyle, aspectRatio }}
         >
             {isLoading ? (
                 <LoadingIcon className="mr-2 ml-2" />
