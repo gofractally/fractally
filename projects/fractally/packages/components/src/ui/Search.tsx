@@ -1,6 +1,7 @@
 import React, { HTMLProps, useRef } from "react";
 import { BsSearch, BsXCircleFill } from "react-icons/bs";
 import Loader from "./Loader";
+import "../styles/search.css";
 
 export interface SearchProps {
     dataTestId?: string;

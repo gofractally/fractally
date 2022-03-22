@@ -1,5 +1,6 @@
 import React from "react";
 import LoadingIcon from "./icons/LoadingIcon";
+import "../styles/loader.css";
 
 export const Loader = ({
     size = 32,
