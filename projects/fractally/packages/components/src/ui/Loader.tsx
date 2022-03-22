@@ -1,24 +1,17 @@
 import React from "react";
-import LoadingIcon from "./icons/LoadingIcon";
+import { Icon } from "../ui/Icon";
 import "../styles/loader.css";
 
-export const Loader = ({
-    size = 32,
-    splash = false,
-}: {
-    size?: number;
-    splash?: boolean;
-}) => {
+export const Loader = ({ splash = false }: { splash?: boolean }) => {
+    let ariaModal = false;
+    let className = "Loader";
     if (splash) {
-        return (
-            <div aria-modal="true" className="SplashLoader">
-                <LoadingIcon size={size} />
-            </div>
-        );
+        ariaModal = true;
+        className = "SplashLoader";
     }
     return (
-        <div className="Loader">
-            <LoadingIcon size={size} />
+        <div aria-modal={ariaModal} className={className}>
+            <Icon type="loading" size="md" />
         </div>
     );
 };

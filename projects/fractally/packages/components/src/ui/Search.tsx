@@ -1,6 +1,6 @@
 import React, { HTMLProps, useRef } from "react";
 import { BsSearch, BsXCircleFill } from "react-icons/bs";
-import Loader from "./Loader";
+import { Icon } from "../ui/Icon";
 import "../styles/search.css";
 
 export interface SearchProps {
@@ -60,7 +60,9 @@ export const Search = ({
         );
     }
     if (isLoading) {
-        statusIcons.push(<Loader key="search-loading" size={16} />);
+        statusIcons.push(
+            <Icon key="search-loading" type="loading" size="sm" />
+        );
     }
 
     return (

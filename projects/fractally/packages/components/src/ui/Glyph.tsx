@@ -1,6 +1,6 @@
 import React from "react";
 import { IconType } from "react-icons";
-import LoadingIcon from "./icons/LoadingIcon";
+import { Icon } from "../ui/Icon";
 
 export type GlyphSize = "sm" | "md" | "lg" | "xl";
 const SIZES: {
@@ -49,7 +49,7 @@ export const Glyph = ({
             className={`inline-flex items-center justify-center rounded-full mb-1 ${bgClass} ${colorClass} ${hoverClass} ${sizeClass.bg}`}
         >
             {isLoading ? (
-                <LoadingIcon className="mr-2 ml-2" />
+                <Icon type="loading" size="md" />
             ) : chars ? (
                 <span className={sizeClass.chars}>{chars}</span>
             ) : (
