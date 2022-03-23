@@ -8,35 +8,24 @@ import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
 
 # Wallet Example
 
-<div className="bg-gray-100 w-full h-full p-4 space-y-4">
+<div className="bg-slate-100 w-full h-full p-4 space-y-4">
     <div className="space-y-0.5">
         <Card roundType="top">
             <div className="flex items-center space-x-4">
                 <div>
-                    <Glyph size="xl" chars="ℝ" isOutline isStatic />
+                    <Glyph color="text-white" bgColor="bg-orange-400" hex size="xl" chars="₿" isStatic />
                 </div>
                 <div>
-                    <Text size="xs">Total balance ℝespect</Text>
+                    <Text size="xs">Total</Text>
                     <Text size="3xl" type="strong" bold>
-                        18 920,55
+                        1.850000
                     </Text>
                 </div>
-                <div className="flex flex-1 px-8 space-x-8">
+                <div className="flex flex-1 px-8 space-x-8 justify-end">
                     <ActionButton
                         label="Send"
                         Icon={BsArrowUp}
                         onClick={() => alert("send")}
-                    />
-                    <ActionButton
-                        label="Sell"
-                        Icon={BsCurrencyDollar}
-                        disabled
-                        onClick={() => alert("sell")}
-                    />
-                    <ActionButton
-                        label="Buy"
-                        Icon={BsPlusLg}
-                        onClick={() => alert("buy")}
                     />
                     <ActionButton
                         label="Convert"
@@ -50,8 +39,8 @@ import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
             <Tabs
                 selectedIndex={0}
                 options={[
-                    { label: "My Points", onClick: () => alert("My Points") },
-                    { label: "All Points", onClick: () => alert("All Points") },
+                    { label: "My Tokens", onClick: () => alert("My Points") },
+                    { label: "All Tokens", onClick: () => alert("All Points") },
                     {
                         label: "History",
                         onClick: () => alert("History"),
@@ -64,14 +53,30 @@ import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
         <div className="flex w-full justify-between">
             <Text size="xl" bold>
                 <Text size="xl" type="strong" span>
-                    My Points:
+                    My Tokens
                 </Text>{" "}
-                32
             </Text>
             <a href="#" className="text-2xl text-gray-400">
                 <FaCog />
             </a>
         </div>
-        <div>+++ Search Bar goes here +++</div>
+        <br />
+        <div className="flex flex-row">
+            <div className="basis-12">-</div>
+            <div className="basis-1/3">Price</div>
+            <div className="basis-1/3">24h</div>
+            <div className="basis-1/3">Balance</div>
+        </div>
+        <div className="flex flex-row mt-2">
+            <div className="basis-12">
+                <Glyph color="text-white" bgColor="bg-slate-400" hex size="md" chars="ƒ’" isStatic />
+            </div>
+            <div className="basis-1/3">
+                <label>Prime</label>
+                <div>{"\u20BF"} 0.02097</div>
+            </div>
+            <div className="basis-1/3">+2.4%</div>
+            <div className="basis-1/3">3,800<br/>{"\u20BF"} 0.52097</div>
+        </div>
     </Card>
 </div>
