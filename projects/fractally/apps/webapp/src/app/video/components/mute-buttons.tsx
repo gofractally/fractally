@@ -1,61 +1,46 @@
-import React, { useState } from "react";
+import React from "react";
 import * as SignalWire from "@signalwire/js";
 import { MdMic, MdMicOff, MdVideocam, MdVideocamOff } from "react-icons/md";
 import { Button } from "@fractally/components/ui";
 
 interface MuteButtonProps {
     room: SignalWire.Video.RoomSession;
+    isMuted: boolean;
 }
 
-export const MuteAudioButton = ({ room }: MuteButtonProps) => {
-    const [audioMuted, setAudioMuted] = useState(false);
-
-    const toggleAudioMute = () => {
-        if (audioMuted) {
+export const MuteAudioButton = ({ room, isMuted }: MuteButtonProps) => {
+    const toggleMute = () => {
+        if (isMuted) {
             room.audioUnmute();
-            setAudioMuted(false);
         } else {
             room.audioMute();
-            setAudioMuted(true);
         }
     };
 
-    return audioMuted ? (
-        <Button
-            type="dangerOutline"
-            className="group"
-            onClick={toggleAudioMute}
-        >
+    return isMuted ? (
+        <Button type="dangerOutline" className="group" onClick={toggleMute}>
             <MdMic size={22} className="hidden group-hover:block" />
             <MdMicOff size={22} className="text-red-500 group-hover:hidden" />
         </Button>
     ) : (
-        <Button
-            type="dangerOutline"
-            className="group"
-            onClick={toggleAudioMute}
-        >
+        <Button type="dangerOutline" className="group" onClick={toggleMute}>
             <MdMic size={22} className="group-hover:hidden" />
             <MdMicOff size={22} className="hidden group-hover:block" />
         </Button>
     );
 };
 
-export const MuteVideoButton = ({ room }: MuteButtonProps) => {
-    const [videoMuted, setVideoMuted] = useState(false);
-
-    const togglVideoMute = () => {
-        if (videoMuted) {
+export const MuteVideoButton = ({ room, isMuted }: MuteButtonProps) => {
+    const toggleMute = () => {
+        if (isMuted) {
             room.videoUnmute();
-            setVideoMuted(false);
         } else {
             room.videoMute();
-            setVideoMuted(true);
         }
     };
 
-    return videoMuted ? (
-        <Button type="dangerOutline" className="group" onClick={togglVideoMute}>
+    return isMuted ? (
+        <Button type="dangerOutline" className="group" onClick={toggleMute}>
             <MdVideocam size={22} className="hidden group-hover:block" />
             <MdVideocamOff
                 size={22}
@@ -63,7 +48,7 @@ export const MuteVideoButton = ({ room }: MuteButtonProps) => {
             />
         </Button>
     ) : (
-        <Button type="dangerOutline" className="group" onClick={togglVideoMute}>
+        <Button type="dangerOutline" className="group" onClick={toggleMute}>
             <MdVideocam size={22} className="group-hover:hidden" />
             <MdVideocamOff size={22} className="hidden group-hover:block" />
         </Button>
