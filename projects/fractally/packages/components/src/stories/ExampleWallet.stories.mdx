@@ -1,6 +1,6 @@
-import { Meta } from "@storybook/addon-docs";
+import { Canvas, Meta, Story } from "@storybook/addon-docs";
 import { BsArrowUp, BsCurrencyDollar, BsPlusLg } from "react-icons/bs";
-import { FaExchangeAlt, FaCog } from "react-icons/fa";
+import { FaExchangeAlt, FaHamburger, FaDatabase } from "react-icons/fa";
 
 import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
 
@@ -8,70 +8,174 @@ import { ActionButton, Text, Card, Glyph, Tabs } from "../ui";
 
 # Wallet Example
 
-<div className="bg-gray-100 w-full h-full p-4 space-y-4">
-    <div className="space-y-0.5">
-        <Card roundType="top">
-            <div className="flex items-center space-x-4">
-                <div>
-                    <Glyph size="xl" chars="ℝ" isOutline isStatic />
+<Canvas>
+    <div className="bg-slate-100 w-full h-full p-4 space-y-4">
+        <div className="space-y-0.5">
+            <Card roundType="none">
+                <div className="flex items-center space-x-4">
+                    <div>
+                        <Glyph
+                            color="text-white"
+                            bgColor="bg-orange-400"
+                            hex
+                            size="xl"
+                            chars="₿"
+                            isStatic
+                        />
+                    </div>
+                    <div>
+                        <Text size="xs">Total</Text>
+                        <Text size="3xl" type="strong" bold>
+                            1.850000
+                        </Text>
+                    </div>
+                    <div className="flex flex-1 px-8 space-x-8 justify-end">
+                        <ActionButton
+                            label="Send"
+                            Icon={BsArrowUp}
+                            onClick={() => alert("send")}
+                        />
+                        <ActionButton
+                            label="Convert"
+                            Icon={FaExchangeAlt}
+                            onClick={() => alert("convert")}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <Text size="xs">Total balance ℝespect</Text>
-                    <Text size="3xl" type="strong" bold>
-                        18 920,55
-                    </Text>
+            </Card>
+            <Card roundType="none" noPadding>
+                <Tabs
+                    selectedIndex={0}
+                    options={[
+                        {
+                            label: "My Tokens",
+                            onClick: () => alert("My Points"),
+                        },
+                        {
+                            label: "All Tokens",
+                            onClick: () => alert("All Points"),
+                        },
+                        {
+                            label: "History",
+                            onClick: () => alert("History"),
+                        },
+                    ]}
+                />
+            </Card>
+        </div>
+        <Card roundType="none" noPadding>
+            <div className="flex w-full justify-between p-4">
+                <Text size="xl" bold>
+                    <Text size="xl" type="strong" span>
+                        My Tokens
+                    </Text>{" "}
+                </Text>
+                <a href="#" className="text-2xl text-gray-400">
+                    {/*<FaCog /> - currently not in use*/}
+                </a>
+            </div>
+            <div className="flex flex-row border-slate-100 border-b text-slate-400 text-xs pl-4 pr-4">
+                <div className="basis-16"></div>
+                <div className="basis-1/3">Price</div>
+                <div className="basis-1/3 text-center">24h</div>
+                <div className="basis-1/3 text-right">Balance</div>
+            </div>
+            <div className="flex flex-row border-slate-100 border-b pt-3 pb-2 pl-4 pr-4 text-sm hover:bg-slate-50">
+                <div className="basis-16">
+                    <Glyph
+                        color="text-white"
+                        bgColor="bg-slate-400"
+                        hex
+                        size="lg"
+                        chars="ƒ’"
+                        isStatic
+                    />
                 </div>
-                <div className="flex flex-1 px-8 space-x-8">
-                    <ActionButton
-                        label="Send"
-                        Icon={BsArrowUp}
-                        onClick={() => alert("send")}
+                <div className="basis-1/3">
+                    <label>PRIME</label>
+                    <div>{"\u20BF"} 0.02097</div>
+                </div>
+                <div className="basis-1/3 text-center m-auto text-emerald-500">
+                    +2.4%
+                </div>
+                <div className="basis-1/3 text-right">
+                    3,800
+                    <br />
+                    {"\u20BF"} 0.52097
+                </div>
+            </div>
+            <div className="flex flex-row border-slate-100 border-b pt-3 pb-2 pl-4 pr-4 text-sm hover:bg-slate-50">
+                <div className="basis-16">
+                    <Glyph
+                        color="text-white"
+                        bgColor="bg-violet-500"
+                        hex
+                        size="lg"
+                        Icon={FaHamburger}
+                        isStatic
                     />
-                    <ActionButton
-                        label="Sell"
-                        Icon={BsCurrencyDollar}
-                        disabled
-                        onClick={() => alert("sell")}
+                </div>
+                <div className="basis-1/3">
+                    <label>FOOD</label>
+                    <div>{"\u20BF"} 0.02097</div>
+                </div>
+                <div className="basis-1/3 text-center m-auto text-emerald-500">
+                    +2.4%
+                </div>
+                <div className="basis-1/3 text-right">
+                    3,800
+                    <br />
+                    {"\u20BF"} 0.52097
+                </div>
+            </div>
+            <div className="flex flex-row border-slate-100 border-b pt-3 pb-2 pl-4 pr-4 text-sm hover:bg-slate-50">
+                <div className="basis-16">
+                    <Glyph
+                        color="text-white"
+                        bgColor="bg-green-500"
+                        hex
+                        size="lg"
+                        Icon={FaDatabase}
+                        isStatic
                     />
-                    <ActionButton
-                        label="Buy"
-                        Icon={BsPlusLg}
-                        onClick={() => alert("buy")}
+                </div>
+                <div className="basis-1/3">
+                    <label>DATA</label>
+                    <div>{"\u20BF"} 0.02097</div>
+                </div>
+                <div className="basis-1/3 text-center m-auto text-emerald-500">
+                    +2.4%
+                </div>
+                <div className="basis-1/3 text-right">
+                    3,800
+                    <br />
+                    {"\u20BF"} 0.52097
+                </div>
+            </div>
+            <div className="flex flex-row border-slate-100 border-b pt-3 pb-2 pl-4 pr-4 text-sm hover:bg-slate-50">
+                <div className="basis-16">
+                    <Glyph
+                        color="text-white"
+                        bgColor="bg-orange-400"
+                        hex
+                        size="lg"
+                        chars="₿"
+                        isStatic
                     />
-                    <ActionButton
-                        label="Convert"
-                        Icon={FaExchangeAlt}
-                        onClick={() => alert("convert")}
-                    />
+                </div>
+                <div className="basis-1/3">
+                    <label>BTC</label>
+                    <div>{"\u20BF"} 0.02097</div>
+                </div>
+                <div className="basis-1/3 text-center m-auto text-emerald-500">
+                    +2.4%
+                </div>
+                <div className="basis-1/3 text-right">
+                    0.02097
+                    <br />
+                    {"\u20BF"} 0.52097
                 </div>
             </div>
         </Card>
-        <Card roundType="bottom" noPadding>
-            <Tabs
-                selectedIndex={0}
-                options={[
-                    { label: "My Points", onClick: () => alert("My Points") },
-                    { label: "All Points", onClick: () => alert("All Points") },
-                    {
-                        label: "History",
-                        onClick: () => alert("History"),
-                    },
-                ]}
-            />
-        </Card>
     </div>
-    <Card>
-        <div className="flex w-full justify-between">
-            <Text size="xl" bold>
-                <Text size="xl" type="strong" span>
-                    My Points:
-                </Text>{" "}
-                32
-            </Text>
-            <a href="#" className="text-2xl text-gray-400">
-                <FaCog />
-            </a>
-        </div>
-        <div>+++ Search Bar goes here +++</div>
-    </Card>
-</div>
+</Canvas>

@@ -27,6 +27,7 @@ export const ActionButton = ({
                         Icon={Icon}
                         isLoading={isLoading}
                         disabled={disabled}
+                        hex
                     />
                     <span>{label}</span>
                 </span>
@@ -36,7 +37,7 @@ export const ActionButton = ({
 
     return (
         <button
-            className={"text-sm text-indigo-600"}
+            className={"text-sm text-black"}
             onClick={onClick}
             type="button"
             disabled={disabled}
@@ -44,7 +45,7 @@ export const ActionButton = ({
             data-testid={dataTestId}
         >
             <span className="flex flex-col items-center justify-center">
-                <Glyph Icon={Icon} isLoading={isLoading} disabled={disabled} />
+                <Glyph Icon={Icon} isLoading={isLoading} disabled={disabled} hex />
                 <span>{label}</span>
             </span>
         </button>
