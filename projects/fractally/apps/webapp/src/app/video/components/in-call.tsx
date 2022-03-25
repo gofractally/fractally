@@ -4,17 +4,26 @@ import { MdOutlineExitToApp, MdOutlineFullscreen } from "react-icons/md";
 import { Button, Countdown, Loader } from "@fractally/components/ui";
 
 import {
+    CallContainer,
     DeviceSelect,
     MuteAudioButton,
     MuteVideoButton,
+    Participants,
     ScreenShareButton,
     Video,
 } from ".";
+import { Participant, RoomUpdates } from "../interfaces";
 
 export const InCall = ({ joinDetails, onLeave }) => {
     const [cameras, setCameras] = useState<MediaDeviceInfo[]>([]);
     const [microphones, setMicrophones] = useState<MediaDeviceInfo[]>([]);
     const [speakers, setSpeakers] = useState<MediaDeviceInfo[]>([]);
+    const [thisParticipantId, setThisParticipantId] = useState<string>();
+    const [participantList, setParticipantList] = useState<Participant[]>([]);
+
+    const thisParticipant = participantList.find(
+        (p) => p.id === thisParticipantId
+    );
 
     const [roomCloseTime, setRoomCloseTime] = useState<Date>();
     const [isLoading, setIsLoading] = useState(true);
@@ -48,15 +57,23 @@ export const InCall = ({ joinDetails, onLeave }) => {
         []
     );
 
-    const onRoomUpdate = useCallback((updatedValues) => {
-        if (updatedValues.cameras) setCameras(updatedValues.cameras);
-        if (updatedValues.speakers) setSpeakers(updatedValues.speakers);
-        if (updatedValues.microphones)
-            setMicrophones(updatedValues.microphones);
+    const onRoomUpdate = useCallback((updatedValues: RoomUpdates) => {
+        const {
+            cameras,
+            speakers,
+            microphones,
+            left,
+            thisParticipantId: thisMemberId,
+        } = updatedValues;
+        if (cameras) setCameras(cameras);
+        if (speakers) setSpeakers(speakers);
+        if (microphones) setMicrophones(microphones);
+        if (left) onLeave();
+        if (thisMemberId) setThisParticipantId(thisMemberId);
     }, []);
 
     const toggleFullScreen = () => {
-        interface VideoElement extends HTMLVideoElement {
+        interface FullScreenableDiv extends HTMLElement {
             msRequestFullscreen?: (
                 options?: FullscreenOptions
             ) => Promise<void>;
@@ -68,9 +85,7 @@ export const InCall = ({ joinDetails, onLeave }) => {
             ) => Promise<void>;
         }
 
-        const el: VideoElement = document
-            .getElementById("stream")
-            .querySelector("video");
+        const el: FullScreenableDiv = document.getElementById("stream");
         if (!el) return;
 
         if (document.fullscreenElement) {
@@ -94,17 +109,27 @@ export const InCall = ({ joinDetails, onLeave }) => {
             {isLoading && <Loader />}
             <section className={isLoading ? "hidden" : ""}>
                 {roomCloseTime && <Countdown endTime={roomCloseTime} />}
-                <div className="flex">
-                    <div className="bg-black justify-center">
+                <div className="flex space-x-2">
+                    <CallContainer className="justify-center bg-black">
                         {/* {joinDetails.mod ? "Moderator" : "Normal user"} */}
                         <Video
                             onRoomInit={onRoomInit}
                             onRoomUpdate={onRoomUpdate}
                             joinDetails={joinDetails}
                             width={800}
+                            onParticipantListUpdate={(participants) => {
+                                console.log("Participants:", participants);
+                                setParticipantList(participants);
+                            }}
                             // eventLogger={logEvent}
                         />
-                    </div>
+                    </CallContainer>
+                    <CallContainer className="flex-1 border border-gray-300 space-y-2">
+                        <Participants
+                            participantList={participantList}
+                            thisParticipantId={thisParticipantId}
+                        />
+                    </CallContainer>
                 </div>
 
                 <nav className="flex-col space-y-2 mt-3">
@@ -133,18 +158,21 @@ export const InCall = ({ joinDetails, onLeave }) => {
                     </section>
 
                     <section className="flex justify-center space-x-4">
-                        <MuteAudioButton room={room} />
-                        <MuteVideoButton room={room} />
+                        <MuteAudioButton
+                            room={room}
+                            isMuted={thisParticipant?.audioMuted ?? false}
+                        />
+                        <MuteVideoButton
+                            room={room}
+                            isMuted={thisParticipant?.videoMuted ?? false}
+                        />
                         <ScreenShareButton room={room} />
                         <Button onClick={toggleFullScreen} type="secondary">
                             <MdOutlineFullscreen size={22} className="mr-1" />
                             Full screen
                         </Button>
                         <Button
-                            onClick={async () => {
-                                await room.leave();
-                                onLeave();
-                            }}
+                            onClick={() => room?.leave()}
                             type="dangerOutline"
                         >
                             <MdOutlineExitToApp size={22} className="mr-1" />
