@@ -1,7 +1,7 @@
 import React from "react";
-import { Card } from "../ui/Card";
-import { Avatar } from "../ui/Avatar";
-import Button from "../ui/Button";
+import { Card } from "../Card";
+import { Avatar } from "../Avatar";
+import Button from "../Button";
 
 interface SDFieldProps {
     children: React.ReactNode[];
@@ -74,7 +74,7 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                         >
                             Back
                         </Button>
-                        <Button type="primary" fullWidth size="lg">
+                        <Button type="secondary" fullWidth size="lg">
                             Approve
                         </Button>
                     </div>

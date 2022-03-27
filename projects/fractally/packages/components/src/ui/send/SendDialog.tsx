@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { Card } from "./Card";
-import Button from "./Button";
-import { Modal } from "./Modal";
+import { Card } from "../Card";
+import Button from "../Button";
+import { Modal } from "../Modal";
 import SendDialogField from "./SendDialogField";
 import ConfirmSendDialog from "./ConfirmSendDialog";
 
-import "../styles/send-dialog.css";
-
-
+import "../../styles/send-dialog.css";
 
 const SendDialog = () => {
     const [isFromModalOpen, setFromModalOpen] = useState(false);
@@ -18,7 +16,7 @@ const SendDialog = () => {
         url: "https://randomuser.me/api/portraits/women/44.jpg",
     };
     return (
-        <div className="bg-gray-100 w-full h-full p-4 space-y-4">
+        <div className="bg-slate-100 w-full h-full p-4 space-y-4">
             <Card>
                 <div className="my-0 mx-2">
                     <h3 className="mb-6 mx-auto font-bold text-center">Send</h3>
@@ -26,37 +24,49 @@ const SendDialog = () => {
                         avatar={avatarFrom}
                         onClick={() => setFromModalOpen(true)}
                     >
-                        <label className="text-slate-400">From</label>
+                        <label className="text-slate-800">From</label>
                         <div className="font-bold">PRIME</div>
                         <div>Total: 2,800 / {"\u20BF"}0.1034011</div>
                     </SendDialogField>
                     <SendDialogField>
                         <label
                             htmlFor="input_amount"
-                            className="text-slate-400"
+                            className="text-slate-800"
                         >
                             Amount
                         </label>
                         <input
-                            className="AmountInput block border-none p-0"
+                            className="block border-none p-0"
                             type="number"
                             id="input_amount"
                             placeholder="0"
                         />
                     </SendDialogField>
-                    <SendDialogField
-                        avatar={avatarTo}
-                        onClick={() => setToModalOpen(true)}
-                    >
-                        <label className="text-slate-400">To</label>
-                        <div>Hal McGovern</div>
+                    <SendDialogField>
+                        <label htmlFor="input_to" className="text-slate-800">
+                            To
+                        </label>
+                        <input
+                            className="block border-none p-0 w-full"
+                            type="text"
+                            id="input_to"
+                            placeholder="Account name or number"
+                        />
+                    </SendDialogField>
+                    <SendDialogField>
+                        <input
+                            className="block border-none p-0 w-full"
+                            type="text"
+                            id="input_memo"
+                            placeholder="Memo"
+                        />
                     </SendDialogField>
                     <div className="flex gap-2 mt-8">
                         <Button type="neutral" fullWidth size="lg">
                             Cancel
                         </Button>
                         <Button
-                            type="primary"
+                            type="secondary"
                             fullWidth
                             size="lg"
                             onClick={() => setConfirmModalOpen(true)}

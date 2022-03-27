@@ -1,8 +1,8 @@
 import React from "react";
-import { Avatar } from "../ui/Avatar";
+import { Avatar } from "../Avatar";
 
 interface FieldProps {
-    children: React.ReactNode[];
+    children: React.ReactNode | React.ReactNode[];
     avatar?: {
         url?: string;
         name?: string;
@@ -13,11 +13,13 @@ interface FieldProps {
 const SendDialogField = ({ children, avatar, onClick }: FieldProps) => {
     return (
         <div
-            className={`SendDialogField flex gap-1 border px-2 py-1 mb-4 ${onClick && "cursor-pointer"}`}
+            className={`SendDialogField flex gap-1 border border-slate-200 px-2 py-1 mb-4 ${
+                onClick && "cursor-pointer"
+            }`}
             onClick={onClick}
         >
             {avatar && (
-                <div className="flex-none m-1">
+                <div className="flex-none mt-3">
                     <Avatar
                         avatarUrl={avatar.url}
                         name="Rey"
@@ -27,7 +29,11 @@ const SendDialogField = ({ children, avatar, onClick }: FieldProps) => {
                 </div>
             )}
             <div className="flex-auto content-center mx-1 my-auto">
-                <div className={`contentLen-${children.length} text-sm`}>
+                <div
+                    className={`contentLen-${
+                        Array.isArray(children) ? children.length : 0
+                    } text-sm`}
+                >
                     {children}
                 </div>
             </div>
