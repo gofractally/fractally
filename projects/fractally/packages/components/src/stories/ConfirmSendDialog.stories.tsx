@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import ConfirmSendDialog from "../ui/ConfirmSendDialog";
+import ConfirmSendDialog from "../ui/send/ConfirmSendDialog";
 
 export default {
     component: ConfirmSendDialog,
