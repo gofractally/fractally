@@ -1,0 +1,13 @@
+import { Meta, Canvas } from "@storybook/addon-docs";
+import SendSuccess from "../ui/send/SendSuccess";
+import {Card} from "../ui/Card";
+
+<Meta title="Example/SendSuccess" component={SendSuccess} />
+
+# SendSuccess Example
+
+<Canvas>
+    <Card>
+        <SendSuccess onCloseClick={() => console.log("Close button click")} />
+    </Card>
+</Canvas>

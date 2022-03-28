@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card } from "../Card";
 import { Avatar } from "../Avatar";
 import Button from "../Button";
+import SendSuccess from "./SendSuccess";
+import { Modal } from "../Modal";
 
 interface SDFieldProps {
     children: React.ReactNode[];
@@ -38,12 +40,13 @@ export interface SendDialogProps {
 }
 
 const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
+    const [isSendSuccessModalOpen, setSendSuccessModalOpen] = useState(false);
     const avatarFrom = {};
     const avatarTo = {
         url: "https://randomuser.me/api/portraits/women/44.jpg",
     };
     return (
-        <div className="bg-gray-100 w-full h-full p-4 space-y-4">
+        <div className="bg-slate-100 w-full h-full p-4 space-y-4">
             <Card>
                 <div className="my-0 mx-2">
                     <h3 className="mb-6 mx-auto font-bold text-center">
@@ -74,12 +77,29 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                         >
                             Back
                         </Button>
-                        <Button type="secondary" fullWidth size="lg">
+                        <Button
+                            type="secondary"
+                            fullWidth
+                            size="lg"
+                            onClick={() => setSendSuccessModalOpen(true)}
+                        >
                             Approve
                         </Button>
                     </div>
                 </div>
             </Card>
+            <Modal
+                shouldCloseOnEsc
+                shouldCloseOnOverlayClick
+                ariaHideApp={false}
+                isOpen={isSendSuccessModalOpen}
+                onRequestClose={() => setSendSuccessModalOpen(false)}
+                title=""
+            >
+                <SendSuccess
+                    onCloseClick={() => setSendSuccessModalOpen(false)}
+                />
+            </Modal>
         </div>
     );
 };
