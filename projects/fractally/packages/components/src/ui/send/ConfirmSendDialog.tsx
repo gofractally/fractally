@@ -97,8 +97,25 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                 title=""
             >
                 <TransactionStatus
+                    type="success"
                     onCloseClick={() => setSendSuccessModalOpen(false)}
-                />
+                >
+                    <div className="bg-slate-50 py-2">
+                        <label className="text-sm text-slate-400">Sent</label>
+                        <p>
+                            230.50 PRIME /{" "}
+                            <span className="">{"\u20BF"}230.50</span>
+                        </p>
+                        <label className="text-sm text-slate-400">To</label>
+                        <p>245798572349857</p>
+                        <label className="text-sm text-slate-400">Memo</label>
+                        <p>For your perfectly roasted coffee.</p>
+                        <label className="text-sm text-slate-400">
+                            Trx fee
+                        </label>
+                        <p>.001 PRIME / {"\u20BF"}0.000011</p>
+                    </div>
+                </TransactionStatus>
             </Modal>
         </div>
     );
