@@ -132,7 +132,7 @@ export const Video = ({
                 // I haven't tested this event
                 eventLogger("room.updated - the event follows:");
                 console.log(e);
-                await updateParticipantList(room);
+                // await updateParticipantList(room);
             });
             room.on("member.joined", async (e) => {
                 eventLogger(
@@ -198,6 +198,7 @@ export const Video = ({
                     // the old you is removed, but you are removed along with it. Keep an eye on this to see if that's happening.
                     eventLogger("You have left the room.");
                     onRoomUpdate({ left: true });
+                    return; // avoid updating the participants state since you left, which would update an unmounted component
                 } else {
                     eventLogger(
                         `${participantThatLeft.name} has left the room.`

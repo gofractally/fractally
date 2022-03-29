@@ -9,11 +9,16 @@ interface MuteButtonProps {
 }
 
 export const MuteAudioButton = ({ room, isMuted }: MuteButtonProps) => {
-    const toggleMute = () => {
-        if (isMuted) {
-            room.audioUnmute();
-        } else {
-            room.audioMute();
+    const toggleMute = async () => {
+        try {
+            if (isMuted) {
+                await room.audioUnmute();
+            } else {
+                await room.audioMute();
+            }
+        } catch (e) {
+            console.error(e);
+            alert("fail to toggle audio muting functionality: " + e);
         }
     };
 
@@ -31,11 +36,16 @@ export const MuteAudioButton = ({ room, isMuted }: MuteButtonProps) => {
 };
 
 export const MuteVideoButton = ({ room, isMuted }: MuteButtonProps) => {
-    const toggleMute = () => {
-        if (isMuted) {
-            room.videoUnmute();
-        } else {
-            room.videoMute();
+    const toggleMute = async () => {
+        try {
+            if (isMuted) {
+                await room.videoUnmute();
+            } else {
+                await room.videoMute();
+            }
+        } catch (e) {
+            console.error(e);
+            alert("fail to toggle video muting functionality: " + e);
         }
     };
 
