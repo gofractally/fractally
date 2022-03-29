@@ -72,6 +72,11 @@ export const InCall = ({ joinDetails, onLeave }) => {
         if (thisMemberId) setThisParticipantId(thisMemberId);
     }, []);
 
+    const onParticipantListUpdate = (participants) => {
+        console.log("Participants:", participants);
+        setParticipantList(participants);
+    };
+
     const toggleFullScreen = () => {
         interface FullScreenableDiv extends HTMLElement {
             msRequestFullscreen?: (
@@ -104,6 +109,10 @@ export const InCall = ({ joinDetails, onLeave }) => {
         }
     };
 
+    const handleLeaveClick = async () => {
+        await room?.leave();
+    };
+
     return (
         <>
             {isLoading && <Loader />}
@@ -116,11 +125,8 @@ export const InCall = ({ joinDetails, onLeave }) => {
                             onRoomInit={onRoomInit}
                             onRoomUpdate={onRoomUpdate}
                             joinDetails={joinDetails}
-                            width={800}
-                            onParticipantListUpdate={(participants) => {
-                                console.log("Participants:", participants);
-                                setParticipantList(participants);
-                            }}
+                            // width={800}
+                            onParticipantListUpdate={onParticipantListUpdate}
                             // eventLogger={logEvent}
                         />
                     </CallContainer>
@@ -135,22 +141,22 @@ export const InCall = ({ joinDetails, onLeave }) => {
                 <nav className="flex-col space-y-2 mt-3">
                     <section>
                         <DeviceSelect
-                            onChange={(id) => {
-                                room.updateCamera({ deviceId: id });
+                            onChange={async (id) => {
+                                await room.updateCamera({ deviceId: id });
                             }}
                             deviceName="Camera"
                             devices={cameras}
                         />
                         <DeviceSelect
-                            onChange={(id) => {
-                                room.updateMicrophone({ deviceId: id });
+                            onChange={async (id) => {
+                                await room.updateMicrophone({ deviceId: id });
                             }}
                             deviceName="Microphone"
                             devices={microphones}
                         />
                         <DeviceSelect
-                            onChange={(id) => {
-                                room.updateSpeaker({ deviceId: id });
+                            onChange={async (id) => {
+                                await room.updateSpeaker({ deviceId: id });
                             }}
                             deviceName="Speaker"
                             devices={speakers}
@@ -171,10 +177,7 @@ export const InCall = ({ joinDetails, onLeave }) => {
                             <MdOutlineFullscreen size={22} className="mr-1" />
                             Full screen
                         </Button>
-                        <Button
-                            onClick={() => room?.leave()}
-                            type="dangerOutline"
-                        >
+                        <Button onClick={handleLeaveClick} type="dangerOutline">
                             <MdOutlineExitToApp size={22} className="mr-1" />
                             Leave
                         </Button>
