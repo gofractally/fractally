@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card } from "../Card";
 import { Avatar } from "../Avatar";
 import Button from "../Button";
-import SendSuccess from "./SendSuccess";
+import TransactionStatus from "./TransactionStatus";
 import { Modal } from "../Modal";
 
 interface SDFieldProps {
@@ -96,7 +96,7 @@ const ConfirmSendDialog = ({ onBackClick }: SendDialogProps) => {
                 onRequestClose={() => setSendSuccessModalOpen(false)}
                 title=""
             >
-                <SendSuccess
+                <TransactionStatus
                     onCloseClick={() => setSendSuccessModalOpen(false)}
                 />
             </Modal>

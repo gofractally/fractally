@@ -8,7 +8,7 @@ export interface SendSuccessProps {
     onCloseClick: () => void;
 }
 
-const SendSuccess = ({ onCloseClick }: SendSuccessProps) => {
+const TransactionStatus = ({ onCloseClick }: SendSuccessProps) => {
     return (
         <div className="bg-slate-100 w-full h-full p-4 space-y-4">
             <Card>
@@ -66,4 +66,4 @@ const SendSuccess = ({ onCloseClick }: SendSuccessProps) => {
     );
 };
 
-export default SendSuccess;
+export default TransactionStatus;

@@ -1,0 +1,13 @@
+import { Meta, Canvas } from "@storybook/addon-docs";
+import TransactionStatus from "../ui/send/TransactionStatus";
+import {Card} from "../ui/Card";
+
+<Meta title="Example/TransactionStatus" component={TransactionStatus} />
+
+# SendSuccess Example
+
+<Canvas>
+    <Card>
+        <TransactionStatus onCloseClick={() => console.log("Close button click")} />
+    </Card>
+</Canvas>
