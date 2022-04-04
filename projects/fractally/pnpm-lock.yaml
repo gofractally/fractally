@@ -98,7 +98,7 @@ importers:
       '@graphql-codegen/typescript-react-query': ^3.4.0
       '@greymass/eosio': ^0.5.4
       '@signalwire/core': ^3.4.1
-      '@signalwire/js': ^3.7.0
+      '@signalwire/js': ^3.10.2
       '@tailwindcss/forms': ^0.4.0
       '@types/node': ~16.11.0
       '@types/react': ~17.0.0
@@ -129,7 +129,7 @@ importers:
       '@fractally/components': link:../../packages/components
       '@greymass/eosio': 0.5.4
       '@signalwire/core': 3.4.1_react@17.0.2
-      '@signalwire/js': 3.7.0_react@17.0.2
+      '@signalwire/js': 3.10.2
       anchor-link: 3.3.5
       anchor-link-browser-transport: 3.2.5_anchor-link@3.3.5
       axios: 0.25.0
@@ -4129,25 +4129,30 @@ packages:
       - react-redux
     dev: false
 
-  /@signalwire/js/3.7.0_react@17.0.2:
-    resolution: {integrity: sha512-0TtG4sj1jBIwTRtHoRiAb2wkT/aX8+4efQySKprLahT7S9BtO4bDjWReadRclB6M0eP/kgnytnw2f9FnwEbbmQ==}
+  /@signalwire/core/3.7.1:
+    resolution: {integrity: sha512-74Ir0nUKJpvyclN/VykKS04t7uGQb8cDBa3w1bMyiy5fdmYJ10heGIWCJX6Azrrq5UckmfPqkxpNoPS8A4gWNA==}
     engines: {node: '>=10'}
     dependencies:
-      '@signalwire/core': 3.4.1_react@17.0.2
-      '@signalwire/webrtc': 3.3.0_react@17.0.2
-    transitivePeerDependencies:
-      - react
-      - react-redux
+      '@redux-saga/core': 1.1.3
+      eventemitter3: 4.0.7
+      loglevel: 1.8.0
+      redux: 4.1.2
+      uuid: 8.3.2
     dev: false
 
-  /@signalwire/webrtc/3.3.0_react@17.0.2:
-    resolution: {integrity: sha512-rkCvmWfWKnuRWmYy13ADCXhsmD/xEvC3yyrzPkcSpp564MnnmKlnKnPHKt+hZg3YvMeQDiZNj1u/waP2BwfLNg==}
+  /@signalwire/js/3.10.2:
+    resolution: {integrity: sha512-spPhf29xiZ3QH+M4Bz0vrZ05wtV9nHnpyH0Orxo4xP5jEmF+5u6q9HZgwAeIkyT8REt5o/R5jn852NlWd1XgbQ==}
     engines: {node: '>=10'}
     dependencies:
-      '@signalwire/core': 3.4.1_react@17.0.2
-    transitivePeerDependencies:
-      - react
-      - react-redux
+      '@signalwire/core': 3.7.1
+      '@signalwire/webrtc': 3.4.2
+    dev: false
+
+  /@signalwire/webrtc/3.4.2:
+    resolution: {integrity: sha512-1WsklT2e9ERSDUZeg46omcHkWbHONaFndhQlE+1YTrFAGYT9AY+6CpDykc2kiKhGP7hNDKxJ3yI51drYZMmU+A==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@signalwire/core': 3.7.1
     dev: false
 
   /@sindresorhus/is/0.14.0:

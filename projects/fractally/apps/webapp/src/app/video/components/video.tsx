@@ -5,6 +5,7 @@ import { VideoRoomSubscribedEventParams } from "@signalwire/core";
 
 import { coreApiBaseUrl } from "../../config";
 import { Participant, RoomUpdates } from "../interfaces";
+import { VideoMemberHandlerParams } from "@signalwire/js/dist/js/src/video";
 
 const convertMemberEntityToParticipant = (
     m: SignalWire.InternalVideoMemberEntity
@@ -55,35 +56,6 @@ export const Video = ({
         setupRoom();
     }, [joinDetails, eventLogger, onRoomInit, onRoomUpdate, setupDone]);
 
-    const updateParticipantList = async (
-        room: SignalWire.Video.RoomSession
-    ) => {
-        let m: {
-            members: SignalWire.InternalVideoMemberEntity[];
-        };
-
-        try {
-            eventLogger("Fetching members - room.getMembers()");
-            m = (await room.getMembers()) as unknown as {
-                // BUG: SignalWire's `getMembers` return type seems to be incorrect
-                members: SignalWire.InternalVideoMemberEntity[];
-            };
-            console.log("Members:", m);
-        } catch (e) {
-            console.log(
-                "Unable to get available members because of errors:",
-                e
-            );
-            return;
-        }
-
-        if (m.members === undefined) return;
-
-        const participants = m.members.map(convertMemberEntityToParticipant);
-        participantList.current = participants;
-        onParticipantListUpdate(participants);
-    };
-
     const setupRoom = async () => {
         setSetupDone(true);
 
@@ -113,59 +85,40 @@ export const Video = ({
             });
 
             // Listen for room events
-            room.on(
-                "room.joined",
-                async (e: VideoRoomSubscribedEventParams) => {
-                    eventLogger("room.joined - the event follows:");
-                    console.log(e);
+            room.on("room.joined", async (e) => {
+                eventLogger("room.joined - the event follows:");
+                console.log(e);
 
-                    thisParticipantId.current = e.member_id;
-                    onRoomUpdate({
-                        thisParticipantId: e.member_id,
-                    });
+                const event = e as VideoRoomSubscribedEventParams;
 
-                    // TODO: BUG: The join event does not have the correct mute values so we must fetch the participant list instead
-                    await updateParticipantList(room);
-                }
-            );
+                thisParticipantId.current = event.member_id;
+                onRoomUpdate({
+                    thisParticipantId: event.member_id,
+                });
+
+                const participants = event.room_session.members.map(
+                    convertMemberEntityToParticipant
+                );
+                participantList.current = participants;
+                onParticipantListUpdate(participants);
+            });
             room.on("room.updated", async (e) => {
-                // I haven't tested this event
                 eventLogger("room.updated - the event follows:");
                 console.log(e);
-                // await updateParticipantList(room);
             });
-            room.on("member.joined", async (e) => {
+            room.on("memberList.updated", (e) => {
+                console.log("memberList.updated", e);
+                const participants = e.members.map(
+                    convertMemberEntityToParticipant
+                );
+                participantList.current = participants;
+                onParticipantListUpdate(participants);
+            });
+            room.on("member.joined", async (e: VideoMemberHandlerParams) => {
                 eventLogger(
                     `member.joined - ${e.member.name} has joined the room. The event follows:`
                 );
                 console.log(e);
-                participantList.current.push(e.member);
-                onParticipantListUpdate(participantList.current);
-            });
-            room.on("member.updated", async (e) => {
-                eventLogger("member.updated - the event follows:");
-                console.log(e.member);
-                const staleParticipant = participantList.current.find(
-                    (p) => p.id === e.member.id
-                );
-                if (!staleParticipant) return;
-
-                const updates: Participant = convertMemberEntityToParticipant(
-                    e.member as unknown as SignalWire.InternalVideoMemberEntity
-                ); // BUG: SignalWire types appear whack here too
-
-                const updatedParticipant: Participant = {
-                    ...staleParticipant,
-                    ...updates,
-                };
-
-                const newParticipantList = participantList.current.filter(
-                    (p) => p.id !== e.member.id
-                );
-                newParticipantList.push(updatedParticipant);
-                participantList.current = newParticipantList;
-
-                onParticipantListUpdate(newParticipantList);
             });
             room.on("layout.changed", async (e) => {
                 eventLogger(
@@ -179,34 +132,15 @@ export const Video = ({
                 eventLogger("member.left - the event follows:");
                 console.log(e);
 
-                const participantThatLeft = participantList.current.find(
-                    (p) => p.id === e.member.id
-                );
-
-                const remainingParticipants = participantList.current.filter(
-                    (p) => p.id !== e.member.id
-                );
-
-                if (!participantThatLeft) {
-                    onRoomUpdate({ left: true });
-                    return;
-                }
-
-                if (thisParticipantId.current === participantThatLeft.id) {
+                if (thisParticipantId.current === e.member.id) {
                     // NOTE: I think I may have seen behavior here where if you are in the room, leave and immediately rejoin
                     // there are two of you in the room after you rejoin. When SignalWire finally realizes the old you left,
                     // the old you is removed, but you are removed along with it. Keep an eye on this to see if that's happening.
                     eventLogger("You have left the room.");
                     onRoomUpdate({ left: true });
-                    return; // avoid updating the participants state since you left, which would update an unmounted component
                 } else {
-                    eventLogger(
-                        `${participantThatLeft.name} has left the room.`
-                    );
+                    eventLogger(`${e.member.name} has left the room.`);
                 }
-
-                participantList.current = remainingParticipants;
-                onParticipantListUpdate(remainingParticipants);
             });
 
             console.info("loading navigator devices");
