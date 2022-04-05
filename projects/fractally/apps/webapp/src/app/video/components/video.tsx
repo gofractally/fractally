@@ -64,7 +64,8 @@ export const Video = ({
 
         try {
             // Get room token
-            const res = await axios.post(`${coreApiBaseUrl}/get-token`, {
+            const res = await axios.post(`/api/get-token`, {
+                // TODO: when properly deploying `${coreApiBaseUrl}/get-token`, {
                 userName: joinDetails.name,
                 roomName: joinDetails.room,
                 expirationMinutes: joinDetails.expiration,
