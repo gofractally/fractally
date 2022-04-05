@@ -234,7 +234,7 @@ export const Video = ({
                 y < lyr.y + lyr.height
         );
 
-        if (layer && layer.reservation !== "fullscreen") {
+        if (layer && layer.reservation !== "full-screen") {
             const participant = participantList.current.find(
                 (p) => p.id === layer.member_id
             );
