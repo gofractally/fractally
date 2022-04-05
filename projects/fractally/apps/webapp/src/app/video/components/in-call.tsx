@@ -125,7 +125,7 @@ export const InCall = ({ joinDetails, onLeave }) => {
                             onRoomInit={onRoomInit}
                             onRoomUpdate={onRoomUpdate}
                             joinDetails={joinDetails}
-                            // width={800}
+                            width={800}
                             onParticipantListUpdate={onParticipantListUpdate}
                             // eventLogger={logEvent}
                         />
