@@ -43,7 +43,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         case "POST":
             return setupRoomToken(req, res);
         default:
-            res.status(400).json({ error: "request not supported " });
+            return res.status(400).json({ error: "request not supported " });
     }
 };
 
@@ -169,4 +169,5 @@ const getVideoToken = async (
 };
 
 export const delay = (ms: number) =>
+    // eslint-disable-next-line
     new Promise((resolve) => setTimeout(resolve, ms));
