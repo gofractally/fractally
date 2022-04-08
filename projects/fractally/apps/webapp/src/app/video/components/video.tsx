@@ -204,7 +204,7 @@ export const Video = ({
             });
         } catch (e) {
             console.error(e);
-            alert("Error encountered. Please try again.");
+            alert("Error encountered. Please try again." + e);
         }
     };
 

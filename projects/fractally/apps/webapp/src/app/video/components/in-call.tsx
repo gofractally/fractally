@@ -110,7 +110,11 @@ export const InCall = ({ joinDetails, onLeave }) => {
     };
 
     const handleLeaveClick = async () => {
-        await room?.leave();
+        // fire and forget to signal the server and other participants we are leaving
+        room?.leave();
+
+        // leave right away without waiting for components to be updated/remounted
+        onLeave();
     };
 
     return (
