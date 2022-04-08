@@ -7,6 +7,8 @@ import { coreApiBaseUrl } from "../../config";
 import { Participant, RoomUpdates } from "../interfaces";
 import { VideoMemberHandlerParams } from "@signalwire/js/dist/js/src/video";
 
+const RESERVED_LAYERS = ["full-screen", "playback"];
+
 const convertMemberEntityToParticipant = (
     m: SignalWire.InternalVideoMemberEntity
 ) => ({
@@ -235,7 +237,7 @@ export const Video = ({
                 y < lyr.y + lyr.height
         );
 
-        if (layer && layer.reservation !== "full-screen") {
+        if (layer && !RESERVED_LAYERS.includes(layer.reservation)) {
             const participant = participantList.current.find(
                 (p) => p.id === layer.member_id
             );
