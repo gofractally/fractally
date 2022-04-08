@@ -54,6 +54,7 @@ const VideoPage = () => {
                                 required
                                 value={fields.name}
                                 onChange={onChangeFields}
+                                autoComplete="off"
                             />
                         </Form.LabeledSet>
                         <Form.LabeledSet
