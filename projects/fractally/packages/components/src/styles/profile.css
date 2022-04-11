@@ -1,0 +1,15 @@
+.Account {
+
+  .Icon {
+    display: inline;
+    vertical-align: text-top;
+    margin-left: 0.4rem;
+    color: #94A3B8;
+  }
+
+  .EditIconAvatar {
+    position: relative;
+    top: -10px;
+  }
+
+}
