@@ -1,5 +1,9 @@
 .Account {
 
+  svg {
+    display: inline;
+  }
+
   .Icon {
     display: inline;
     vertical-align: text-top;
@@ -9,7 +13,7 @@
 
   .EditIconAvatar {
     position: relative;
-    top: -10px;
+    top: 2px;
   }
 
 }

@@ -1,6 +1,8 @@
 import React from "react";
 import { Card, Glyph } from "..";
 import { FaUser, FaEdit, FaCopy } from "react-icons/fa";
+// @ts-ignore
+import EmptyProfilePic from "../assets/empty-profile-pic.svg";
 
 import "../../styles/profile.css";
 
@@ -18,14 +20,7 @@ export const Account = ({ username, publicKey }: AccountProps) => {
                         My accounts
                     </p>
                     <div className="mb-6">
-                        <Glyph
-                            color="text-white"
-                            bgColor="bg-orange-400"
-                            hex
-                            size="xl"
-                            Icon={FaUser}
-                            isStatic
-                        />
+                        <EmptyProfilePic />
                         <FaEdit className="Icon EditIconAvatar" />
                     </div>
                     <p className="mb-6">
