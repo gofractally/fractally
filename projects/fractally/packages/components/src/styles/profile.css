@@ -17,3 +17,14 @@
   }
 
 }
+
+.AddUserName {
+  .Container {
+    width: 350px;
+    margin: 0 auto;
+  }
+
+  p {
+    text-align: left;
+  }
+}
