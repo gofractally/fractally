@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "..";
+import { Card } from "../index";
 import { Input } from "../Form";
 import { FaInfoCircle } from "react-icons/fa";
 // @ts-ignore

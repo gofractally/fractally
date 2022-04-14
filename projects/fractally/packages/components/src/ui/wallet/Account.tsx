@@ -1,10 +1,10 @@
 import React from "react";
-import { Card, Glyph } from "..";
+import { Card, Glyph } from "../index";
 import { FaUser, FaEdit, FaCopy } from "react-icons/fa";
 // @ts-ignore
 import EmptyProfilePic from "../assets/empty-profile-pic.svg";
 
-import "../../styles/profile.css";
+import "../../styles/wallet.css";
 
 export interface AccountProps {
     username: string;
