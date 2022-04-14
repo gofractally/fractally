@@ -14,6 +14,7 @@
     "dependencies": {
         "@fractally/components": "*",
         "@greymass/eosio": "^0.5.4",
+        "@signalwire/core": "^3.7.1",
         "@signalwire/js": "^3.10.2",
         "anchor-link": "^3.3.5",
         "anchor-link-browser-transport": "^3.2.5",

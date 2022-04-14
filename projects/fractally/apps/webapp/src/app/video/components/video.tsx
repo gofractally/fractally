@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import * as SignalWire from "@signalwire/js";
+import { VideoRoomSubscribedEventParams } from "@signalwire/core";
 
 import { coreApiBaseUrl } from "../../config";
 import { Participant, RoomUpdates } from "../interfaces";
@@ -90,7 +91,7 @@ export const Video = ({
                 eventLogger("room.joined - the event follows:");
                 console.log(e);
 
-                const event = e as any;
+                const event = e as VideoRoomSubscribedEventParams;
 
                 thisParticipantId.current = event.member_id;
                 onRoomUpdate({
