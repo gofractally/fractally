@@ -129,7 +129,7 @@ const createRoom = async (roomName: string, expiresMinutes: number) => {
     const roomConfig: RoomConfig = {
         name: roomName,
         quality: "1080p",
-        layout: "grid-responsive",
+        layout: "highlight-1-responsive",
         record_on_start: false,
     };
 
