@@ -18,15 +18,17 @@ export const Input: React.FC<{
     placeholder?: string;
 }> = (props) => (
     <div className={`Input ${props.label ? "with-label" : ""}`}>
-        {props.label && <label
-            htmlFor={props.id}
-            className="relative cursor-pointer font-light text-xs text-slate-400 px-2"
-        >
-            <span>{props.label}</span>
-        </label>}
+        {props.label && (
+            <label
+                htmlFor={props.id}
+                className="relative cursor-pointer text-xs text-slate-400 px-2"
+            >
+                <span>{props.label}</span>
+            </label>
+        )}
         <input
             name={props.id}
-            className={`w-full bg-white border border-gray-300 focus:border-yellow-500  focus:ring-2 focus:ring-yellow-200 text-base outline-none text-gray-700 py-1 px-2 leading-8 transition-colors duration-200 ease-in-out ${
+            className={`w-full bg-white border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none text-gray-700 pb-1 px-2 leading-8 transition-colors duration-200 ease-in-out ${
                 props.disabled ? "bg-gray-50" : ""
             }`}
             ref={props.inputRef}

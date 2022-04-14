@@ -31,6 +31,9 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .Input.with-label {
+    label > span {
+        vertical-align: bottom;
+    }
     border: 1px solid rgb(229, 229, 229);
     input {
         padding-top: 0;
