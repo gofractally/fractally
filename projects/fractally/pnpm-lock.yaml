@@ -97,7 +97,6 @@ importers:
       '@graphql-codegen/typescript-operations': 2.2.2
       '@graphql-codegen/typescript-react-query': ^3.4.0
       '@greymass/eosio': ^0.5.4
-      '@signalwire/core': ^3.7.1
       '@signalwire/js': ^3.10.2
       '@tailwindcss/forms': ^0.4.0
       '@types/node': ~16.11.0
@@ -128,7 +127,6 @@ importers:
     dependencies:
       '@fractally/components': link:../../packages/components
       '@greymass/eosio': 0.5.4
-      '@signalwire/core': 3.7.1
       '@signalwire/js': 3.10.2
       anchor-link: 3.3.5
       anchor-link-browser-transport: 3.2.5_anchor-link@3.3.5
