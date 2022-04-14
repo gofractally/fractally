@@ -36,6 +36,7 @@ const normalPermissions = [
     "room.self.set_input_sensitivity",
     "room.hide_video_muted",
     "room.show_video_muted",
+    "room.list_available_layouts",
     "room.set_layout",
 ];
 
