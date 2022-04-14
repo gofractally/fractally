@@ -10,13 +10,12 @@ export const Label: React.FC<{
     </label>
 );
 
-export const Input: React.FC<{
-    id: string;
-    inputRef?: React.Ref<HTMLInputElement> | null;
-    label?: string;
-    disabled?: boolean | false;
-    placeholder?: string;
-}> = (props) => (
+export const Input: React.FC<
+    HTMLProps<HTMLInputElement> & {
+        inputRef?: React.Ref<HTMLInputElement> | null;
+        label?: string;
+    }
+> = ({ inputRef, ...props }) => (
     <div className={`Input ${props.label ? "with-label" : ""}`}>
         {props.label && (
             <label
@@ -31,7 +30,7 @@ export const Input: React.FC<{
             className={`w-full bg-white border border-gray-300 focus:border-yellow-500 focus:ring-2 focus:ring-yellow-200 outline-none text-gray-700 pb-1 px-2 leading-8 transition-colors duration-200 ease-in-out ${
                 props.disabled ? "bg-gray-50" : ""
             }`}
-            ref={props.inputRef}
+            ref={inputRef}
             {...props}
         />
     </div>

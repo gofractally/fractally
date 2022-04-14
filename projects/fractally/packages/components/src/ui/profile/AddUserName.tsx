@@ -20,12 +20,12 @@ export const AddUserName = () => {
                             Add a username to your account. This name can be
                             changed at any time.
                         </p>
-                        <p className="mb-5">
+                        <div className="mb-5 text-left">
                             <Input id="username" label="Username" />
                             <label className="text-sm text-rose-500">
                                 Username not available
                             </label>
-                        </p>
+                        </div>
                         <p className="mb-5">
                             Name fee:{" "}
                             <span className="text-slate-300">
