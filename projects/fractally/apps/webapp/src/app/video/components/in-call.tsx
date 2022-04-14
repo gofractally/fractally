@@ -10,6 +10,7 @@ import {
     MuteVideoButton,
     Participants,
     ScreenShareButton,
+    ToggleLayoutButton,
     Video,
 } from ".";
 import { Participant, RoomUpdates } from "../interfaces";
@@ -181,6 +182,7 @@ export const InCall = ({ joinDetails, onLeave }) => {
                             <MdOutlineFullscreen size={22} className="mr-1" />
                             Full screen
                         </Button>
+                        <ToggleLayoutButton room={room} />
                         <Button onClick={handleLeaveClick} type="dangerOutline">
                             <MdOutlineExitToApp size={22} className="mr-1" />
                             Leave
