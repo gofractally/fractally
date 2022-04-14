@@ -84,7 +84,6 @@ export const Video = ({
             const room = new SignalWire.Video.RoomSession({
                 token,
                 rootElement: document.getElementById("stream"), // an html element to display the video
-                video: true,
             });
 
             // Listen for room events

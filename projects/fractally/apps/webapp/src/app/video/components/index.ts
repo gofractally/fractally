@@ -5,3 +5,4 @@ export * from "./mute-buttons";
 export * from "./participants";
 export * from "./video";
 export * from "./screen-share-button";
+export * from "./toggle-layout-button";
