@@ -29,3 +29,18 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
     display: none;
 }
+
+.Input.with-label {
+    label > span {
+        vertical-align: bottom;
+    }
+    border: 1px solid rgb(229, 229, 229);
+    input {
+        padding-top: 0;
+        border: none;
+    }
+
+    input:focus {
+        box-shadow: none;
+    }
+}

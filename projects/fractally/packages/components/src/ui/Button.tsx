@@ -34,7 +34,8 @@ export type ButtonType =
     | "caution"
     | "danger"
     | "dangerOutline"
-    | "link";
+    | "link"
+    | "outline";
 const TYPES: { [key in ButtonType]: string } = {
     primary: "bg-slate-500 text-white hover:bg-slate-500",
     secondary: "bg-slate-200 text-slate-900",
@@ -44,6 +45,7 @@ const TYPES: { [key in ButtonType]: string } = {
     danger: "bg-rose-500 text-white hover:bg-rose-600",
     dangerOutline: "text-gray-500 hover:text-rose-500 border-none",
     link: "border-transparent text-blue-500 hover:text-blue-600",
+    outline: "border",
 };
 
 /**
